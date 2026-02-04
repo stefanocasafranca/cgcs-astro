@@ -17,7 +17,7 @@ const { id, title, image, description, highlights, lookingAhead } = Astro.props;
 
     {image && (
       <div class="modal-hero">
-        <img src={image} alt={title} class="modal-image" />
+        <img src={image} alt={title} class="modal-image" loading="lazy" decoding="async" />
       </div>
     )}
 
@@ -61,8 +61,7 @@ const { id, title, image, description, highlights, lookingAhead } = Astro.props;
   }
 
   .modal::backdrop {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.7);
   }
 
   .modal-content {
@@ -99,7 +98,8 @@ const { id, title, image, description, highlights, lookingAhead } = Astro.props;
 
   .modal-hero {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 33vh;
+    flex-shrink: 0;
     overflow: hidden;
     background: #f3f4f6;
   }
