@@ -1,0 +1,173 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Modal from '../../components/Modal.astro';
+
+const subInitiatives = [
+  {
+    id: 'simulations-modal',
+    title: 'Simulations',
+    description: 'Our Custom Simulations Catalogue',
+    image: '/images/2025/10/CIVIC-DELIBERATION-SIMULATION.png',
+    modalContent: {
+      description: 'The CGCS develops simulations to train specific leadership skills and attributes. Each simulation is based on a scenario with roles developed for students to "play" in order to develop and practice leadership skills in a manner designed to provide specific, detailed feedback.',
+      highlights: [
+        'Virescenia – Focus: Strategic Communication. An Austin-based bio-technology company has inadvertently created a novel disease. Assume a role on the Mayor\'s team or as a member of the public trying to shape city policy',
+        'GeneSys – Focus: Ethical Decision-Making in Crisis. Attend the board meeting as a member (Chief Science Officer, Legal Counsel, etc.) and employ ethical decision-making frameworks',
+        'The Dysfunctional Family Dinner – Focus: Conflict Management & Resolution. Navigate political debates, emotional dynamics, and hidden agendas at a holiday dinner',
+        'Skill Building Workshops available in advance of simulations to teach specific skill sets',
+      ],
+      lookingAhead: 'The CGCS is in the process of developing a Civic Leadership Badge and eventually a micro-credential. The CGCS is eager to work with Students, Staff, and Faculty to run existing simulations or develop new ones tailored to specific educational needs.',
+    },
+  },
+  {
+    id: 'workshop-modal',
+    title: 'Skill Building Workshop',
+    description: 'Teaching and Training Leaders',
+    image: '/images/2025/12/Workshop-e1764893389549.jpg',
+    modalContent: {
+      description: 'The CGCS develops skill building workshops to teach and train specific leadership skills and attributes. Workshops employ a blend of lectures, video-based learning, limited role playing, and discussion. Workshops are designed to support simulations by teaching skills that may be further developed in the more rigorous environment of a simulation.',
+      highlights: [
+        'Strategic Communication – Reading a room, establishing a presence, targeting messages, and developing and delivering messages (supports Virescenia simulation)',
+        'Ethical Decision-Making – Utilitarian and deontological reasoning, balancing personal and professional perspectives, negotiating positions, and building consensus (supports GeneSys simulation)',
+        'Conflict Management & Resolution – Discerning perspectives, building empathy, active listening, designing conversations, and engineering off-ramps (supports Dysfunctional Family Dinner simulation)',
+        'Braver Angels – Engaging across political differences, practicing intellectual humility, recognizing polarization dynamics, and listening to understand',
+      ],
+      lookingAhead: 'The CGCS is willing to conduct workshops at each of ACC\'s campuses and is developing a Civic Leadership Badge and micro-credential. One does not have to participate in simulations to participate in workshops.',
+    },
+  },
+  {
+    id: 'partnership-modal',
+    title: 'Government Partnership',
+    description: 'Enabling Initiatives that Serve the Community',
+    image: '/images/2025/05/pexels-sora-shimazaki-5668430-scaled-e1756419707638.jpg',
+    modalContent: {
+      description: 'The CGCS launched this mission area in the fall of 2024 by partnering with the City of Austin in the Open Government Partnership (OGP), a multilateral initiative aimed at securing commitments from local governments to promote open government, combat corruption, and improve governance.',
+      highlights: [
+        'Partnership with City of Austin in the Open Government Partnership (OGP)',
+        'ACC students form the monitoring body reporting on city performance',
+        'Students placed in leadership and substantive positions',
+        'Building skills and relationships while improving local governance',
+        'Contributing to multilateral initiatives promoting transparency',
+      ],
+      lookingAhead: 'The CGCS is working to form other projects with local governments that place students in leadership and substantive positions that build skills and relationships while contributing to improving local governance and communities.',
+    },
+  },
+];
+---
+
+<BaseLayout title="Civic Leadership Initiative">
+  <!-- Hero Section -->
+  <section class="relative py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1">
+          <img
+            src="/images/2025/10/CIVIC-DELIBERATION-SIMULATION.png"
+            alt="Civic Leadership Initiative"
+            class="rounded-2xl shadow-xl w-full"
+          />
+        </div>
+
+        <div class="order-1 lg:order-2">
+          <p class="text-accent-orange font-medium mb-4">Lead with purpose</p>
+          <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">
+            Civic Leadership Initiative
+          </h1>
+          <div class="space-y-4 text-text-light text-lg">
+            <p>
+              The Civic Leadership Initiative provides ACC students with transformative experiences designed to teach and enhance leadership skills in realistic environments.
+            </p>
+            <p>
+              Through simulations, workshops, and government partnerships, students develop capabilities applicable to professional life and democratic citizenship.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sub-initiatives Grid -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-text-dark text-center mb-12">Our Programs</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {subInitiatives.map((item) => (
+          <button data-modal={item.id} class="group text-left w-full">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow h-full">
+              <div class="aspect-video overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-text-dark group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+                <p class="text-text-light mt-2">{item.description}</p>
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Collaboration CTA -->
+  <section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <a href="/contact" class="group block bg-gray-100 rounded-3xl p-12 hover:bg-gray-200 transition-colors">
+        <h2 class="text-3xl font-bold text-text-dark mb-4">Propose a Collaboration</h2>
+        <p class="text-text-light mb-6">Contact us to explore partnership opportunities</p>
+        <span class="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+          Contact Us
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Modals -->
+  {subInitiatives.map((item) => (
+    <Modal
+      id={item.id}
+      title={item.title}
+      image={item.image}
+      description={item.modalContent.description}
+      highlights={item.modalContent.highlights}
+      lookingAhead={item.modalContent.lookingAhead}
+    />
+  ))}
+
+  <script>
+    // Open modal on button click
+    document.querySelectorAll('[data-modal]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const modalId = (btn as HTMLElement).dataset.modal;
+        const modal = document.getElementById(modalId!) as HTMLDialogElement;
+        modal?.showModal();
+      });
+    });
+
+    // Close modal on X button click
+    document.querySelectorAll('.modal-close').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dialog = btn.closest('dialog') as HTMLDialogElement;
+        dialog?.close();
+      });
+    });
+
+    // Close modal on backdrop click
+    document.querySelectorAll('dialog').forEach((dialog) => {
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+          (dialog as HTMLDialogElement).close();
+        }
+      });
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  text?: string;
+}
+
+const { text = '– Empowerment – Leadership – Impact' } = Astro.props;
+---
+
+<div class="bg-white py-6 overflow-hidden border-y border-gray-100">
+  <div class="flex animate-scroll-left whitespace-nowrap">
+    {Array.from({ length: 8 }).map(() => (
+      <span class="text-4xl md:text-5xl font-bold mx-8">
+        <span class="text-primary">{text}</span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll-left {
+    animation: scroll-left 30s linear infinite;
+  }
+</style>

@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Modal from '../../components/Modal.astro';
+
+const subInitiatives = [
+  {
+    id: 'ctis-modal',
+    title: 'Central Texas Issue Series',
+    description: 'Discover the Initiatives Led by the CGCS Team',
+    image: '/images/2022/10/CentralTexasIssueSeries-1-scaled-e1756417885218.png',
+    modalContent: {
+      description: 'The Central Texas Issue Series (CTIS) projects provide a platform for dialogue, coalition building, active collaboration, problem-solving, and action on issues of importance to Central Texas. Ongoing CTIS issue areas include climate, journalism, and public policy and law.',
+      highlights: [
+        'Climate & Sustainability – Addresses environmental challenges, promotes resilience, and fosters sustainable practices',
+        'Journalism & Media – Strengthens public media literacy and understanding of key issues; enhances the role of a free press in a democracy',
+        'Public Policy & Law – Promotes public policy innovation and legal literacy and agency on the part of the public',
+      ],
+      lookingAhead: 'The CGCS continues to expand the Central Texas Issue Series to address emerging challenges and build coalitions across our community.',
+    },
+  },
+  {
+    id: 'service-modal',
+    title: 'Service Learning Courses',
+    description: 'Explore Our Courses at ACC',
+    image: '/images/2022/09/pexels-shox-28271058-2-scaled-e1756417731210.jpg',
+    modalContent: {
+      description: 'The CGCS serves as an incubator and action arm in the development and implementation of Service Learning Classes. In cooperation with staff and academic departments across ACC and community partners, the CGCS is conceptualizing credit-yielding service learning courses designed to provide students with cross-functional professional skills applied against specific matters of concern to Central Texas and beyond.',
+      highlights: [
+        'Generative AI in Public Service – In partnership with ACC\'s Office of Experiential Learning, ACC\'s Business, Government & Technical Communications Program and the nonprofit "Public Service Desk," designing a course to build a generative AI application for a public institution',
+        'Countering Human Trafficking – In partnership with ACC\'s Office of Experiential Learning and the nonprofit "Skull Games," designing a course that will teach and apply open source intelligence collection and analysis in support of active law operations to liberate victims and prosecute suspected traffickers',
+      ],
+      lookingAhead: 'The CGCS welcomes proposals and partners to launch new service learning courses that provide students with meaningful real-world experience while serving our communities.',
+    },
+  },
+];
+---
+
+<BaseLayout title="Public Service Initiative">
+  <!-- Hero Section -->
+  <section class="relative py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1">
+          <img
+            src="/images/2022/09/pexels-shox-28271058-2-scaled-e1756417731210.jpg"
+            alt="Public Service Initiative"
+            class="rounded-2xl shadow-xl w-full"
+          />
+        </div>
+
+        <div class="order-1 lg:order-2">
+          <p class="text-accent-orange font-medium mb-4">Serve your community</p>
+          <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">
+            Public Service Initiative
+          </h1>
+          <div class="space-y-4 text-text-light text-lg">
+            <p>
+              The Public Service Initiative provides ACC students with meaningful opportunities to engage in acts of public service that contribute to addressing pressing real-world problems.
+            </p>
+            <p>
+              Working alongside peers, community members, and local government partners, students develop professional skills while making a tangible difference in their communities.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sub-initiatives Carousel -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-text-dark text-center mb-12">Our Programs</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {subInitiatives.map((item) => (
+          <button data-modal={item.id} class="group text-left w-full">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+              <div class="aspect-video overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="p-6">
+                <h3 class="text-xl font-bold text-text-dark group-hover:text-primary transition-colors">
+                  {item.title}
+                </h3>
+                <p class="text-text-light mt-2">{item.description}</p>
+              </div>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Collaboration CTA -->
+  <section class="py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <a href="/contact" class="group block bg-gray-100 rounded-3xl p-12 hover:bg-gray-200 transition-colors">
+        <h2 class="text-3xl font-bold text-text-dark mb-4">Propose a Collaboration</h2>
+        <p class="text-text-light mb-6">Contact us to explore partnership opportunities</p>
+        <span class="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+          Contact Us
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Modals -->
+  {subInitiatives.map((item) => (
+    <Modal
+      id={item.id}
+      title={item.title}
+      image={item.image}
+      description={item.modalContent.description}
+      highlights={item.modalContent.highlights}
+      lookingAhead={item.modalContent.lookingAhead}
+    />
+  ))}
+
+  <script>
+    // Open modal on button click
+    document.querySelectorAll('[data-modal]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const modalId = (btn as HTMLElement).dataset.modal;
+        const modal = document.getElementById(modalId!) as HTMLDialogElement;
+        modal?.showModal();
+      });
+    });
+
+    // Close modal on X button click
+    document.querySelectorAll('.modal-close').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dialog = btn.closest('dialog') as HTMLDialogElement;
+        dialog?.close();
+      });
+    });
+
+    // Close modal on backdrop click
+    document.querySelectorAll('dialog').forEach((dialog) => {
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+          (dialog as HTMLDialogElement).close();
+        }
+      });
+    });
+  </script>
+</BaseLayout>

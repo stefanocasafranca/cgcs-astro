@@ -1,0 +1,83 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/#aboutUs' },
+  { label: 'Initiatives', href: '/#initiatives' },
+  { label: 'Events', href: '/#events' },
+  { label: 'Partners', href: '/partners' },
+  { label: 'Event Space', href: '/event-space' },
+  { label: 'Contact Us', href: '/contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-white shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center py-4">
+      <a href="/" class="flex-shrink-0">
+        <img
+          src="/images/logos/logo-color.png"
+          alt="CGCS Logo"
+          class="h-12 w-auto"
+        />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'text-sm font-medium transition-colors hover:text-primary',
+              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
+                ? 'text-primary'
+                : 'text-text-dark'
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+        aria-label="Toggle menu"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav id="mobile-menu" class="hidden md:hidden pb-4">
+      <div class="flex flex-col space-y-3">
+        {navItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'text-sm font-medium py-2 px-4 rounded-lg transition-colors hover:bg-gray-100',
+              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
+                ? 'text-primary bg-primary/5'
+                : 'text-text-dark'
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script>

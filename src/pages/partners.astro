@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const partners = [
+  { name: 'Austin AI Alliance', href: 'https://austin-ai.org/' },
+  { name: 'Austin Forum of Technology', href: 'https://www.austinforum.org/' },
+  { name: 'LangChain', href: 'https://www.langchain.com/' },
+  { name: 'ACM at ACC', href: 'https://www.austincs.org/' },
+  { name: 'ATX Design Jams', href: 'https://www.meetup.com/meetup-group-atxdesignjam/' },
+  { name: 'ACM Austin Chapter', href: 'https://www.meetup.com/acm-austin/' },
+  { name: 'SerpApi', href: 'https://serpapi.com/' },
+  { name: 'Service Learning ACC', href: 'https://servicelearning.austincc.edu/' },
+  { name: 'Public Service Desk', href: 'https://thepublicservicedesk.org/' },
+  { name: 'Cyversity', href: 'https://www.cyversity.org/' },
+  { name: 'City of Austin', href: 'https://www.austintexas.gov/opengovernmentpartnership' },
+  { name: 'Skull Games', href: 'https://skullgames.org/' },
+  { name: 'United Way', href: 'https://unitedwayaustin.org/' },
+  { name: 'Braver Angels', href: 'https://braverangels.org/' },
+  { name: 'Army Software Factory', href: 'https://soldiersolutions.swf.army.mil/' },
+];
+
+const guidelines = [
+  {
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />`,
+    title: '1. ACC Students Growth Pathway',
+    description: 'Support student growth through mentorship, projects, or career pathways.',
+  },
+  {
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />`,
+    title: '2. Hosting Multiple Events',
+    description: 'Host or co-host learning events aligned with CGCS initiatives.',
+  },
+  {
+    icon: `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />`,
+    title: '3. Sponsor For CGCS Events',
+    description: 'Provide financial or in-kind support for CGCS programs and events.',
+  },
+];
+---
+
+<BaseLayout title="Partners">
+  <!-- Header -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">Our Partners</h1>
+        <p class="text-lg text-text-light">
+          To be considered a CGCS partner—like the organizations featured on this page—there are several ways to collaborate with us. Below, we outline the three most common partnership pathways and you just need to fill one of the criteria (See Partner Guidelines)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners List and Guidelines -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <!-- Partners List -->
+        <div>
+          <ul class="space-y-4">
+            {partners.map((partner, index) => (
+              <li class:list={[
+                'flex items-center gap-4 p-4 rounded-xl transition-colors',
+                index % 2 === 0 ? 'bg-white' : 'bg-primary/5'
+              ]}>
+                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <a
+                  href={partner.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-accent-orange font-medium hover:underline"
+                >
+                  {partner.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Partner Guidelines -->
+        <div>
+          <h3 class="text-2xl font-bold text-text-dark mb-4">Partner Guidelines</h3>
+          <p class="text-text-light mb-8">
+            Fill <span class="font-bold">One of the Three Criteria</span> to Become a Partner
+          </p>
+
+          <div class="space-y-6">
+            {guidelines.map((guideline) => (
+              <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={guideline.icon} />
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-text-dark mb-2">{guideline.title}</h4>
+                    <p class="text-text-light">{guideline.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

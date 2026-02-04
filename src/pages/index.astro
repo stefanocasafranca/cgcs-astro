@@ -1,0 +1,203 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import TeamCarousel from '../components/TeamCarousel.astro';
+import InitiativeCard from '../components/InitiativeCard.astro';
+import EventCard from '../components/EventCard.astro';
+import ImpactCounter from '../components/ImpactCounter.astro';
+
+const initiatives = [
+  {
+    title: 'Public Service',
+    description: 'Engage in acts of public service that contribute to addressing pressing real-world problems alongside your peers and members of the community and local government while developing professional skills.',
+    href: '/initiatives/public-service',
+    icon: 'public-service' as const,
+  },
+  {
+    title: 'Civic Leadership',
+    description: 'Participate in events designed to teach or enhance leadership skills in realistic environments applicable to professional life and democratic citizenship.',
+    href: '/initiatives/civic-leadership',
+    icon: 'civic-leadership' as const,
+  },
+  {
+    title: 'Citizenship & Tech',
+    description: 'Harness technology for the common good. Engage in collaborative problem-solving—no technical background required—to build the resilience and practical skills essential for active 21st-century citizenship.',
+    href: '/initiatives/citizenship-tech',
+    icon: 'citizenship-tech' as const,
+  },
+];
+
+const cgcsEvents = [
+  {
+    title: 'Austin LangChain AIMUG',
+    date: 'February 4',
+    time: '6:00 pm - 9:00 pm',
+    image: '/images/2025/12/langchain-1.webp',
+    href: '#',
+  },
+  {
+    title: 'Austin AI Alliance',
+    date: 'February 18',
+    time: '5:30 pm - 8:00 pm',
+    image: '/images/2025/12/aaia.webp',
+    href: '#',
+  },
+  {
+    title: 'ATX Design Jam Monthly Meeting',
+    date: 'February 24',
+    time: '6:00 pm - 8:00 pm',
+    image: '/images/2025/12/atx_design_jam-1.webp',
+    href: '#',
+  },
+  {
+    title: 'Austin Forum for Technology & Society',
+    date: 'March 3',
+    time: '6:00 pm - 8:00 pm',
+    image: '/images/2025/12/afts.webp',
+    href: '#',
+  },
+];
+
+const otherEvents = [
+  {
+    title: 'ACC State of the College',
+    date: 'February 19',
+    image: '/images/2025/12/accStateCollege.jpg',
+    href: '#',
+  },
+];
+---
+
+<BaseLayout title="CGCS HomePage">
+  <!-- Hero Section -->
+  <Hero />
+
+  <!-- Marquee -->
+  <Marquee />
+
+  <!-- About Us Section -->
+  <section id="aboutUs" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="section-heading text-center mb-12">About Us</h2>
+
+      <div class="max-w-4xl mx-auto space-y-6 text-text-light text-lg leading-relaxed">
+        <p>
+          By, with, and through ACC students, The Center for Government and Civic Service (CGCS) builds and strengthens 21st-century civil society, community, and governance. The CGCS trains and empowers our students to be impactful civic leaders. The Center is a creator, catalyst, and nexus for civic action. CGCS initiatives enable our students to complete their programs by providing them with the skills, sense of belonging, and confidence required to succeed in meaningful careers, and bring positive change to our society.
+        </p>
+        <p>
+          The CGCS also serves as the steward of an exceptional event space available to external organizations at a reasonable cost, as well as to our ACC community free of charge. Click the "Reserve Event Space" tab to fill out a short intake form to begin the reservation process.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Carousel -->
+  <TeamCarousel />
+
+  <!-- Initiatives Section -->
+  <section id="initiatives" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="section-heading text-center mb-12">Initiatives</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {initiatives.map((initiative) => (
+          <InitiativeCard
+            title={initiative.title}
+            description={initiative.description}
+            href={initiative.href}
+            icon={initiative.icon}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CGCS Events Section -->
+  <section id="events" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="section-heading text-center mb-12">CGCS Events</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {cgcsEvents.map((event) => (
+          <EventCard
+            title={event.title}
+            date={event.date}
+            time={event.time}
+            image={event.image}
+            href={event.href}
+          />
+        ))}
+      </div>
+
+      <!-- Badges CTA -->
+      <div class="mt-16 bg-white rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg">
+        <div class="text-center md:text-left">
+          <p class="text-lg text-text-light">
+            Attend The CGCS Monthly Events And Earn A Badge With Your ACC Student Email
+          </p>
+        </div>
+        <a href="#" class="flex-shrink-0">
+          <img
+            src="/images/2025/12/langchainBrandedBadge.png"
+            alt="Badges"
+            class="h-24 w-auto"
+          />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Other Events Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="section-heading text-center mb-12">Other Events of Interest</h2>
+
+      <div class="max-w-md mx-auto">
+        {otherEvents.map((event) => (
+          <EventCard
+            title={event.title}
+            date={event.date}
+            image={event.image}
+            href={event.href}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Counters -->
+  <ImpactCounter />
+
+  <!-- State of Civil Society Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="section-heading text-center mb-12">The State of Civil Society</h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <blockquote class="text-xl text-text-light italic border-l-4 border-primary pl-6">
+            <p>"Liberty cannot be preserved without a general knowledge among the people"</p>
+            <footer class="mt-4 text-text-dark font-semibold">~ John Adams</footer>
+          </blockquote>
+
+          <blockquote class="text-xl text-text-light italic border-l-4 border-primary pl-6">
+            <p>"The life of a nation is secure only while the nation is honest, truthful, and virtuous..."</p>
+            <footer class="mt-4 text-text-dark font-semibold">~ Frederick Douglass</footer>
+          </blockquote>
+        </div>
+
+        <div class="relative">
+          <img
+            src="/images/2025/05/pexels-sora-shimazaki-5668430-scaled-e1756419707638.jpg"
+            alt="Civil Society"
+            class="rounded-2xl shadow-xl w-full"
+          />
+          <!-- Decorative elements -->
+          <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-yellow rounded-full -z-10"></div>
+          <div class="absolute -top-4 -left-4 w-16 h-16 bg-accent-orange rounded-full -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

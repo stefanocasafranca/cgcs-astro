@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+const contactInfo = [
+  {
+    title: 'Office Location',
+    content: '1218 West Ave, Austin, TX 78701',
+    href: 'https://maps.app.goo.gl/r7mpakS5fidZRgx36',
+    image: '/images/2025/04/IMG_3095-scaled.jpg',
+  },
+  {
+    title: 'Email Our Team',
+    content: 'admin@cgcsacc.org',
+    href: 'mailto:admin@cgcsacc.org',
+    image: '/images/2025/10/DSC_0010-2.jpg',
+  },
+  {
+    title: 'Working Hours',
+    content: 'Monday to Friday : 9 am – 5 pm',
+    href: null,
+    image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg',
+  },
+];
+---
+
+<BaseLayout title="Contact Us">
+  <!-- Header -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-12">Contact Us</h1>
+
+      <!-- Contact Info Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {contactInfo.map((info) => (
+          <div class="relative overflow-hidden rounded-2xl h-64 group">
+            <img
+              src={info.image}
+              alt={info.title}
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <h3 class="text-white font-bold text-lg mb-2">{info.title}</h3>
+              {info.href ? (
+                <a
+                  href={info.href}
+                  target={info.href.startsWith('http') ? '_blank' : undefined}
+                  rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  class="text-accent-teal hover:underline"
+                >
+                  {info.content}
+                </a>
+              ) : (
+                <p class="text-white/90">{info.content}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <ContactForm />
+    </div>
+  </section>
+
+  <!-- Reserve Event Space CTA -->
+  <section class="py-12 bg-primary">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <h3 class="text-2xl font-bold text-white">Ready To Host Your Next Event?</h3>
+        <a
+          href="/event-space"
+          class="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+        >
+          Reserve Event Space
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="h-96 bg-gray-200 relative">
+    <div id="map" class="w-full h-full"></div>
+    <noscript>
+      <div class="absolute inset-0 flex items-center justify-center bg-gray-100">
+        <p class="text-text-light">Interactive map requires JavaScript</p>
+      </div>
+    </noscript>
+  </section>
+</BaseLayout>
+
+<script>
+  // Leaflet map initialization
+  async function initMap() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+
+    // Load Leaflet CSS
+    const linkEl = document.createElement('link');
+    linkEl.rel = 'stylesheet';
+    linkEl.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(linkEl);
+
+    // Load Leaflet JS
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = () => {
+      // @ts-ignore
+      const L = window.L;
+      const map = L.map('map').setView([30.2729, -97.7535], 16);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      L.marker([30.2729, -97.7535])
+        .addTo(map)
+        .bindPopup('<strong>CGCS</strong><br>1218 West Ave, Austin, TX 78701')
+        .openPopup();
+    };
+    document.head.appendChild(script);
+  }
+
+  document.addEventListener('DOMContentLoaded', initMap);
+  document.addEventListener('astro:page-load', initMap);
+</script>

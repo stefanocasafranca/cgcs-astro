@@ -1,0 +1,78 @@
+---
+interface Props {
+  counters?: Array<{
+    value: number;
+    suffix?: string;
+    label: string;
+  }>;
+}
+
+const { counters = [
+  { value: 100, suffix: '+', label: 'Events' },
+  { value: 5000, suffix: '+', label: 'Participants Served' },
+  { value: 500, suffix: '', label: 'Event Hours' },
+]} = Astro.props;
+---
+
+<section class="py-20 bg-gradient-to-r from-primary to-primary-dark">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+      Our Impact in Numbers
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {counters.map((counter, index) => (
+        <div class="text-center">
+          <div
+            class="counter text-5xl md:text-6xl font-bold text-white mb-2"
+            data-target={counter.value}
+            data-suffix={counter.suffix || ''}
+          >
+            0{counter.suffix}
+          </div>
+          <p class="text-white/80 text-lg">{counter.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  function animateCounters() {
+    const counters = document.querySelectorAll('.counter');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const counter = entry.target as HTMLElement;
+            const target = parseInt(counter.dataset.target || '0');
+            const suffix = counter.dataset.suffix || '';
+
+            let current = 0;
+            const increment = target / 50;
+            const duration = 2000;
+            const stepTime = duration / 50;
+
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= target) {
+                current = target;
+                clearInterval(timer);
+              }
+              counter.textContent = Math.floor(current).toLocaleString() + suffix;
+            }, stepTime);
+
+            observer.unobserve(counter);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    counters.forEach((counter) => observer.observe(counter));
+  }
+
+  document.addEventListener('DOMContentLoaded', animateCounters);
+  document.addEventListener('astro:page-load', animateCounters);
+</script>
