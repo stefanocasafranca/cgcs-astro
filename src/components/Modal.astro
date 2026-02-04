@@ -50,12 +50,14 @@ const { id, title, image, description, highlights, lookingAhead } = Astro.props;
   .modal {
     padding: 0;
     border: none;
-    border-radius: 1rem;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90vh;
+    border-radius: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
     overflow: hidden;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: none;
+    margin: 0;
   }
 
   .modal::backdrop {
@@ -67,7 +69,8 @@ const { id, title, image, description, highlights, lookingAhead } = Astro.props;
     position: relative;
     display: flex;
     flex-direction: column;
-    max-height: 90vh;
+    height: 100vh;
+    max-height: 100vh;
   }
 
   .modal-close {
@@ -108,8 +111,9 @@ const { id, title, image, description, highlights, lookingAhead } = Astro.props;
   }
 
   .modal-body {
-    padding: 1.5rem 2rem 2rem;
+    padding: 2rem 3rem 3rem;
     overflow-y: auto;
+    flex: 1;
   }
 
   .modal-title {
@@ -166,13 +170,8 @@ const { id, title, image, description, highlights, lookingAhead } = Astro.props;
   }
 
   @media (max-width: 640px) {
-    .modal {
-      width: 95%;
-      max-height: 95vh;
-    }
-
     .modal-body {
-      padding: 1rem 1.5rem 1.5rem;
+      padding: 1.5rem 1.5rem 2rem;
     }
 
     .modal-title {
