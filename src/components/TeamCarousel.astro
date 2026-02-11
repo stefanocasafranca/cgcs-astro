@@ -1,11 +1,11 @@
 ---
 const teamMembers = [
-  { name: 'Bryan Port', role: 'Director, CGCS', image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg' },
-  { name: 'Sarah Hakala', role: 'Strategic Planner and Graphic Designer', image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg' },
-  { name: 'Marisela Perez', role: 'Strategic Planner', image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg' },
-  { name: 'Austin Wells', role: 'Strategic Planner', image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg' },
-  { name: 'Cate Thomason', role: 'Business Operations Associate', image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg' },
-  { name: 'Stefano Casafranca', role: 'Strategic Planner, UX & AI Technology', image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg' },
+  { name: 'Bryan Port', role: 'Director, CGCS', image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2022/10/Bryan-ai.png?fit=800%2C750&ssl=1' },
+  { name: 'Sarah Hakala', role: 'Strategic Planner and Graphic Designer', image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2025/08/SarahHakala-1-scaled-e1754910508266.webp?fit=1360%2C1292&ssl=1' },
+  { name: 'Marisela Perez', role: 'Strategic Planner in Civic Leadership', image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2022/10/Marisela-ai.png?fit=800%2C750&ssl=1' },
+  { name: 'Austin Wells', role: 'Strategic Planner for Community Relations and Environmental Affairs', image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2025/08/DSC_0025-e1754946625740.png?fit=667%2C636&ssl=1' },
+  { name: 'Cate Thomason', role: 'Strategic Planner in Public Service', image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2022/10/Cate-ai.png?fit=800%2C750&ssl=1' },
+  { name: 'Stefano Casafranca', role: 'Strategic Planner in Citizenship & Tech (UX/AI Technologies)', image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2025/08/Screenshot-2025-08-11-at-5.58.15-AM-2-e1754910275266.png?fit=612%2C570&ssl=1' },
 ];
 ---
 
@@ -25,9 +25,9 @@ const teamMembers = [
                     class="w-full h-full object-cover"
                   />
                 </div>
-                <div class="p-6 text-center">
+                <div class="p-6 text-center h-[140px] flex flex-col justify-center">
                   <h3 class="text-xl font-bold text-text-dark">{member.name}</h3>
-                  <p class="text-text-light mt-1">{member.role}</p>
+                  <p class="text-text-light mt-1 text-sm leading-tight">{member.role}</p>
                 </div>
               </div>
             </div>
@@ -56,16 +56,8 @@ const teamMembers = [
       </button>
     </div>
 
-    <!-- Dots Navigation -->
-    <div id="dots-container" class="flex justify-center mt-8 gap-2">
-      {teamMembers.map((_, index) => (
-        <button
-          class="dot w-3 h-3 rounded-full bg-gray-300 transition-colors"
-          data-index={index}
-          aria-label={`Go to slide ${index + 1}`}
-        />
-      ))}
-    </div>
+    <!-- Dots Navigation (dynamically populated based on visible slides) -->
+    <div id="dots-container" class="flex justify-center mt-8 gap-2"></div>
   </div>
 </section>
 
@@ -73,7 +65,7 @@ const teamMembers = [
   const track = document.getElementById('team-track') as HTMLElement;
   const prevBtn = document.getElementById('prev-btn');
   const nextBtn = document.getElementById('next-btn');
-  const dots = document.querySelectorAll('.dot');
+  const dotsContainer = document.getElementById('dots-container') as HTMLElement;
 
   let currentIndex = 0;
   const totalSlides = 6;
@@ -85,14 +77,35 @@ const teamMembers = [
     return 1;
   }
 
+  function getMaxIndex() {
+    return Math.max(0, totalSlides - getVisibleSlides());
+  }
+
+  function createDots() {
+    const maxIndex = getMaxIndex();
+    const numDots = maxIndex + 1;
+
+    dotsContainer.innerHTML = '';
+
+    for (let i = 0; i < numDots; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'dot w-3 h-3 rounded-full bg-gray-300 transition-colors';
+      dot.setAttribute('data-index', i.toString());
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        updateCarousel();
+      });
+      dotsContainer.appendChild(dot);
+    }
+  }
+
   function updateCarousel() {
     const visibleSlides = getVisibleSlides();
-    const maxIndex = Math.max(0, totalSlides - visibleSlides);
-    currentIndex = Math.min(currentIndex, maxIndex);
-
     const slideWidth = 100 / visibleSlides;
     track.style.transform = `translateX(-${currentIndex * slideWidth}%)`;
 
+    const dots = dotsContainer.querySelectorAll('.dot');
     dots.forEach((dot, index) => {
       dot.classList.toggle('bg-primary', index === currentIndex);
       dot.classList.toggle('bg-gray-300', index !== currentIndex);
@@ -100,28 +113,38 @@ const teamMembers = [
   }
 
   prevBtn?.addEventListener('click', () => {
+    const maxIndex = getMaxIndex();
     if (currentIndex > 0) {
       currentIndex--;
-      updateCarousel();
+    } else {
+      // Loop to the end
+      currentIndex = maxIndex;
     }
+    updateCarousel();
   });
 
   nextBtn?.addEventListener('click', () => {
-    const visibleSlides = getVisibleSlides();
-    const maxIndex = Math.max(0, totalSlides - visibleSlides);
+    const maxIndex = getMaxIndex();
     if (currentIndex < maxIndex) {
       currentIndex++;
-      updateCarousel();
+    } else {
+      // Loop to the beginning
+      currentIndex = 0;
     }
+    updateCarousel();
   });
 
-  dots.forEach((dot) => {
-    dot.addEventListener('click', () => {
-      currentIndex = parseInt(dot.getAttribute('data-index') || '0');
-      updateCarousel();
-    });
+  window.addEventListener('resize', () => {
+    const maxIndex = getMaxIndex();
+    // Ensure currentIndex is valid after resize
+    if (currentIndex > maxIndex) {
+      currentIndex = maxIndex;
+    }
+    createDots();
+    updateCarousel();
   });
 
-  window.addEventListener('resize', updateCarousel);
+  // Initialize
+  createDots();
   updateCarousel();
 </script>
