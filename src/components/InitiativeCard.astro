@@ -15,20 +15,20 @@ const icons = {
 };
 ---
 
-<div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+<div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100 h-full flex flex-col">
   <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
     <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={icons[icon]} />
   </div>
 
   <h4 class="text-xl font-bold text-text-dark mb-4">{title}</h4>
 
-  <p class="text-text-light mb-6 leading-relaxed">
+  <p class="text-text-light mb-6 leading-relaxed flex-1">
     {description}
   </p>
 
   <a
     href={href}
-    class="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all"
+    class="inline-flex items-center gap-2 bg-[#00a75d] hover:bg-[#008a4d] text-white px-4 py-2 rounded-full text-sm font-medium transition-all mt-auto w-fit"
   >
     Learn More
     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -10,6 +10,7 @@ const navItems = [
 ];
 
 const currentPath = Astro.url.pathname;
+const isInitiativePage = currentPath.startsWith('/initiatives/');
 ---
 
 <header class="sticky top-0 z-50 bg-white shadow-sm">
@@ -28,11 +29,15 @@ const currentPath = Astro.url.pathname;
         {navItems.map((item) => (
           <a
             href={item.href}
+            data-nav-item
+            data-section={item.href.includes('#') ? item.href.split('#')[1] : (item.href === '/' ? 'home' : '')}
             class:list={[
-              'text-sm font-medium transition-colors hover:text-primary',
-              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
-                ? 'text-primary'
-                : 'text-text-dark'
+              'text-sm font-medium transition-colors hover:text-primary nav-link',
+              (currentPath === '/' && item.href === '/')
+                ? 'text-primary border-b-2 border-primary'
+                : (isInitiativePage && item.label === 'Initiatives')
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-text-dark'
             ]}
           >
             {item.label}
@@ -58,11 +63,15 @@ const currentPath = Astro.url.pathname;
         {navItems.map((item) => (
           <a
             href={item.href}
+            data-nav-item
+            data-section={item.href.includes('#') ? item.href.split('#')[1] : (item.href === '/' ? 'home' : '')}
             class:list={[
-              'text-sm font-medium py-2 px-4 rounded-lg transition-colors hover:bg-gray-100',
-              currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href))
+              'text-sm font-medium py-2 px-4 rounded-lg transition-colors hover:bg-gray-100 nav-link',
+              (currentPath === '/' && item.href === '/')
                 ? 'text-primary bg-primary/5'
-                : 'text-text-dark'
+                : (isInitiativePage && item.label === 'Initiatives')
+                  ? 'text-primary bg-primary/5'
+                  : 'text-text-dark'
             ]}
           >
             {item.label}
@@ -80,4 +89,60 @@ const currentPath = Astro.url.pathname;
   menuBtn?.addEventListener('click', () => {
     mobileMenu?.classList.toggle('hidden');
   });
+
+  // Scroll-based active navigation
+  const sections = ['aboutUs', 'initiatives', 'events'];
+  const navLinks = document.querySelectorAll('[data-nav-item]');
+
+  function setActiveNav(sectionId: string | null) {
+    navLinks.forEach((link) => {
+      const linkSection = link.getAttribute('data-section');
+      link.classList.remove('text-primary', 'border-b-2', 'border-primary');
+      link.classList.add('text-text-dark');
+
+      if (sectionId === null || sectionId === 'home') {
+        // At top of page - highlight Home with underline
+        if (linkSection === 'home') {
+          link.classList.remove('text-text-dark');
+          link.classList.add('text-primary', 'border-b-2', 'border-primary');
+        }
+      } else if (linkSection === sectionId) {
+        // In a section - highlight that section in green (no underline)
+        link.classList.remove('text-text-dark');
+        link.classList.add('text-primary');
+      }
+    });
+  }
+
+  // Only run on homepage
+  if (window.location.pathname === '/') {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveNav(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.3, rootMargin: '-100px 0px -50% 0px' }
+    );
+
+    // Observe each section
+    sections.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (section) observer.observe(section);
+    });
+
+    // Handle scroll to top (show Home as active)
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < 200) {
+        setActiveNav('home');
+      }
+    });
+
+    // Initial state
+    if (window.scrollY < 200) {
+      setActiveNav('home');
+    }
+  }
 </script>

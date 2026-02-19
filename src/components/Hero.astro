@@ -7,10 +7,10 @@ interface Props {
 }
 
 const {
-  title = 'Train & Empower Students\nTo Be Civic Leaders',
+  title,
   subtitle,
   showButtons = true,
-  backgroundImage = '/images/2025/04/IMG_3095-scaled.jpg'
+  backgroundImage = '/images/FinalPic.png'
 } = Astro.props;
 ---
 
@@ -22,41 +22,45 @@ const {
       alt="Hero background"
       class="w-full h-full object-cover"
     />
-    <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30"></div>
+    <div class="absolute inset-0 bg-black/40"></div>
   </div>
 
   <!-- Content -->
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="max-w-2xl">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight whitespace-pre-line">
-        {title}
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+    <div class="max-w-3xl mx-auto text-center animate-fade-in-up">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight drop-shadow-lg">
+        <span class="highlight-underline relative inline-block">
+          Train & Empower
+          <svg class="absolute -bottom-2 left-0 w-full h-4" viewBox="0 0 500 30" preserveAspectRatio="none">
+            <path d="M8,20 Q250,5 492,20"></path>
+          </svg>
+        </span>
+        <br />
+        <span>Students to be civic leaders</span>
       </h1>
 
       {subtitle && (
-        <p class="mt-6 text-lg md:text-xl text-gray-200">
+        <p class="mt-6 text-lg md:text-xl text-text-light">
           {subtitle}
         </p>
       )}
 
       {showButtons && (
-        <div class="mt-8 flex flex-wrap gap-4">
-          <a href="/#initiatives" class="btn-primary">
-            Learn More
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+        <div class="mt-10 flex flex-wrap justify-center gap-4">
+          <a
+            href="/#initiatives"
+            class="bg-[#3cc9f4] hover:bg-[#132c7b] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 inline-flex items-center gap-2 text-lg"
+          >
+            Discover Initiatives
           </a>
-          <a href="/event-space" class="btn-outline bg-white/10 border-white text-white hover:bg-white hover:text-text-dark">
-            Reserve Space
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+          <a
+            href="/event-space"
+            class="bg-[#00a75d] hover:bg-[#132c7b] text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 inline-flex items-center gap-2 text-lg"
+          >
+            Reserve Event Space
           </a>
         </div>
       )}
     </div>
   </div>
-
-  <!-- Decorative yellow circle -->
-  <div class="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 md:w-96 md:h-96 bg-yellow rounded-full opacity-80 translate-x-1/3 hidden lg:block"></div>
 </section>
