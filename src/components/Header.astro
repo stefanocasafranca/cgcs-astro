@@ -2,10 +2,10 @@
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/#aboutUs' },
-  { label: 'Initiatives', href: '/#initiatives', hasSubmenu: true },
+  { label: 'Initiatives', href: '/#initiatives', hasSubmenu: 'initiatives' },
   { label: 'Events', href: '/#events' },
   { label: 'Partners', href: '/partners' },
-  { label: 'Event Space', href: '/event-space' },
+  { label: 'Event Space', href: '/event-space', hasSubmenu: 'eventSpace' },
   { label: 'Contact Us', href: '/contact' },
 ];
 
@@ -15,8 +15,14 @@ const initiatives = [
   { label: 'Citizenship & Tech', href: '/initiatives/citizenship-tech' },
 ];
 
+const eventSpaceOptions = [
+  { label: 'Explore Our Space', href: '/event-space' },
+  { label: 'Reserve Event Space', href: '/book-event-space' },
+];
+
 const currentPath = Astro.url.pathname;
 const isInitiativePage = currentPath.startsWith('/initiatives/');
+const isEventSpacePage = currentPath === '/event-space' || currentPath === '/book-event-space';
 ---
 
 <header class="sticky top-0 z-50 bg-white shadow-sm">
@@ -43,9 +49,11 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
                 ? 'text-primary border-b-2 border-primary'
                 : (isInitiativePage && item.label === 'Initiatives')
                   ? 'text-primary border-b-2 border-primary'
-                  : (currentPath === item.href)
-                    ? 'text-primary'
-                    : 'text-text-dark'
+                  : (isEventSpacePage && item.label === 'Event Space')
+                    ? 'text-primary border-b-2 border-primary'
+                    : (currentPath === item.href)
+                      ? 'text-primary'
+                      : 'text-text-dark'
             ]}
           >
             {item.label}
@@ -75,7 +83,7 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
 
   <nav class="mobile-menu-nav">
     {navItems.map((item) => (
-      item.hasSubmenu ? (
+      item.hasSubmenu === 'initiatives' ? (
         <div class="mobile-menu-accordion">
           <button class="mobile-menu-item accordion-trigger" data-accordion="initiatives">
             <span>{item.label}</span>
@@ -85,6 +93,28 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
           </button>
           <div class="accordion-content" id="initiatives-submenu">
             {initiatives.map((sub) => (
+              <a
+                href={sub.href}
+                class:list={[
+                  'mobile-submenu-item',
+                  currentPath === sub.href ? 'text-primary' : ''
+                ]}
+              >
+                {sub.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : item.hasSubmenu === 'eventSpace' ? (
+        <div class="mobile-menu-accordion">
+          <button class="mobile-menu-item accordion-trigger" data-accordion="eventSpace">
+            <span>{item.label}</span>
+            <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="accordion-content" id="eventSpace-submenu">
+            {eventSpaceOptions.map((sub) => (
               <a
                 href={sub.href}
                 class:list={[
@@ -249,8 +279,7 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
   const menuBtn = document.getElementById('mobile-menu-btn');
   const menuOverlay = document.getElementById('mobile-menu-overlay');
   const closeBtn = document.getElementById('mobile-menu-close');
-  const accordionTrigger = document.querySelector('.accordion-trigger');
-  const accordionContent = document.getElementById('initiatives-submenu');
+  const accordionTriggers = document.querySelectorAll('.accordion-trigger');
 
   // Open menu
   menuBtn?.addEventListener('click', () => {
@@ -260,9 +289,13 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
   // Close menu
   closeBtn?.addEventListener('click', () => {
     menuOverlay?.classList.remove('open');
-    // Also close accordion
-    accordionTrigger?.setAttribute('aria-expanded', 'false');
-    accordionContent?.classList.remove('open');
+    // Also close all accordions
+    accordionTriggers.forEach((trigger) => {
+      trigger.setAttribute('aria-expanded', 'false');
+      const accordionId = trigger.getAttribute('data-accordion');
+      const content = document.getElementById(`${accordionId}-submenu`);
+      content?.classList.remove('open');
+    });
   });
 
   // Close menu when clicking a link (except accordion trigger)
@@ -272,11 +305,16 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
     });
   });
 
-  // Accordion toggle
-  accordionTrigger?.addEventListener('click', () => {
-    const isExpanded = accordionTrigger.getAttribute('aria-expanded') === 'true';
-    accordionTrigger.setAttribute('aria-expanded', String(!isExpanded));
-    accordionContent?.classList.toggle('open');
+  // Accordion toggle for each trigger
+  accordionTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+      const accordionId = trigger.getAttribute('data-accordion');
+      const content = document.getElementById(`${accordionId}-submenu`);
+
+      trigger.setAttribute('aria-expanded', String(!isExpanded));
+      content?.classList.toggle('open');
+    });
   });
 
   // Scroll-based active navigation (desktop only)

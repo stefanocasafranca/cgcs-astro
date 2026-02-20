@@ -1,0 +1,275 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Book an Event Space">
+  <!-- Header -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <p class="text-accent-orange font-medium mb-4">Leadership – Education – Service</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">Want to use our Event Space?</h1>
+        <p class="text-lg text-text-light">
+          <strong class="text-text-dark">We're here to connect, collaborate, and support.</strong> The Center for Government and Civic Service (CGCS) welcomes inquiries from students, staff, faculty, partners, and community members. Please provide us with initial event details.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Form Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-accent-teal/10 rounded-3xl p-8 md:p-12">
+        <form class="space-y-6" id="booking-form">
+          <!-- Organization Name -->
+          <div>
+            <input
+              type="text"
+              name="organizationName"
+              placeholder="Organization Name *"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+
+          <!-- Primary Point of Contact -->
+          <div>
+            <input
+              type="text"
+              name="contactName"
+              placeholder="Primary Point of Contact (full name) *"
+              required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+
+          <!-- Email and Phone -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <input
+                type="email"
+                name="email"
+                placeholder="POC Email *"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </span>
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone # *"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <!-- Event Title -->
+          <div>
+            <input
+              type="text"
+              name="eventTitle"
+              placeholder="Event Title"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+
+          <!-- Estimated Attendees and Date -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-text-dark mb-2">
+                Estimated Number of Attendees *
+              </label>
+              <input
+                type="number"
+                name="attendees"
+                min="1"
+                placeholder="e.g. 50"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-text-dark mb-2">
+                Event Date *
+              </label>
+              <input
+                type="date"
+                name="eventDate"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <!-- Start and End Time -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-text-dark mb-2">
+                Event Start Time *
+              </label>
+              <input
+                type="time"
+                name="startTime"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-text-dark mb-2">
+                Event End Time *
+              </label>
+              <input
+                type="time"
+                name="endTime"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <!-- Audio/Visual and Catering -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-text-dark mb-3">
+                Audio/Visual Support Required *
+              </label>
+              <div class="flex gap-6">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="avSupport"
+                    value="yes"
+                    required
+                    class="w-4 h-4 text-primary focus:ring-primary"
+                  />
+                  <span class="text-text-dark">Yes</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="avSupport"
+                    value="no"
+                    class="w-4 h-4 text-primary focus:ring-primary"
+                  />
+                  <span class="text-text-dark">No</span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-text-dark mb-3">
+                Catering Required *
+              </label>
+              <div class="flex gap-6">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="catering"
+                    value="yes"
+                    required
+                    class="w-4 h-4 text-primary focus:ring-primary"
+                  />
+                  <span class="text-text-dark">Yes</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="catering"
+                    value="no"
+                    class="w-4 h-4 text-primary focus:ring-primary"
+                  />
+                  <span class="text-text-dark">No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Details -->
+          <div>
+            <textarea
+              name="additionalDetails"
+              placeholder="Provide Additional Details"
+              rows="4"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="btn-primary w-full justify-center"
+          >
+            Get in Touch
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+
+          <!-- Note -->
+          <p class="text-sm text-text-light text-center italic">
+            Please allow 1–4 business days for a response. We appreciate your interest and look forward to working together.
+          </p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="h-96 bg-gray-200 relative">
+    <div id="map" class="w-full h-full"></div>
+    <noscript>
+      <div class="absolute inset-0 flex items-center justify-center bg-gray-100">
+        <p class="text-text-light">Interactive map requires JavaScript</p>
+      </div>
+    </noscript>
+  </section>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('booking-form');
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Thank you for your booking request! This is a demo form - no data was submitted.');
+  });
+
+  // Leaflet map initialization
+  async function initMap() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+
+    // Load Leaflet CSS
+    const linkEl = document.createElement('link');
+    linkEl.rel = 'stylesheet';
+    linkEl.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(linkEl);
+
+    // Load Leaflet JS
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = () => {
+      // @ts-ignore
+      const L = window.L;
+      const map = L.map('map').setView([30.2729, -97.7535], 16);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      L.marker([30.2729, -97.7535])
+        .addTo(map)
+        .bindPopup('<strong>CGCS</strong><br>1218 West Ave, Austin, TX 78701')
+        .openPopup();
+    };
+    document.head.appendChild(script);
+  }
+
+  document.addEventListener('DOMContentLoaded', initMap);
+  document.addEventListener('astro:page-load', initMap);
+</script>
