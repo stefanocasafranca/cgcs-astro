@@ -144,19 +144,94 @@ const roomImages = [
       </p>
     </div>
 
-    <!-- Full Width 360 Tour -->
-    <div class="w-full">
+    <!-- Full Width 360 Tour with Click-to-Activate -->
+    <div class="w-full relative" id="tour-container">
+      <!-- Activation Overlay -->
+      <div id="tour-overlay" class="absolute inset-0 z-10 bg-black/40 flex flex-col items-center justify-center cursor-pointer transition-opacity duration-300">
+        <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-6 md:p-8 text-center shadow-2xl max-w-sm mx-4">
+          <div class="w-16 h-16 bg-accent-teal/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-text-dark mb-2">360° Virtual Tour</h3>
+          <p class="text-text-light text-sm mb-4">Click and drag to look around the space</p>
+          <button id="activate-tour" class="inline-flex items-center gap-2 bg-accent-teal text-white px-6 py-3 rounded-full font-semibold hover:bg-primary transition-colors">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Start Tour
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Image (shown before activation) -->
+      <div id="tour-preview" class="w-full h-[400px] md:h-[600px]">
+        <img
+          src="/images/event-space-mural.png"
+          alt="CGCS Event Space Preview"
+          class="w-full h-full object-cover"
+        />
+      </div>
+
+      <!-- Iframe (hidden until activated) -->
       <iframe
-        src="https://www.google.com/maps/embed?pb=!4v1771561561808!6m8!1m7!1sCAoSHENJQUJJaEE2d2lJcm5WcWxQVkthckNJMENwV0g.!2m2!1d30.2773004221785!2d-97.74843741137883!3f116.20997146132045!4f-4.088969489186439!5f0.7820865974627469"
+        id="tour-iframe"
+        data-src="https://www.google.com/maps/embed?pb=!4v1771561561808!6m8!1m7!1sCAoSHENJQUJJaEE2d2lJcm5WcWxQVkthckNJMENwV0g.!2m2!1d30.2773004221785!2d-97.74843741137883!3f116.20997146132045!4f-4.088969489186439!5f0.7820865974627469"
         width="100%"
         height="600"
-        style="border:0;"
+        style="border:0; display:none;"
         allowfullscreen=""
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        class="w-full"
+        class="w-full h-[400px] md:h-[600px]"
       ></iframe>
+
+      <!-- Exit Tour Button (shown when tour is active) -->
+      <button id="exit-tour" class="hidden absolute top-4 right-4 z-20 bg-white/90 backdrop-blur-sm text-text-dark px-4 py-2 rounded-full font-medium shadow-lg hover:bg-white transition-colors">
+        ✕ Exit Tour
+      </button>
     </div>
+
+    <script>
+      function initTourActivation() {
+        const overlay = document.getElementById('tour-overlay');
+        const preview = document.getElementById('tour-preview');
+        const iframe = document.getElementById('tour-iframe') as HTMLIFrameElement;
+        const activateBtn = document.getElementById('activate-tour');
+        const exitBtn = document.getElementById('exit-tour');
+
+        if (!overlay || !preview || !iframe || !activateBtn || !exitBtn) return;
+
+        activateBtn.addEventListener('click', () => {
+          // Load iframe src
+          const src = iframe.getAttribute('data-src');
+          if (src) iframe.src = src;
+
+          // Hide overlay and preview
+          overlay.style.display = 'none';
+          preview.style.display = 'none';
+
+          // Show iframe and exit button
+          iframe.style.display = 'block';
+          exitBtn.classList.remove('hidden');
+        });
+
+        exitBtn.addEventListener('click', () => {
+          // Hide iframe and exit button
+          iframe.style.display = 'none';
+          iframe.src = '';
+          exitBtn.classList.add('hidden');
+
+          // Show overlay and preview
+          overlay.style.display = 'flex';
+          preview.style.display = 'block';
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', initTourActivation);
+      document.addEventListener('astro:page-load', initTourActivation);
+    </script>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
 
