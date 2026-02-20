@@ -23,6 +23,7 @@ const eventSpaceOptions = [
 const currentPath = Astro.url.pathname;
 const isInitiativePage = currentPath.startsWith('/initiatives/');
 const isEventSpacePage = currentPath === '/event-space' || currentPath === '/book-event-space';
+const isBookEventSpacePage = currentPath === '/book-event-space';
 ---
 
 <header class="sticky top-0 z-50 bg-white shadow-sm">
@@ -49,11 +50,13 @@ const isEventSpacePage = currentPath === '/event-space' || currentPath === '/boo
                 ? 'text-primary border-b-2 border-primary'
                 : (isInitiativePage && item.label === 'Initiatives')
                   ? 'text-primary border-b-2 border-primary'
-                  : (isEventSpacePage && item.label === 'Event Space')
+                  : (isBookEventSpacePage && item.label === 'Event Space')
                     ? 'text-primary border-b-2 border-primary'
-                    : (currentPath === item.href)
+                    : (currentPath === '/event-space' && item.label === 'Event Space')
                       ? 'text-primary'
-                      : 'text-text-dark'
+                      : (currentPath === item.href)
+                        ? 'text-primary'
+                        : 'text-text-dark'
             ]}
           >
             {item.label}

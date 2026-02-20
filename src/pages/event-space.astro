@@ -172,4 +172,50 @@ const roomImages = [
       </a>
     </div>
   </section>
+
+  <!-- Map Section -->
+  <section class="h-96 bg-gray-200 relative">
+    <div id="map" class="w-full h-full"></div>
+    <noscript>
+      <div class="absolute inset-0 flex items-center justify-center bg-gray-100">
+        <p class="text-text-light">Interactive map requires JavaScript</p>
+      </div>
+    </noscript>
+  </section>
 </BaseLayout>
+
+<script>
+  // Leaflet map initialization
+  async function initMap() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+
+    // Load Leaflet CSS
+    const linkEl = document.createElement('link');
+    linkEl.rel = 'stylesheet';
+    linkEl.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(linkEl);
+
+    // Load Leaflet JS
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = () => {
+      // @ts-ignore
+      const L = window.L;
+      const map = L.map('map').setView([30.2729, -97.7535], 16);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      L.marker([30.2729, -97.7535])
+        .addTo(map)
+        .bindPopup('<strong>CGCS</strong><br>1218 West Ave, Austin, TX 78701')
+        .openPopup();
+    };
+    document.head.appendChild(script);
+  }
+
+  document.addEventListener('DOMContentLoaded', initMap);
+  document.addEventListener('astro:page-load', initMap);
+</script>

@@ -17,26 +17,34 @@ const currentYear = new Date().getFullYear();
         Austin Community College – Rio Grande Campus, Bldg 3000
       </p>
 
-      <!-- Contact Info Buttons -->
+      <!-- Contact Info Buttons (Copyable) -->
       <div class="flex flex-wrap justify-center gap-4 mt-6">
-        <a
-          href="https://maps.app.goo.gl/r7mpakS5fidZRgx36"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="px-6 py-3 border border-accent-teal text-accent-teal rounded-full hover:bg-accent-teal hover:text-white transition-colors text-sm"
+        <button
+          id="copy-address"
+          data-copy="1218 West Ave, Austin, TX 78701"
+          class="px-6 py-3 border border-accent-teal text-accent-teal rounded-full hover:bg-accent-teal hover:text-white transition-colors text-sm cursor-pointer relative group"
         >
-          1218 West Ave, Austin, TX 78701
-        </a>
-        <a
-          href="mailto:admin@cgcsacc.org"
-          class="px-6 py-3 border border-accent-teal text-accent-teal rounded-full hover:bg-accent-teal hover:text-white transition-colors text-sm"
+          <span class="copy-text">1218 West Ave, Austin, TX 78701</span>
+          <span class="copy-success hidden absolute inset-0 flex items-center justify-center bg-primary text-white rounded-full">
+            Copied!
+          </span>
+        </button>
+        <button
+          id="copy-email"
+          data-copy="admin@cgcsacc.org"
+          class="px-6 py-3 border border-accent-teal text-accent-teal rounded-full hover:bg-accent-teal hover:text-white transition-colors text-sm cursor-pointer relative group"
         >
-          admin@cgcsacc.org
-        </a>
-        <span class="px-6 py-3 border border-accent-teal text-accent-teal rounded-full text-sm">
-          Monday to Friday : 9 am – 5 pm
-        </span>
+          <span class="copy-text">admin@cgcsacc.org</span>
+          <span class="copy-success hidden absolute inset-0 flex items-center justify-center bg-primary text-white rounded-full">
+            Copied!
+          </span>
+        </button>
       </div>
+
+      <!-- Working Hours (Plain Text) -->
+      <p class="text-gray-400 text-sm">
+        Monday to Friday : 9 am – 5 pm
+      </p>
 
       <!-- Social Links -->
       <div class="flex items-center gap-4 mt-6">
@@ -75,3 +83,52 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
 </footer>
+
+<style>
+  .copy-success {
+    animation: fadeInOut 1.5s ease-in-out;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+</style>
+
+<script>
+  function initCopyButtons() {
+    const copyButtons = document.querySelectorAll('[data-copy]');
+
+    copyButtons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        const textToCopy = button.getAttribute('data-copy');
+        const copyText = button.querySelector('.copy-text') as HTMLElement;
+        const copySuccess = button.querySelector('.copy-success') as HTMLElement;
+
+        if (!textToCopy) return;
+
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+
+          // Show success message
+          copyText.classList.add('invisible');
+          copySuccess.classList.remove('hidden');
+
+          // Hide success message after animation
+          setTimeout(() => {
+            copySuccess.classList.add('hidden');
+            copyText.classList.remove('invisible');
+          }, 1500);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initCopyButtons);
+  document.addEventListener('astro:page-load', initCopyButtons);
+</script>

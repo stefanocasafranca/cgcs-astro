@@ -90,7 +90,7 @@
 }
 
 .highlight-underline svg path {
-  stroke: var(--color-primary);
+  stroke: #3cc9f4;
   stroke-width: 8;
   stroke-linecap: round;
   fill: none;

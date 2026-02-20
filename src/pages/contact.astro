@@ -2,24 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 
-const contactInfo = [
+const copyableInfo = [
   {
     title: 'Office Location',
     content: '1218 West Ave, Austin, TX 78701',
-    href: 'https://maps.app.goo.gl/r7mpakS5fidZRgx36',
+    copyText: '1218 West Ave, Austin, TX 78701',
     image: '/images/2025/04/IMG_3095-scaled.jpg',
   },
   {
     title: 'Email Our Team',
     content: 'admin@cgcsacc.org',
-    href: 'mailto:admin@cgcsacc.org',
+    copyText: 'admin@cgcsacc.org',
     image: '/images/2025/10/DSC_0010-2.jpg',
-  },
-  {
-    title: 'Working Hours',
-    content: 'Monday to Friday : 9 am – 5 pm',
-    href: null,
-    image: '/images/2025/12/pexels-mikhail-nilov-9158772-scaled.jpg',
   },
 ];
 ---
@@ -30,33 +24,39 @@ const contactInfo = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-12">Contact Us</h1>
 
-      <!-- Contact Info Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {contactInfo.map((info) => (
-          <div class="relative overflow-hidden rounded-2xl h-64 group">
+      <!-- Contact Info Cards (Copyable) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        {copyableInfo.map((info) => (
+          <button
+            class="contact-copy-card relative overflow-hidden rounded-2xl h-64 group cursor-pointer text-left"
+            data-copy={info.copyText}
+          >
             <img
               src={info.image}
               alt={info.title}
-              class="absolute inset-0 w-full h-full object-cover"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
             <div class="absolute bottom-0 left-0 right-0 p-6">
               <h3 class="text-white font-bold text-lg mb-2">{info.title}</h3>
-              {info.href ? (
-                <a
-                  href={info.href}
-                  target={info.href.startsWith('http') ? '_blank' : undefined}
-                  rel={info.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  class="text-accent-teal hover:underline"
-                >
-                  {info.content}
-                </a>
-              ) : (
-                <p class="text-white/90">{info.content}</p>
-              )}
+              <p class="text-accent-teal copy-text">{info.content}</p>
+              <span class="copy-success hidden text-primary font-semibold">Copied!</span>
             </div>
-          </div>
+            <!-- Click to copy hint -->
+            <div class="absolute top-4 right-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+              Click to copy
+            </div>
+          </button>
         ))}
+      </div>
+
+      <!-- Working Hours (Plain Text) -->
+      <div class="max-w-4xl mx-auto mt-8 text-center">
+        <div class="bg-gray-50 rounded-2xl p-6">
+          <h3 class="text-lg font-bold text-text-dark mb-2">Working Hours</h3>
+          <p class="text-text-light">Monday to Friday : 9 am – 5 pm</p>
+          <p class="text-text-light text-sm mt-2">Weekend events available with prior reservation</p>
+        </div>
       </div>
     </div>
   </section>
@@ -69,20 +69,23 @@ const contactInfo = [
   </section>
 
   <!-- Reserve Event Space CTA -->
-  <section class="py-12 bg-primary">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <h3 class="text-2xl font-bold text-white">Ready To Host Your Next Event?</h3>
-        <a
-          href="/book-event-space"
-          class="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
-        >
-          Reserve Event Space
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-      </div>
+  <section class="py-20 bg-accent-teal">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+        Ready to Host Your Next Event?
+      </h2>
+      <p class="text-white/80 text-lg mb-8">
+        Book our space for your workshops, meetings, conferences, and more.
+      </p>
+      <a
+        href="/book-event-space"
+        class="inline-flex items-center gap-2 bg-white text-accent-teal px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors"
+      >
+        Reserve Event Space
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
     </div>
   </section>
 
@@ -97,7 +100,50 @@ const contactInfo = [
   </section>
 </BaseLayout>
 
+<style>
+  .copy-success {
+    animation: fadeInOut 1.5s ease-in-out;
+  }
+
+  @keyframes fadeInOut {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+</style>
+
 <script>
+  function initContactCopy() {
+    const copyCards = document.querySelectorAll('.contact-copy-card');
+
+    copyCards.forEach((card) => {
+      card.addEventListener('click', async () => {
+        const textToCopy = card.getAttribute('data-copy');
+        const copyText = card.querySelector('.copy-text') as HTMLElement;
+        const copySuccess = card.querySelector('.copy-success') as HTMLElement;
+
+        if (!textToCopy) return;
+
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+
+          // Show success message
+          copyText.classList.add('hidden');
+          copySuccess.classList.remove('hidden');
+
+          // Hide success message after animation
+          setTimeout(() => {
+            copySuccess.classList.add('hidden');
+            copyText.classList.remove('hidden');
+          }, 1500);
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  }
+
   // Leaflet map initialization
   async function initMap() {
     const mapContainer = document.getElementById('map');
@@ -129,6 +175,12 @@ const contactInfo = [
     document.head.appendChild(script);
   }
 
-  document.addEventListener('DOMContentLoaded', initMap);
-  document.addEventListener('astro:page-load', initMap);
+  document.addEventListener('DOMContentLoaded', () => {
+    initContactCopy();
+    initMap();
+  });
+  document.addEventListener('astro:page-load', () => {
+    initContactCopy();
+    initMap();
+  });
 </script>
