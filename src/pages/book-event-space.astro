@@ -16,11 +16,80 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </div>
   </section>
 
+  <!-- Calendar Availability Section -->
+  <section class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-text-dark text-center mb-3">Check Our Availability</h2>
+      <p class="text-text-light text-center mb-6">
+        Review our calendar before booking. Colored blocks indicate the space is already reserved.
+      </p>
+      <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-200">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=c_afaea34169f9e252afd545081e551f140dcefa691c2a8fcd8c6f9cec1c0c4f9d%40group.calendar.google.com&ctz=America%2FChicago&mode=WEEK"
+          style="border: 0"
+          width="100%"
+          height="500"
+          frameborder="0"
+          scrolling="no"
+          loading="lazy"
+          class="w-full"
+          title="CGCS Events Calendar"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
   <!-- Booking Form Section -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-accent-teal/10 rounded-3xl p-8 md:p-12">
         <form class="space-y-6" id="booking-form">
+          <!-- Date & Time Selection - FIRST -->
+          <div class="bg-white/50 rounded-xl p-5 border border-accent-teal/20">
+            <p class="text-sm text-text-light mb-4 flex items-center gap-2">
+              <svg class="w-4 h-4 text-accent-teal flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Please check the calendar above to ensure your preferred time is available.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-text-dark mb-2">
+                  Event Date *
+                </label>
+                <input
+                  type="date"
+                  name="eventDate"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-text-dark mb-2">
+                  Event Start Time *
+                </label>
+                <input
+                  type="time"
+                  name="startTime"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-text-dark mb-2">
+                  Event End Time *
+                </label>
+                <input
+                  type="time"
+                  name="endTime"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
+                />
+              </div>
+            </div>
+          </div>
+
           <!-- Organization Name -->
           <div>
             <input
@@ -70,64 +139,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             </div>
           </div>
 
-          <!-- Event Title -->
-          <div>
-            <input
-              type="text"
-              name="eventTitle"
-              placeholder="Event Title"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
-          </div>
-
-          <!-- Estimated Attendees and Date -->
+          <!-- Event Title and Attendees -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label class="block text-sm font-medium text-text-dark mb-2">
-                Estimated Number of Attendees *
-              </label>
+              <input
+                type="text"
+                name="eventTitle"
+                placeholder="Event Title"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              />
+            </div>
+            <div>
               <input
                 type="number"
                 name="attendees"
                 min="1"
-                placeholder="e.g. 50"
-                required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-text-dark mb-2">
-                Event Date *
-              </label>
-              <input
-                type="date"
-                name="eventDate"
-                required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <!-- Start and End Time -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label class="block text-sm font-medium text-text-dark mb-2">
-                Event Start Time *
-              </label>
-              <input
-                type="time"
-                name="startTime"
-                required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-text-dark mb-2">
-                Event End Time *
-              </label>
-              <input
-                type="time"
-                name="endTime"
+                placeholder="Estimated Attendees *"
                 required
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               />

@@ -97,20 +97,28 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
     {navItems.map((item) => (
       item.hasSubmenu === 'initiatives' ? (
         <div class="mobile-menu-accordion">
-          <button
-            class:list={[
-              'mobile-menu-item accordion-trigger',
-              isInitiativePage ? 'text-primary' : ''
-            ]}
-            data-accordion="initiatives"
-            data-mobile-nav-item
-            data-section="initiatives"
-          >
-            <span>{item.label}</span>
-            <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
+          <div class="accordion-header">
+            <a
+              href="/#initiatives"
+              class:list={[
+                'mobile-menu-link',
+                isInitiativePage ? 'text-primary' : ''
+              ]}
+              data-mobile-nav-item
+              data-section="initiatives"
+            >
+              {item.label}
+            </a>
+            <button
+              class="accordion-toggle"
+              data-accordion="initiatives"
+              aria-label="Toggle initiatives submenu"
+            >
+              <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
           <div class="accordion-content" id="initiatives-submenu">
             {initiatives.map((sub) => (
               <a
@@ -127,20 +135,28 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
         </div>
       ) : item.hasSubmenu === 'eventSpace' ? (
         <div class="mobile-menu-accordion">
-          <button
-            class:list={[
-              'mobile-menu-item accordion-trigger',
-              isEventSpacePage ? 'text-primary' : ''
-            ]}
-            data-accordion="eventSpace"
-            data-mobile-nav-item
-            data-section="eventSpace"
-          >
-            <span>{item.label}</span>
-            <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
+          <div class="accordion-header">
+            <a
+              href="/event-space"
+              class:list={[
+                'mobile-menu-link',
+                isEventSpacePage ? 'text-primary' : ''
+              ]}
+              data-mobile-nav-item
+              data-section="eventSpace"
+            >
+              {item.label}
+            </a>
+            <button
+              class="accordion-toggle"
+              data-accordion="eventSpace"
+              aria-label="Toggle event space submenu"
+            >
+              <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
           <div class="accordion-content" id="eventSpace-submenu">
             {eventSpaceOptions.map((sub) => (
               <a
@@ -263,17 +279,50 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
     align-items: center;
   }
 
-  .accordion-trigger {
-    font-family: inherit;
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 0.25rem;
+  }
+
+  .mobile-menu-link {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    padding: 0.875rem 0.5rem 0.875rem 1.5rem;
+    transition: color 0.2s;
+  }
+
+  .mobile-menu-link:hover,
+  .mobile-menu-link.text-primary {
+    color: #00A651;
+  }
+
+  .accordion-toggle {
+    background: none;
+    border: none;
+    padding: 0.875rem 1.5rem 0.875rem 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .accordion-chevron {
     width: 1.25rem;
     height: 1.25rem;
     transition: transform 0.3s;
+    color: #666;
   }
 
-  .accordion-trigger[aria-expanded="true"] .accordion-chevron {
+  .accordion-toggle:hover .accordion-chevron {
+    color: #00A651;
+  }
+
+  .accordion-toggle[aria-expanded="true"] .accordion-chevron {
     transform: rotate(180deg);
   }
 
@@ -317,7 +366,7 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
   const menuBtn = document.getElementById('mobile-menu-btn');
   const menuOverlay = document.getElementById('mobile-menu-overlay');
   const closeBtn = document.getElementById('mobile-menu-close');
-  const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+  const accordionToggles = document.querySelectorAll('.accordion-toggle');
 
   // Track current active section for homepage
   let currentActiveSection: string | null = 'home';
@@ -335,9 +384,9 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
   closeBtn?.addEventListener('click', () => {
     menuOverlay?.classList.remove('open');
     // Also close all accordions
-    accordionTriggers.forEach((trigger) => {
-      trigger.setAttribute('aria-expanded', 'false');
-      const accordionId = trigger.getAttribute('data-accordion');
+    accordionToggles.forEach((toggle) => {
+      toggle.setAttribute('aria-expanded', 'false');
+      const accordionId = toggle.getAttribute('data-accordion');
       const content = document.getElementById(`${accordionId}-submenu`);
       content?.classList.remove('open');
     });
@@ -350,14 +399,14 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
     });
   });
 
-  // Accordion toggle for each trigger
-  accordionTriggers.forEach((trigger) => {
-    trigger.addEventListener('click', () => {
-      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
-      const accordionId = trigger.getAttribute('data-accordion');
+  // Accordion toggle for each toggle button
+  accordionToggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      const accordionId = toggle.getAttribute('data-accordion');
       const content = document.getElementById(`${accordionId}-submenu`);
 
-      trigger.setAttribute('aria-expanded', String(!isExpanded));
+      toggle.setAttribute('aria-expanded', String(!isExpanded));
       content?.classList.toggle('open');
     });
   });

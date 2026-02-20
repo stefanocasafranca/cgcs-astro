@@ -29,11 +29,11 @@ const contactInfo = [
         Have questions about our initiatives or interested in collaborating? We'd love to hear from you.
       </p>
 
-      <!-- Contact Info Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <!-- Contact Info Cards + Working Hours -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {contactInfo.map((info) => (
-          <div class="contact-card bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-start gap-4">
+          <div class="contact-card bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col">
+            <div class="flex items-start gap-4 flex-1">
               <!-- Icon -->
               <div class="flex-shrink-0 w-12 h-12 bg-accent-teal/10 rounded-xl flex items-center justify-center">
                 {info.icon === 'location' ? (
@@ -49,48 +49,55 @@ const contactInfo = [
               </div>
 
               <!-- Content -->
-              <div class="flex-1 min-w-0">
+              <div class="flex-1 min-w-0 flex flex-col">
                 <h3 class="text-sm font-medium text-text-light mb-1">{info.title}</h3>
-                <p class="text-text-dark font-semibold mb-3 break-words">{info.content}</p>
-
-                <!-- Action Buttons -->
-                <div class="flex flex-wrap gap-2">
-                  {info.link && (
-                    <a
-                      href={info.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-1.5 text-sm font-medium text-accent-teal hover:text-primary transition-colors"
-                    >
-                      {info.linkLabel}
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
-                  )}
-                  <button
-                    class="copy-btn inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-text-dark transition-colors"
-                    data-copy={info.copyText}
-                    aria-label={`Copy ${info.title.toLowerCase()}`}
-                  >
-                    <svg class="w-4 h-4 copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                    <span class="copy-label">Copy</span>
-                  </button>
-                </div>
+                <p class="text-text-dark font-semibold break-words">{info.content}</p>
               </div>
+            </div>
+
+            <!-- Action Buttons - Always at bottom -->
+            <div class="flex flex-wrap gap-2 mt-4 pl-16">
+              {info.link && (
+                <a
+                  href={info.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1.5 text-sm font-medium text-accent-teal hover:text-primary transition-colors"
+                >
+                  {info.linkLabel}
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              )}
+              <button
+                class="copy-btn inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-text-dark transition-colors"
+                data-copy={info.copyText}
+                aria-label={`Copy ${info.title.toLowerCase()}`}
+              >
+                <svg class="w-4 h-4 copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                <span class="copy-label">Copy</span>
+              </button>
             </div>
           </div>
         ))}
-      </div>
 
-      <!-- Working Hours (Plain Text) -->
-      <div class="max-w-4xl mx-auto mt-8 text-center">
-        <div class="bg-gray-50 rounded-2xl p-6">
-          <h3 class="text-lg font-bold text-text-dark mb-2">Working Hours</h3>
-          <p class="text-text-light">Monday to Friday : 9 am – 5 pm</p>
-          <p class="text-text-light text-sm mt-2">Events past 5 pm or weekend events are available with prior reservation</p>
+        <!-- Working Hours Card -->
+        <div class="contact-card bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-12 h-12 bg-accent-teal/10 rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-sm font-medium text-text-light mb-1">Working Hours</h3>
+              <p class="text-text-dark font-semibold mb-3">Mon – Fri: 9 am – 5 pm</p>
+              <p class="text-text-light text-sm">Events past 5 pm or weekends available with prior reservation</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
