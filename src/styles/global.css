@@ -104,6 +104,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Scroll margin for anchor links - accounts for sticky header */
+[id] {
+  scroll-margin-top: 120px;
+}
+
 /* Modern easing for all transitions */
 * {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
