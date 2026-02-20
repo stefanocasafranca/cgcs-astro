@@ -8,38 +8,132 @@ const roomImages = [
 ---
 
 <BaseLayout title="Event Space">
-  <!-- Hero Section -->
-  <section class="relative py-20 bg-white overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div class="relative z-10">
-          <p class="text-accent-orange font-medium mb-4">Impact – Empowerment – Leadership</p>
-          <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">
+  <!-- Hero Section - Full Width Immersive -->
+  <section class="event-hero relative h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden">
+    <!-- Background Image with Zoom Animation -->
+    <div class="absolute inset-0 hero-image-container">
+      <img
+        src="/images/event-space-mural.png"
+        alt="CGCS Event Space with colorful mural"
+        class="hero-image w-full h-full object-cover"
+      />
+    </div>
+
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 h-full flex items-center">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="max-w-2xl">
+          <p class="hero-tagline text-accent-teal font-medium mb-4 text-lg tracking-wide">
+            Impact – Empowerment – Leadership
+          </p>
+          <h1 class="hero-title text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
             Welcome To<br />The CGCS
           </h1>
-          <p class="text-lg text-text-light mb-8">
-            We are the perfect place to host the most impactful events, workshops, conferences, simulations and more...
+          <p class="hero-description text-xl text-white/90 mb-10 leading-relaxed">
+            The perfect place to host impactful events, workshops, conferences, simulations and more.
           </p>
-          <a href="/book-event-space" class="btn-primary">
+          <a href="/book-event-space" class="hero-btn inline-flex items-center gap-3 bg-white text-text-dark px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent-teal hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105">
             Reserve Event Space
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </a>
         </div>
+      </div>
+    </div>
 
-        <div class="relative">
-          <img
-            src="/images/event-space-mural.png"
-            alt="CGCS Event Space with colorful mural"
-            class="rounded-2xl shadow-xl w-full"
-          />
-          <!-- Decorative yellow circle -->
-          <div class="absolute -right-8 top-1/2 -translate-y-1/2 w-48 h-48 bg-yellow rounded-full -z-10"></div>
-        </div>
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 scroll-indicator">
+      <div class="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
+        <div class="w-1.5 h-3 bg-white/70 rounded-full animate-bounce"></div>
       </div>
     </div>
   </section>
+
+  <style>
+    /* Hero Image Zoom Animation */
+    .hero-image {
+      animation: heroZoom 20s ease-out forwards;
+      transform-origin: center center;
+    }
+
+    @keyframes heroZoom {
+      0% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* Text Fade-in Animations */
+    .hero-tagline {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideUp 0.8s ease-out 0.2s forwards;
+    }
+
+    .hero-title {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideUp 0.8s ease-out 0.4s forwards;
+    }
+
+    .hero-description {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideUp 0.8s ease-out 0.6s forwards;
+    }
+
+    .hero-btn {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeSlideUp 0.8s ease-out 0.8s forwards;
+    }
+
+    .scroll-indicator {
+      opacity: 0;
+      animation: fadeIn 1s ease-out 1.2s forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Parallax-like effect on scroll */
+    .event-hero {
+      background-attachment: fixed;
+    }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-image {
+        animation: none;
+        transform: scale(1);
+      }
+      .hero-tagline,
+      .hero-title,
+      .hero-description,
+      .hero-btn,
+      .scroll-indicator {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
 
   <!-- Virtual Tour Section -->
   <section class="py-20 bg-white">
