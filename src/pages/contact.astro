@@ -67,28 +67,12 @@ const copyableInfo = [
   <!-- Contact Form Section -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Event Space Redirect Notice -->
-      <div class="bg-yellow/20 border border-yellow rounded-xl p-4 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-        <div class="flex-shrink-0">
-          <svg class="w-6 h-6 text-accent-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        </div>
-        <div class="flex-1">
-          <p class="text-text-dark font-medium">Looking to book our event space?</p>
-          <p class="text-text-light text-sm">Use our dedicated booking form for faster processing.</p>
-        </div>
-        <a href="/book-event-space" class="inline-flex items-center gap-2 bg-accent-orange text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-accent-orange/90 transition-colors whitespace-nowrap">
-          Book Event Space
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-      </div>
-
       <!-- Form Header -->
       <h2 class="text-2xl font-bold text-text-dark mb-2">Send Us a Message</h2>
-      <p class="text-text-light mb-8">For general inquiries, collaboration proposals, or questions about our initiatives.</p>
+      <p class="text-text-light mb-2">For general inquiries, collaboration proposals, or questions about our initiatives.</p>
+      <p class="text-sm text-text-light mb-8">
+        Not what you're looking for? <a href="/book-event-space" class="text-primary hover:underline font-medium">Reserve our event space →</a>
+      </p>
 
       <ContactForm />
     </div>
