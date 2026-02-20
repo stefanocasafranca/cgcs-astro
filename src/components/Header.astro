@@ -97,7 +97,7 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
     {navItems.map((item) => (
       item.hasSubmenu === 'initiatives' ? (
         <div class="mobile-menu-accordion">
-          <button class="mobile-menu-item accordion-trigger" data-accordion="initiatives">
+          <button class="mobile-menu-item accordion-trigger" data-accordion="initiatives" data-mobile-nav-item data-section="initiatives">
             <span>{item.label}</span>
             <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -142,6 +142,8 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
       ) : (
         <a
           href={item.href}
+          data-mobile-nav-item
+          data-section={item.href.includes('#') ? item.href.split('#')[1] : (item.href === '/' ? 'home' : '')}
           class:list={[
             'mobile-menu-item',
             (currentPath === '/' && item.href === '/') ? 'text-primary' :
@@ -337,11 +339,13 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
     });
   });
 
-  // Scroll-based active navigation (desktop only)
+  // Scroll-based active navigation (desktop and mobile)
   const sections = ['aboutUs', 'initiatives', 'events'];
   const navLinks = document.querySelectorAll('[data-nav-item]');
+  const mobileNavLinks = document.querySelectorAll('[data-mobile-nav-item]');
 
   function setActiveNav(sectionId: string | null) {
+    // Update desktop nav
     navLinks.forEach((link) => {
       const linkSection = link.getAttribute('data-section');
       link.classList.remove('text-primary', 'border-b-2', 'border-primary');
@@ -354,6 +358,20 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
         }
       } else if (linkSection === sectionId) {
         link.classList.remove('text-text-dark');
+        link.classList.add('text-primary');
+      }
+    });
+
+    // Update mobile nav
+    mobileNavLinks.forEach((link) => {
+      const linkSection = link.getAttribute('data-section');
+      link.classList.remove('text-primary');
+
+      if (sectionId === null || sectionId === 'home') {
+        if (linkSection === 'home') {
+          link.classList.add('text-primary');
+        }
+      } else if (linkSection === sectionId) {
         link.classList.add('text-primary');
       }
     });
