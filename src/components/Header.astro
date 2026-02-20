@@ -97,7 +97,15 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
     {navItems.map((item) => (
       item.hasSubmenu === 'initiatives' ? (
         <div class="mobile-menu-accordion">
-          <button class="mobile-menu-item accordion-trigger" data-accordion="initiatives" data-mobile-nav-item data-section="initiatives">
+          <button
+            class:list={[
+              'mobile-menu-item accordion-trigger',
+              isInitiativePage ? 'text-primary' : ''
+            ]}
+            data-accordion="initiatives"
+            data-mobile-nav-item
+            data-section="initiatives"
+          >
             <span>{item.label}</span>
             <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -119,7 +127,15 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
         </div>
       ) : item.hasSubmenu === 'eventSpace' ? (
         <div class="mobile-menu-accordion">
-          <button class="mobile-menu-item accordion-trigger" data-accordion="eventSpace">
+          <button
+            class:list={[
+              'mobile-menu-item accordion-trigger',
+              isEventSpacePage ? 'text-primary' : ''
+            ]}
+            data-accordion="eventSpace"
+            data-mobile-nav-item
+            data-section="eventSpace"
+          >
             <span>{item.label}</span>
             <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -303,9 +319,16 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
   const closeBtn = document.getElementById('mobile-menu-close');
   const accordionTriggers = document.querySelectorAll('.accordion-trigger');
 
-  // Open menu
+  // Track current active section for homepage
+  let currentActiveSection: string | null = 'home';
+
+  // Open menu - update mobile nav state when opening
   menuBtn?.addEventListener('click', () => {
     menuOverlay?.classList.add('open');
+    // Update mobile nav to reflect current scroll position on homepage
+    if (window.location.pathname === '/') {
+      updateMobileNav(currentActiveSection);
+    }
   });
 
   // Close menu
@@ -344,7 +367,25 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
   const navLinks = document.querySelectorAll('[data-nav-item]');
   const mobileNavLinks = document.querySelectorAll('[data-mobile-nav-item]');
 
+  function updateMobileNav(sectionId: string | null) {
+    mobileNavLinks.forEach((link) => {
+      const linkSection = link.getAttribute('data-section');
+      link.classList.remove('text-primary');
+
+      if (sectionId === null || sectionId === 'home') {
+        if (linkSection === 'home') {
+          link.classList.add('text-primary');
+        }
+      } else if (linkSection === sectionId) {
+        link.classList.add('text-primary');
+      }
+    });
+  }
+
   function setActiveNav(sectionId: string | null) {
+    // Track current section
+    currentActiveSection = sectionId;
+
     // Update desktop nav
     navLinks.forEach((link) => {
       const linkSection = link.getAttribute('data-section');
@@ -362,19 +403,10 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
       }
     });
 
-    // Update mobile nav
-    mobileNavLinks.forEach((link) => {
-      const linkSection = link.getAttribute('data-section');
-      link.classList.remove('text-primary');
-
-      if (sectionId === null || sectionId === 'home') {
-        if (linkSection === 'home') {
-          link.classList.add('text-primary');
-        }
-      } else if (linkSection === sectionId) {
-        link.classList.add('text-primary');
-      }
-    });
+    // Also update mobile nav if menu is open
+    if (menuOverlay?.classList.contains('open')) {
+      updateMobileNav(sectionId);
+    }
   }
 
   // Only run on homepage
