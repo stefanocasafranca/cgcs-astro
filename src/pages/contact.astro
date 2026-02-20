@@ -2,18 +2,22 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
 
-const copyableInfo = [
+const contactInfo = [
   {
     title: 'Office Location',
     content: '1218 West Ave, Austin, TX 78701',
     copyText: '1218 West Ave, Austin, TX 78701',
-    image: '/images/2025/04/IMG_3095-scaled.jpg',
+    link: 'https://www.google.com/maps?q=1218+West+Ave,+Austin,+TX+78701',
+    linkLabel: 'Open in Maps',
+    icon: 'location',
   },
   {
     title: 'Email Our Team',
     content: 'admin@cgcsacc.org',
     copyText: 'admin@cgcsacc.org',
-    image: '/images/2025/10/DSC_0010-2.jpg',
+    link: 'mailto:admin@cgcsacc.org',
+    linkLabel: 'Send Email',
+    icon: 'email',
   },
 ];
 ---
@@ -27,29 +31,57 @@ const copyableInfo = [
         Have questions about our initiatives or interested in collaborating? We'd love to hear from you.
       </p>
 
-      <!-- Contact Info Cards (Copyable) -->
+      <!-- Contact Info Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        {copyableInfo.map((info) => (
-          <button
-            class="contact-copy-card relative overflow-hidden rounded-2xl h-64 group cursor-pointer text-left"
-            data-copy={info.copyText}
-          >
-            <img
-              src={info.image}
-              alt={info.title}
-              class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 right-0 p-6">
-              <h3 class="text-white font-bold text-lg mb-2">{info.title}</h3>
-              <p class="text-accent-teal copy-text">{info.content}</p>
-              <span class="copy-success hidden text-primary font-semibold">Copied!</span>
+        {contactInfo.map((info) => (
+          <div class="contact-card bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-start gap-4">
+              <!-- Icon -->
+              <div class="flex-shrink-0 w-12 h-12 bg-accent-teal/10 rounded-xl flex items-center justify-center">
+                {info.icon === 'location' ? (
+                  <svg class="w-6 h-6 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                ) : (
+                  <svg class="w-6 h-6 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                )}
+              </div>
+
+              <!-- Content -->
+              <div class="flex-1 min-w-0">
+                <h3 class="text-sm font-medium text-text-light mb-1">{info.title}</h3>
+                <p class="text-text-dark font-semibold mb-3 break-words">{info.content}</p>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-2">
+                  <a
+                    href={info.link}
+                    target={info.icon === 'location' ? '_blank' : undefined}
+                    rel={info.icon === 'location' ? 'noopener noreferrer' : undefined}
+                    class="inline-flex items-center gap-1.5 text-sm font-medium text-accent-teal hover:text-primary transition-colors"
+                  >
+                    {info.linkLabel}
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                  <button
+                    class="copy-btn inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-text-dark transition-colors"
+                    data-copy={info.copyText}
+                    aria-label={`Copy ${info.title.toLowerCase()}`}
+                  >
+                    <svg class="w-4 h-4 copy-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <span class="copy-label">Copy</span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <!-- Click to copy hint -->
-            <div class="absolute top-4 right-4 bg-black/50 text-white text-xs px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-              Click to copy
-            </div>
-          </button>
+          </div>
         ))}
       </div>
 
@@ -130,28 +162,15 @@ const copyableInfo = [
   </section>
 </BaseLayout>
 
-<style>
-  .copy-success {
-    animation: fadeInOut 1.5s ease-in-out;
-  }
-
-  @keyframes fadeInOut {
-    0% { opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-</style>
 
 <script>
   function initContactCopy() {
-    const copyCards = document.querySelectorAll('.contact-copy-card');
+    const copyButtons = document.querySelectorAll('.copy-btn');
 
-    copyCards.forEach((card) => {
-      card.addEventListener('click', async () => {
-        const textToCopy = card.getAttribute('data-copy');
-        const copyText = card.querySelector('.copy-text') as HTMLElement;
-        const copySuccess = card.querySelector('.copy-success') as HTMLElement;
+    copyButtons.forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const textToCopy = btn.getAttribute('data-copy');
+        const label = btn.querySelector('.copy-label') as HTMLElement;
 
         if (!textToCopy) return;
 
@@ -159,14 +178,16 @@ const copyableInfo = [
           await navigator.clipboard.writeText(textToCopy);
 
           // Show success message
-          copyText.classList.add('hidden');
-          copySuccess.classList.remove('hidden');
+          if (label) {
+            const originalText = label.textContent;
+            label.textContent = 'Copied!';
+            btn.classList.add('text-primary');
 
-          // Hide success message after animation
-          setTimeout(() => {
-            copySuccess.classList.add('hidden');
-            copyText.classList.remove('hidden');
-          }, 1500);
+            setTimeout(() => {
+              label.textContent = originalText;
+              btn.classList.remove('text-primary');
+            }, 1500);
+          }
         } catch (err) {
           console.error('Failed to copy:', err);
         }
