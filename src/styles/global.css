@@ -176,21 +176,47 @@ html {
   transition: transform 0.5s ease-in-out;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
+/* Custom scrollbar - exclude dialogs/modals */
+body::-webkit-scrollbar,
+html::-webkit-scrollbar,
+main::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track,
+main::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb,
+main::-webkit-scrollbar-thumb {
   background: var(--color-primary);
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+body::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:hover,
+main::-webkit-scrollbar-thumb:hover {
   background: var(--color-primary-dark);
+}
+
+/* Hide scrollbars inside dialogs/modals */
+dialog ::-webkit-scrollbar,
+dialog::-webkit-scrollbar {
+  display: none;
+}
+
+dialog,
+dialog * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide page scrollbar when modal is open */
+html:has(dialog[open]),
+body:has(dialog[open]) {
+  overflow: hidden;
 }

@@ -1,0 +1,682 @@
+---
+interface Simulation {
+  id: string;
+  name: string;
+  focus: string;
+  iconColor: string;
+  catalogueDescription: string;
+  scenarioDescription: string;
+  meta: {
+    age: string;
+    players: string;
+    duration: string;
+  };
+  image: string;
+  learningObjectives: {
+    image: string;
+    objectives: string[];
+  };
+}
+
+interface Stat {
+  icon: string;
+  value: string;
+  label: string;
+}
+
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  bullets: string[];
+  stats: Stat[];
+  simulations: Simulation[];
+}
+
+const { id, title, description, bullets, stats, simulations } = Astro.props;
+---
+
+<dialog id={id} class="simulations-modal">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Close modal">&times;</button>
+
+    <div class="modal-body">
+      <h2 class="modal-title">{title}</h2>
+
+      <p class="modal-description">{description}</p>
+
+      <ul class="bullet-list">
+        {bullets.map((bullet) => (
+          <li>{bullet}</li>
+        ))}
+      </ul>
+
+      <!-- Stats Section -->
+      <div class="stats-section">
+        {stats.map((stat) => (
+          <div class="stat-item">
+            <span class="stat-icon" set:html={stat.icon} />
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Catalogue Section with Accordions -->
+      <h3 class="catalogue-title">Catalogue</h3>
+
+      <div class="catalogue-accordions">
+        {simulations.map((sim) => (
+          <details class="simulation-accordion">
+            <summary class="accordion-header">
+              <div class="accordion-image">
+                <img src={sim.image} alt={sim.name} loading="lazy" />
+              </div>
+              <div class="accordion-title-section">
+                <h4 class="accordion-name">{sim.name}</h4>
+                <p class="accordion-focus">Focus: {sim.focus}</p>
+                <p class="accordion-description">{sim.catalogueDescription}</p>
+              </div>
+              <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+
+            <div class="accordion-content">
+
+              <!-- Scenario Card -->
+              <div class="scenario-card">
+                <div class="scenario-header">
+                  <h4 class="scenario-name">{sim.name}</h4>
+                  <span class="scenario-label">SCENARIO</span>
+                </div>
+                <p class="scenario-description">{sim.scenarioDescription}</p>
+                <div class="meta-badges">
+                  <span class="meta-badge">
+                    <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 6v6l4 2"/>
+                    </svg>
+                    Age {sim.meta.age}
+                  </span>
+                  <span class="meta-badge">
+                    <svg class="meta-icon" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                    </svg>
+                    {sim.meta.players} players
+                  </span>
+                  <span class="meta-badge">
+                    <svg class="meta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12,6 12,12 16,14"/>
+                    </svg>
+                    {sim.meta.duration}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Learning Objectives Section -->
+              <div class="learning-objectives">
+                <div class="lo-image">
+                  <img src={sim.learningObjectives.image} alt="Learning environment" loading="lazy" />
+                </div>
+                <div class="lo-content">
+                  <h3 class="lo-title">Learning Objectives</h3>
+                  <p class="lo-subtitle">You will learn to:</p>
+                  <ul class="lo-list">
+                    {sim.learningObjectives.objectives.map((obj) => (
+                      <li>{obj}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .simulations-modal {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    box-shadow: none;
+    margin: 0;
+    background: white;
+  }
+
+  .simulations-modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    animation: backdropFadeIn 0.2s ease-out forwards;
+  }
+
+  .simulations-modal[open] {
+    animation: modalFadeIn 0.2s ease-out forwards;
+  }
+
+  .simulations-modal.closing {
+    animation: modalFadeOut 0.15s ease-in forwards;
+  }
+
+  .simulations-modal.closing::backdrop {
+    animation: backdropFadeOut 0.15s ease-in forwards;
+  }
+
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes modalFadeOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+  }
+
+  @keyframes backdropFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes backdropFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .modal-content {
+    position: relative;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .modal-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  .modal-close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-close:hover {
+    background: white;
+    transform: scale(1.1);
+  }
+
+  .modal-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .modal-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .modal-description {
+    color: #4b5563;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .bullet-list {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+    color: #4b5563;
+  }
+
+  .bullet-list li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  /* Stats Section */
+  .stats-section {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .stat-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-icon :global(svg) {
+    width: 2rem;
+    height: 2rem;
+    color: #00A651;
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #00A651;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    max-width: 180px;
+  }
+
+  /* Catalogue Section */
+  .catalogue-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1.5rem;
+  }
+
+  .catalogue-accordions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Simulation Accordion */
+  .simulation-accordion {
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #fafafa;
+    transition: background 0.2s;
+  }
+
+  .simulation-accordion[open] {
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .accordion-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .accordion-header::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-header:hover {
+    background: #f3f4f6;
+  }
+
+  .accordion-image {
+    width: 160px;
+    height: 160px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .accordion-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .accordion-title-section {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .accordion-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .accordion-focus {
+    font-size: 0.9rem;
+    color: #00A651;
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .accordion-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .simulation-accordion[open] .accordion-description {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .accordion-chevron {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #6b7280;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  .simulation-accordion[open] .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-content {
+    padding: 0.5rem 1.5rem 1.5rem;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  /* Scenario Card */
+  .scenario-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .scenario-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .scenario-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+  }
+
+  .scenario-label {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+    padding-bottom: 0.25rem;
+    border-bottom: 3px solid #FF6B35;
+    width: fit-content;
+  }
+
+  .scenario-description {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .meta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #374151;
+    font-size: 0.9rem;
+  }
+
+  .meta-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #9ca3af;
+  }
+
+  /* Learning Objectives */
+  .learning-objectives {
+    background: #1e3a5f;
+    border-radius: 1rem;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+  }
+
+  .lo-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    min-height: 200px;
+  }
+
+  .lo-content {
+    padding: 1.5rem;
+    color: white;
+  }
+
+  .lo-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .lo-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .lo-list {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0;
+  }
+
+  .lo-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .modal-body {
+      padding: 1.5rem 1.5rem 3rem;
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
+    }
+
+    .stats-section {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+    }
+
+    .accordion-header {
+      padding: 0.75rem;
+    }
+
+    .accordion-image {
+      width: 100px;
+      height: 100px;
+    }
+
+    .accordion-name {
+      font-size: 1rem;
+    }
+
+    .accordion-focus {
+      font-size: 0.8rem;
+    }
+
+    .accordion-description {
+      font-size: 0.8rem;
+      -webkit-line-clamp: 2;
+    }
+
+    .accordion-content {
+      padding: 0 1rem 1rem;
+    }
+
+    .learning-objectives {
+      grid-template-columns: 1fr;
+    }
+
+    .lo-image img {
+      height: 150px;
+    }
+
+    .lo-content {
+      padding: 1rem;
+    }
+
+    .lo-title {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<script define:vars={{ id }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+
+    const closeButton = modal.querySelector('.modal-close');
+    const statValues = modal.querySelectorAll('.stat-value');
+
+    // Store original values
+    const originalValues = [];
+    statValues.forEach((el, i) => {
+      originalValues[i] = parseInt(el.textContent, 10) || 0;
+      el.textContent = '0';
+    });
+
+    // Animate counter function
+    function animateCounter(element, target, duration = 1500) {
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic for smooth deceleration
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (target - start) * easeOut);
+        element.textContent = current.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          element.textContent = target.toLocaleString();
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    // Animate stats when modal opens
+    modal.addEventListener('open', () => {
+      statValues.forEach((el, i) => {
+        animateCounter(el, originalValues[i]);
+      });
+    });
+
+    // Also trigger on showModal since 'open' event doesn't exist for dialog
+    const originalShowModal = modal.showModal.bind(modal);
+    modal.showModal = function() {
+      originalShowModal();
+      // Small delay to ensure modal is visible
+      setTimeout(() => {
+        statValues.forEach((el, i) => {
+          animateCounter(el, originalValues[i]);
+        });
+      }, 100);
+    };
+
+    // Animated close function
+    function closeWithAnimation() {
+      modal.classList.add('closing');
+      modal.addEventListener('animationend', () => {
+        modal.classList.remove('closing');
+        modal.close();
+      }, { once: true });
+    }
+
+    // Reset counters when modal closes
+    modal.addEventListener('close', () => {
+      statValues.forEach((el) => {
+        el.textContent = '0';
+      });
+    });
+
+    // Close button
+    closeButton?.addEventListener('click', closeWithAnimation);
+
+    // Backdrop click closes modal
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeWithAnimation();
+      }
+    });
+  });
+</script>

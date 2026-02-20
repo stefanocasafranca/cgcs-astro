@@ -41,6 +41,100 @@ const roomImages = [
     </div>
   </section>
 
+  <!-- Virtual Tour Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-text-dark text-center mb-4">Explore Our Space</h2>
+      <p class="text-text-light text-center mb-12 max-w-2xl mx-auto">
+        Take a virtual tour of the CGCS event space. Click and drag to look around, or use the arrows to navigate.
+      </p>
+
+      <div class="rounded-2xl overflow-hidden shadow-xl">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!4v1771561561808!6m8!1m7!1sCAoSHENJQUJJaEE2d2lJcm5WcWxQVkthckNJMENwV0g.!2m2!1d30.2773004221785!2d-97.74843741137883!3f116.20997146132045!4f-4.088969489186439!5f0.7820865974627469"
+          width="100%"
+          height="500"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="w-full"
+        ></iframe>
+      </div>
+
+      <!-- Event Space Bento Gallery -->
+      <div class="bento-gallery mt-12">
+        <!-- Large featured image -->
+        <div class="bento-large overflow-hidden rounded-2xl shadow-lg">
+          <img
+            src="/images/event-space-workshop.jpg"
+            alt="CGCS Workshop Event"
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </div>
+        <!-- Two stacked images -->
+        <div class="bento-stack">
+          <div class="overflow-hidden rounded-2xl shadow-lg">
+            <img
+              src="/images/event-space-meeting.jpg"
+              alt="CGCS Meeting Room"
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+          <div class="overflow-hidden rounded-2xl shadow-lg">
+            <img
+              src="/images/event-space-hall.jpg"
+              alt="CGCS Main Hall"
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </div>
+
+      <style>
+        .bento-gallery {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .bento-large {
+          height: 400px;
+        }
+
+        .bento-stack {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+
+        .bento-stack > div {
+          height: 250px;
+        }
+
+        @media (min-width: 768px) {
+          .bento-gallery {
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+          }
+
+          .bento-large {
+            height: 520px;
+          }
+
+          .bento-stack {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+
+          .bento-stack > div {
+            height: calc((520px - 1.5rem) / 2);
+          }
+        }
+      </style>
+    </div>
+  </section>
+
   <!-- Room Photos Gallery -->
   <section class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,23 +148,6 @@ const roomImages = [
             />
           </div>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Floor Plan Section -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-text-dark text-center mb-12">Floor Plan</h2>
-
-      <div class="bg-gray-100 rounded-2xl p-8 flex items-center justify-center min-h-[400px]">
-        <div class="text-center text-text-light">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-          </svg>
-          <p class="text-lg">Floor plan image would be displayed here</p>
-          <p class="text-sm mt-2">CGCS 3rd Floor Plans</p>
-        </div>
       </div>
     </div>
   </section>

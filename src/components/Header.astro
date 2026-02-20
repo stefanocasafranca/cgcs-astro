@@ -2,11 +2,17 @@
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/#aboutUs' },
-  { label: 'Initiatives', href: '/#initiatives' },
+  { label: 'Initiatives', href: '/#initiatives', hasSubmenu: true },
   { label: 'Events', href: '/#events' },
   { label: 'Partners', href: '/partners' },
   { label: 'Event Space', href: '/event-space' },
   { label: 'Contact Us', href: '/contact' },
+];
+
+const initiatives = [
+  { label: 'Public Service', href: '/initiatives/public-service' },
+  { label: 'Civic Leadership', href: '/initiatives/civic-leadership' },
+  { label: 'Citizenship & Tech', href: '/initiatives/citizenship-tech' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -37,7 +43,9 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
                 ? 'text-primary border-b-2 border-primary'
                 : (isInitiativePage && item.label === 'Initiatives')
                   ? 'text-primary border-b-2 border-primary'
-                  : 'text-text-dark'
+                  : (currentPath === item.href)
+                    ? 'text-primary'
+                    : 'text-text-dark'
             ]}
           >
             {item.label}
@@ -56,41 +64,222 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
         </svg>
       </button>
     </div>
-
-    <!-- Mobile Navigation -->
-    <nav id="mobile-menu" class="hidden md:hidden pb-4">
-      <div class="flex flex-col space-y-3">
-        {navItems.map((item) => (
-          <a
-            href={item.href}
-            data-nav-item
-            data-section={item.href.includes('#') ? item.href.split('#')[1] : (item.href === '/' ? 'home' : '')}
-            class:list={[
-              'text-sm font-medium py-2 px-4 rounded-lg transition-colors hover:bg-gray-100 nav-link',
-              (currentPath === '/' && item.href === '/')
-                ? 'text-primary bg-primary/5'
-                : (isInitiativePage && item.label === 'Initiatives')
-                  ? 'text-primary bg-primary/5'
-                  : 'text-text-dark'
-            ]}
-          >
-            {item.label}
-          </a>
-        ))}
-      </div>
-    </nav>
   </div>
 </header>
 
+<!-- Fullscreen Mobile Menu Overlay -->
+<div id="mobile-menu-overlay" class="mobile-menu-overlay">
+  <button id="mobile-menu-close" class="mobile-menu-close" aria-label="Close menu">
+    &times;
+  </button>
+
+  <nav class="mobile-menu-nav">
+    {navItems.map((item) => (
+      item.hasSubmenu ? (
+        <div class="mobile-menu-accordion">
+          <button class="mobile-menu-item accordion-trigger" data-accordion="initiatives">
+            <span>{item.label}</span>
+            <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="accordion-content" id="initiatives-submenu">
+            {initiatives.map((sub) => (
+              <a
+                href={sub.href}
+                class:list={[
+                  'mobile-submenu-item',
+                  currentPath === sub.href ? 'text-primary' : ''
+                ]}
+              >
+                {sub.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <a
+          href={item.href}
+          class:list={[
+            'mobile-menu-item',
+            (currentPath === '/' && item.href === '/') ? 'text-primary' :
+            (currentPath === item.href) ? 'text-primary' : ''
+          ]}
+        >
+          {item.label}
+        </a>
+      )
+    ))}
+  </nav>
+</div>
+
+<style>
+  .mobile-menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 100;
+    display: none;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+  }
+
+  .mobile-menu-overlay.open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .mobile-menu-close:hover {
+    background: white;
+    transform: scale(1.1);
+  }
+
+  .mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 0;
+    padding: 4rem 2rem;
+  }
+
+  .mobile-menu-item {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    padding: 1.25rem 2rem;
+    width: 100%;
+    text-align: center;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .mobile-menu-item:hover,
+  .mobile-menu-item.text-primary {
+    color: #00A651;
+  }
+
+  .mobile-menu-accordion {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .accordion-trigger {
+    font-family: inherit;
+  }
+
+  .accordion-chevron {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.3s;
+  }
+
+  .accordion-trigger[aria-expanded="true"] .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-content {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: #f9fafb;
+    border-radius: 1rem;
+    margin: 0.5rem 0;
+    overflow: hidden;
+  }
+
+  .accordion-content.open {
+    display: flex;
+  }
+
+  .mobile-submenu-item {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #4b5563;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    text-align: center;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .mobile-submenu-item:hover,
+  .mobile-submenu-item.text-primary {
+    color: #00A651;
+    background: rgba(0, 166, 81, 0.05);
+  }
+
+  /* Hide body scroll when menu is open */
+  body:has(.mobile-menu-overlay.open) {
+    overflow: hidden;
+  }
+</style>
+
 <script>
   const menuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
+  const menuOverlay = document.getElementById('mobile-menu-overlay');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const accordionTrigger = document.querySelector('.accordion-trigger');
+  const accordionContent = document.getElementById('initiatives-submenu');
 
+  // Open menu
   menuBtn?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
+    menuOverlay?.classList.add('open');
   });
 
-  // Scroll-based active navigation
+  // Close menu
+  closeBtn?.addEventListener('click', () => {
+    menuOverlay?.classList.remove('open');
+    // Also close accordion
+    accordionTrigger?.setAttribute('aria-expanded', 'false');
+    accordionContent?.classList.remove('open');
+  });
+
+  // Close menu when clicking a link (except accordion trigger)
+  menuOverlay?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menuOverlay?.classList.remove('open');
+    });
+  });
+
+  // Accordion toggle
+  accordionTrigger?.addEventListener('click', () => {
+    const isExpanded = accordionTrigger.getAttribute('aria-expanded') === 'true';
+    accordionTrigger.setAttribute('aria-expanded', String(!isExpanded));
+    accordionContent?.classList.toggle('open');
+  });
+
+  // Scroll-based active navigation (desktop only)
   const sections = ['aboutUs', 'initiatives', 'events'];
   const navLinks = document.querySelectorAll('[data-nav-item]');
 
@@ -101,13 +290,11 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
       link.classList.add('text-text-dark');
 
       if (sectionId === null || sectionId === 'home') {
-        // At top of page - highlight Home with underline
         if (linkSection === 'home') {
           link.classList.remove('text-text-dark');
           link.classList.add('text-primary', 'border-b-2', 'border-primary');
         }
       } else if (linkSection === sectionId) {
-        // In a section - highlight that section in green (no underline)
         link.classList.remove('text-text-dark');
         link.classList.add('text-primary');
       }
@@ -127,20 +314,17 @@ const isInitiativePage = currentPath.startsWith('/initiatives/');
       { threshold: 0.3, rootMargin: '-100px 0px -50% 0px' }
     );
 
-    // Observe each section
     sections.forEach((sectionId) => {
       const section = document.getElementById(sectionId);
       if (section) observer.observe(section);
     });
 
-    // Handle scroll to top (show Home as active)
     window.addEventListener('scroll', () => {
       if (window.scrollY < 200) {
         setActiveNav('home');
       }
     });
 
-    // Initial state
     if (window.scrollY < 200) {
       setActiveNav('home');
     }

@@ -9,13 +9,40 @@ const subInitiatives = [
     description: 'Discover the Initiatives Led by the CGCS Team',
     image: '/images/2022/10/CentralTexasIssueSeries-1-scaled-e1756417885218.png',
     modalContent: {
-      description: 'The Central Texas Issue Series (CTIS) projects provide a platform for dialogue, coalition building, active collaboration, problem-solving, and action on issues of importance to Central Texas. Ongoing CTIS issue areas include climate, journalism, and public policy and law.',
-      highlights: [
-        'Climate & Sustainability – Addresses environmental challenges, promotes resilience, and fosters sustainable practices',
-        'Journalism & Media – Strengthens public media literacy and understanding of key issues; enhances the role of a free press in a democracy',
-        'Public Policy & Law – Promotes public policy innovation and legal literacy and agency on the part of the public',
+      description: 'The Central Texas Issue Series (CTIS) projects provide a platform for dialogue, coalition building, active collaboration, problem-solving, and action on issues of importance to Central Texas. The initiative identifies real-world problems with the goal of building a diverse coalition of students and community members that come together to create and implement solutions.',
+      accordionItems: [
+        {
+          title: 'Climate & Sustainability',
+          description: 'Addresses environmental challenges facing Central Texas and promotes community resilience through sustainable practices.',
+          details: [
+            'Environmental policy dialogue and community engagement',
+            'Sustainable practices education and implementation',
+            'Building coalitions to address climate challenges',
+            'Student-led sustainability initiatives',
+          ],
+        },
+        {
+          title: 'Journalism & Media',
+          description: 'Strengthens public media literacy and understanding of key issues while enhancing the role of a free press in democracy.',
+          details: [
+            'Media literacy education and workshops',
+            'Supporting local journalism initiatives',
+            'Understanding the role of press in democracy',
+            'Addressing misinformation and news literacy',
+          ],
+        },
+        {
+          title: 'Public Policy & Law',
+          description: 'Promotes public policy innovation and legal literacy to empower community members with agency and understanding.',
+          details: [
+            'Legal literacy education for the public',
+            'Policy innovation workshops',
+            'Community engagement in local governance',
+            'Understanding rights and civic responsibilities',
+          ],
+        },
       ],
-      lookingAhead: 'The CGCS continues to expand the Central Texas Issue Series to address emerging challenges and build coalitions across our community.',
+      lookingAhead: 'The CGCS continues to expand the Central Texas Issue Series to address emerging challenges and build coalitions across our community. We welcome new partnerships and student involvement.',
     },
   },
   {
@@ -24,10 +51,30 @@ const subInitiatives = [
     description: 'Explore Our Courses at ACC',
     image: '/images/2022/09/pexels-shox-28271058-2-scaled-e1756417731210.jpg',
     modalContent: {
-      description: 'The CGCS serves as an incubator and action arm in the development and implementation of Service Learning Classes. In cooperation with staff and academic departments across ACC and community partners, the CGCS is conceptualizing credit-yielding service learning courses designed to provide students with cross-functional professional skills applied against specific matters of concern to Central Texas and beyond.',
-      highlights: [
-        'Generative AI in Public Service – In partnership with ACC\'s Office of Experiential Learning, ACC\'s Business, Government & Technical Communications Program and the nonprofit "Public Service Desk," designing a course to build a generative AI application for a public institution',
-        'Countering Human Trafficking – In partnership with ACC\'s Office of Experiential Learning and the nonprofit "Skull Games," designing a course that will teach and apply open source intelligence collection and analysis in support of active law operations to liberate victims and prosecute suspected traffickers',
+      description: 'The CGCS serves as an incubator and action arm in the development and implementation of Service Learning Classes. In cooperation with staff and academic departments across ACC and community partners, we conceptualize credit-yielding service learning courses designed to provide students with cross-functional professional skills applied against specific matters of concern to Central Texas and beyond.',
+      accordionItems: [
+        {
+          title: 'Generative AI in Public Service',
+          description: 'A course designed to build a generative AI application for a public institution, providing hands-on experience with emerging technology.',
+          details: [
+            'Partnership with ACC\'s Office of Experiential Learning',
+            'Collaboration with ACC\'s Business, Government & Technical Communications Program',
+            'Working with nonprofit "Public Service Desk"',
+            'Building real AI applications for public sector use',
+            'Learning practical AI implementation skills',
+          ],
+        },
+        {
+          title: 'Countering Human Trafficking',
+          description: 'A course teaching open source intelligence (OSINT) collection and analysis in support of active law enforcement operations.',
+          details: [
+            'Partnership with ACC\'s Office of Experiential Learning',
+            'Collaboration with nonprofit "Skull Games"',
+            'Learning OSINT techniques and analysis',
+            'Supporting operations to liberate victims',
+            'Contributing to prosecution of suspected traffickers',
+          ],
+        },
       ],
       lookingAhead: 'The CGCS welcomes proposals and partners to launch new service learning courses that provide students with meaningful real-world experience while serving our communities.',
     },
@@ -38,22 +85,45 @@ const subInitiatives = [
 <BaseLayout title="Public Service Initiative">
   <!-- Hero Section -->
   <section class="relative py-20 bg-white">
-    <!-- Navigation Arrows -->
+    <!-- Mobile Navigation Arrows (top) -->
+    <div class="flex justify-between items-center px-4 mb-8 md:hidden">
+      <a
+        href="/initiatives/citizenship-tech"
+        class="w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+        aria-label="Previous initiative"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+      <span class="text-sm text-gray-500 font-medium">Browse Initiatives</span>
+      <a
+        href="/initiatives/civic-leadership"
+        class="w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+        aria-label="Next initiative"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Desktop Navigation Arrows (sides) -->
     <a
       href="/initiatives/citizenship-tech"
-      class="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-16 md:h-16 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+      class="hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-16 h-16 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
       aria-label="Previous initiative"
     >
-      <svg class="w-8 h-8 md:w-10 md:h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
     </a>
     <a
       href="/initiatives/civic-leadership"
-      class="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-16 md:h-16 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+      class="hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-16 h-16 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
       aria-label="Next initiative"
     >
-      <svg class="w-8 h-8 md:w-10 md:h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </a>
@@ -71,16 +141,16 @@ const subInitiatives = [
         </div>
 
         <div class="order-1 lg:order-2">
-          <p class="text-accent-orange font-medium mb-4">Serve your community</p>
+          <p class="text-accent-orange font-medium mb-4">Address Real World Community Problems</p>
           <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">
             Public Service Initiative
           </h1>
           <div class="space-y-4 text-text-light text-lg">
             <p>
-              The Public Service Initiative provides ACC students with meaningful opportunities to engage in acts of public service that contribute to addressing pressing real-world problems.
+              The CGCS conceptualizes, designs and executes events, programs, and projects designed to serve the community. The Public Service Initiative identifies specific real world problems with the goal of building a diverse coalition of students and community members that come together to create and implement solutions.
             </p>
             <p>
-              Working alongside peers, community members, and local government partners, students develop professional skills while making a tangible difference in their communities.
+              Explore our initiatives in greater detail to learn how you can gain experience and expertise while contributing to a tangible impact on our communities. Learn about specific issues, for example climate change or journalism, in order to work in small and large groups to craft a shared understanding and corresponding solutions to pressing issues.
             </p>
           </div>
         </div>
@@ -117,10 +187,55 @@ const subInitiatives = [
     </div>
   </section>
 
-  <!-- Collaboration CTA -->
+  <!-- Badges Section -->
   <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-text-dark mb-12">Badges</h2>
+
+      <!-- Technology & Civic Leadership Badge - Main Badge -->
+      <div class="main-badge-section">
+        <div class="main-badge-image">
+          <a href="https://app.suitable.co/institution/887/activities/470291" target="_blank" rel="noopener noreferrer">
+            <img
+              src="/images/technology-civic-leadership-badge.png"
+              alt="ACC Technology & Civic Leadership Badge"
+              width="280"
+              height="280"
+              class="w-full max-w-[280px] object-contain hover:scale-105 transition-transform"
+            />
+          </a>
+        </div>
+        <div class="main-badge-content">
+          <h3 class="main-badge-title">TECHNOLOGY & CIVIC LEADERSHIP BADGE</h3>
+          <p class="main-badge-text">
+            Earn a Technology & Civic Leadership badge by attending three qualifying events and completing a short reflection in <a href="https://app.suitable.co/login" target="_blank" rel="noopener noreferrer" class="text-link">Suitable</a>. Be sure to check in with the CGCS! We are working to create more badging opportunities.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mini Milestone Badges -->
+      <div class="milestone-section">
+        <p class="milestone-label">Qualifying Event Badges</p>
+        <p class="milestone-hint">Attend any 3 events from the options below to earn the Technology & Civic Leadership Badge</p>
+        <div class="milestone-badges">
+          <a href="https://austin-ai.org/events/" target="_blank" rel="noopener noreferrer" class="milestone-card group">
+            <img src="/images/2025/12/aaiaBrandedBadge.png" alt="Austin AI Alliance" loading="lazy" decoding="async" width="180" height="180" class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+          </a>
+          <a href="https://www.austinforum.org/events" target="_blank" rel="noopener noreferrer" class="milestone-card group">
+            <img src="/images/2025/12/aftsBrandedBadge.png" alt="Austin on Technology & Society" loading="lazy" decoding="async" width="180" height="180" class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+          </a>
+          <a href="https://www.meetup.com/austin-langchain-ai-group/" target="_blank" rel="noopener noreferrer" class="milestone-card group">
+            <img src="/images/2025/12/langchainBrandedBadge.png" alt="Austin LangChain AIMUG" loading="lazy" decoding="async" width="180" height="180" class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collaboration CTA -->
+  <section class="py-20 bg-gray-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <a href="/contact" class="group block bg-gray-100 rounded-3xl p-12 hover:bg-gray-200 transition-colors">
+      <a href="/contact" class="group block bg-white rounded-3xl p-12 shadow-lg hover:bg-gray-100 transition-colors">
         <h2 class="text-3xl font-bold text-text-dark mb-4">Propose a Collaboration</h2>
         <p class="text-text-light mb-6">Contact us to explore partnership opportunities</p>
         <span class="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
@@ -141,11 +256,21 @@ const subInitiatives = [
       image={item.image}
       description={item.modalContent.description}
       highlights={item.modalContent.highlights}
+      accordionItems={item.modalContent.accordionItems}
       lookingAhead={item.modalContent.lookingAhead}
     />
   ))}
 
   <script>
+    // Animated close function for modals
+    function closeWithAnimation(modal: HTMLDialogElement) {
+      modal.classList.add('closing');
+      modal.addEventListener('animationend', () => {
+        modal.classList.remove('closing');
+        modal.close();
+      }, { once: true });
+    }
+
     // Open modal on button click
     document.querySelectorAll('[data-modal]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -159,7 +284,7 @@ const subInitiatives = [
     document.querySelectorAll('.modal-close').forEach((btn) => {
       btn.addEventListener('click', () => {
         const dialog = btn.closest('dialog') as HTMLDialogElement;
-        dialog?.close();
+        closeWithAnimation(dialog);
       });
     });
 
@@ -167,9 +292,107 @@ const subInitiatives = [
     document.querySelectorAll('dialog').forEach((dialog) => {
       dialog.addEventListener('click', (e) => {
         if (e.target === dialog) {
-          (dialog as HTMLDialogElement).close();
+          closeWithAnimation(dialog as HTMLDialogElement);
         }
       });
     });
   </script>
+
+  <style>
+    .main-badge-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .main-badge-section {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+
+    .main-badge-image {
+      flex-shrink: 0;
+    }
+
+    .main-badge-content {
+      max-width: 600px;
+    }
+
+    .main-badge-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .main-badge-text {
+      color: #1e3a5f;
+      font-size: 1.125rem;
+      line-height: 1.8;
+    }
+
+    .milestone-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 2.5rem;
+    }
+
+    .milestone-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone-hint {
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .milestone-badges {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 540px;
+    }
+
+    @media (max-width: 640px) {
+      .milestone-badges {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+    }
+
+    .milestone-card {
+      display: block;
+      border: 2px solid #1e3a5f;
+      border-radius: 0.75rem;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .milestone-card:hover {
+      box-shadow: 0 4px 16px rgba(30, 58, 95, 0.15);
+    }
+
+    .text-link {
+      color: #00A651;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .text-link:hover {
+      color: #1e3a5f;
+    }
+  </style>
 </BaseLayout>

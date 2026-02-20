@@ -1,79 +1,241 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Modal from '../../components/Modal.astro';
+import SimulationsModal from '../../components/SimulationsModal.astro';
+import WorkshopModal from '../../components/WorkshopModal.astro';
+import PartnershipModal from '../../components/PartnershipModal.astro';
 
-const subInitiatives = [
+// Simulations data for the new SimulationsModal component
+const simulationsData = {
+  id: 'simulations-modal',
+  title: 'Simulations',
+  description: 'The CGCS develops simulations to train specific leadership skills and attributes and based on the specified skills and attributes develops learning and simulation objectives.',
+  bullets: [
+    'The CGCS is eager to work with Students, Staff, and Faculty to run existing simulations or to develop and run new simulations tailored to specific educational desires and needs. If interested, click the "Propose a Simulation" banner.',
+    'Each simulation is based on a scenario with roles developed for students to "play" in order to develop and practice leadership skills in a manner designed to provide specific, detailed feedback.',
+    'The CGCS offers Skill Building Workshops lasting two hours in length in advance of simulations to teach specific skill sets participants can apply during the simulation. Participation is optional and open regardless of whether scheduled to participate in a simulation or not.',
+    'The CGCS is in the process of developing a Civic Leadership Badge and eventually a micro-credential. Stay tuned for details.',
+  ],
+  stats: [
+    {
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>',
+      value: '86',
+      label: 'Participants who completed simulations',
+    },
+    {
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>',
+      value: '344',
+      label: 'Total leadership training hours delivered',
+    },
+  ],
+  simulations: [
+    {
+      id: 'virescenia',
+      name: 'Virescenia',
+      focus: 'Strategic Communication',
+      iconColor: '#f59e0b',
+      catalogueDescription: 'An Austin based bio-technology company has inadvertently created a novel disease. The Mayor has called a public meeting to address concerns and solicit citizen cooperation. Assume a role on the Mayor\'s team to prevent panic and obtain support or assume the role of a member of the public trying to shape city policy, influence your fellow residents, or obtain specific information.',
+      scenarioDescription: 'Local biotech company GeneSys created Luxaflora – a genetically modified house plant. It appears that Luxaflora has led to a new disease. Take on the role of either a government official or a member of the public and attend a public meeting called by the mayor to discuss the crisis.',
+      meta: {
+        age: '14+',
+        players: '20+',
+        duration: '4+ Hours',
+      },
+      image: '/images/simulation-virescenia.jpg',
+      learningObjectives: {
+        image: '/images/virescenia-learning-objectives.jpg',
+        objectives: [
+          '"Read a room" crafting and delivering messages to obtain information you need',
+          'Shape the behavior of either the government or the public',
+          'Obtain critical information or influence decision-making in high-pressure settings',
+        ],
+      },
+    },
+    {
+      id: 'genesys',
+      name: 'GeneSys',
+      focus: 'Ethical Decision-Making in Crisis',
+      iconColor: '#00A651',
+      catalogueDescription: 'The Austin based bio-tech company has called a meeting of its board to set priorities in dealing with the crisis (Virescenia). Attend the meeting as a member of the board (e.g. Chief Science Officer, Legal Counsel, etc) and employ ethical decision-making frameworks as you attempt to convince the board to adopt your specific priorities balancing ethics, personal interests, and time and event horizons.',
+      scenarioDescription: 'The Austin based bio-tech company has called a meeting of its board to set priorities regarding the crisis. Attend as a board member (Chief Science Officer, Legal Counsel, etc.) and employ ethical decision-making frameworks.',
+      meta: {
+        age: '14+',
+        players: '5+',
+        duration: '4+ Hours',
+      },
+      image: '/images/simulation-genesys.jpg',
+      learningObjectives: {
+        image: '/images/genesys-learning-objectives.jpg',
+        objectives: [
+          'Apply ethical theories (utilitarian, deontological) to complex decisions',
+          'Negotiate competing interests and stakeholder priorities',
+          'Build consensus while balancing personal and institutional ethics',
+        ],
+      },
+    },
+    {
+      id: 'family-dinner',
+      name: 'The Dysfunctional Family Dinner',
+      focus: 'Conflict Management & Resolution',
+      iconColor: '#00A651',
+      catalogueDescription: 'Join "your" dysfunctional family for a holiday dinner and navigate political debates, emotional dynamics, and hidden agendas. Shape and steer the conversation, manage and resolve conflict, so as to protect or propagate information and relationships.',
+      scenarioDescription: 'Navigate a family gathering with political debates and hidden agendas to manage conflict constructively during a holiday dinner. Shape and steer the conversation to protect relationships.',
+      meta: {
+        age: '14+',
+        players: '8+',
+        duration: '3+ Hours',
+      },
+      image: '/images/simulation-family-dinner.jpg',
+      learningObjectives: {
+        image: '/images/family-dinner-learning-objectives.jpg',
+        objectives: [
+          'Strengthen conflict resolution and de-escalation skills',
+          'Adapt communication styles to different personalities',
+          'Engineer off-ramps from heated discussions while preserving relationships',
+        ],
+      },
+    },
+  ],
+};
+
+// Card data for the grid (includes simulations)
+const cardItems = [
   {
     id: 'simulations-modal',
     title: 'Simulations',
     description: 'Our Custom Simulations Catalogue',
-    image: '/images/2025/10/CIVIC-DELIBERATION-SIMULATION.png',
-    modalContent: {
-      description: 'The CGCS develops simulations to train specific leadership skills and attributes. Each simulation is based on a scenario with roles developed for students to "play" in order to develop and practice leadership skills in a manner designed to provide specific, detailed feedback.',
-      highlights: [
-        'Virescenia – Focus: Strategic Communication. An Austin-based bio-technology company has inadvertently created a novel disease. Assume a role on the Mayor\'s team or as a member of the public trying to shape city policy',
-        'GeneSys – Focus: Ethical Decision-Making in Crisis. Attend the board meeting as a member (Chief Science Officer, Legal Counsel, etc.) and employ ethical decision-making frameworks',
-        'The Dysfunctional Family Dinner – Focus: Conflict Management & Resolution. Navigate political debates, emotional dynamics, and hidden agendas at a holiday dinner',
-        'Skill Building Workshops available in advance of simulations to teach specific skill sets',
-      ],
-      lookingAhead: 'The CGCS is in the process of developing a Civic Leadership Badge and eventually a micro-credential. The CGCS is eager to work with Students, Staff, and Faculty to run existing simulations or develop new ones tailored to specific educational needs.',
-    },
+    image: '/images/simulations-lego.jpg',
   },
   {
     id: 'workshop-modal',
     title: 'Skill Building Workshop',
     description: 'Teaching and Training Leaders',
     image: '/images/2025/12/Workshop-e1764893389549.jpg',
-    modalContent: {
-      description: 'The CGCS develops skill building workshops to teach and train specific leadership skills and attributes. Workshops employ a blend of lectures, video-based learning, limited role playing, and discussion. Workshops are designed to support simulations by teaching skills that may be further developed in the more rigorous environment of a simulation.',
-      highlights: [
-        'Strategic Communication – Reading a room, establishing a presence, targeting messages, and developing and delivering messages (supports Virescenia simulation)',
-        'Ethical Decision-Making – Utilitarian and deontological reasoning, balancing personal and professional perspectives, negotiating positions, and building consensus (supports GeneSys simulation)',
-        'Conflict Management & Resolution – Discerning perspectives, building empathy, active listening, designing conversations, and engineering off-ramps (supports Dysfunctional Family Dinner simulation)',
-        'Braver Angels – Engaging across political differences, practicing intellectual humility, recognizing polarization dynamics, and listening to understand',
-      ],
-      lookingAhead: 'The CGCS is willing to conduct workshops at each of ACC\'s campuses and is developing a Civic Leadership Badge and micro-credential. One does not have to participate in simulations to participate in workshops.',
-    },
   },
   {
     id: 'partnership-modal',
     title: 'Government Partnership',
     description: 'Enabling Initiatives that Serve the Community',
     image: '/images/2025/05/pexels-sora-shimazaki-5668430-scaled-e1756419707638.jpg',
-    modalContent: {
-      description: 'The CGCS launched this mission area in the fall of 2024 by partnering with the City of Austin in the Open Government Partnership (OGP), a multilateral initiative aimed at securing commitments from local governments to promote open government, combat corruption, and improve governance.',
-      highlights: [
-        'Partnership with City of Austin in the Open Government Partnership (OGP)',
-        'ACC students form the monitoring body reporting on city performance',
-        'Students placed in leadership and substantive positions',
-        'Building skills and relationships while improving local governance',
-        'Contributing to multilateral initiatives promoting transparency',
-      ],
-      lookingAhead: 'The CGCS is working to form other projects with local governments that place students in leadership and substantive positions that build skills and relationships while contributing to improving local governance and communities.',
-    },
   },
 ];
+
+// Workshop data for the WorkshopModal component
+const workshopData = {
+  id: 'workshop-modal',
+  title: 'Skill Building Workshop',
+  description: 'The CGCS develops skill building workshops to teach and train specific leadership skills and attributes. Workshops employ a blend of lectures, video-based learning, limited role playing, and discussion.',
+  bullets: [
+    'The CGCS is eager to work with Students, Staff, and Faculty to run existing workshops or to develop and run new workshops tailored to specific educational desires and needs. If interested, click the "Propose a Collaboration" button.',
+    'Workshops are designed to support simulations by teaching and training skills so that they may be further developed in the more rigorous environment of a simulation. One does not have to participate in simulations to participate in workshops.',
+    'The CGCS is willing to conduct workshops at each of ACC\'s campuses.',
+    'The CGCS is in the process of developing a Civic Leadership Badge and eventually a micro-credential. Stay tuned for details.',
+  ],
+  workshops: [
+    {
+      id: 'strategic-communication',
+      title: 'Strategic Communication',
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>',
+      iconColor: '#00A651',
+      description: 'Skills include reading a room, establishing a presence, targeting messages, and developing and delivering messages. This workshop supports the "Virescenia" simulation, but one does not have to participate in the simulation to attend the workshop.',
+    },
+    {
+      id: 'ethical-decision',
+      title: 'Ethical Decision-Making',
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>',
+      iconColor: '#6366f1',
+      description: 'Skills include an orientation to utilitarian and deontological reasoning, consideration of time and event horizons, balancing personal and professional perspectives, negotiating positions, and building consensus. This workshop supports the "GeneSys" simulation, but one does not have to participate in the simulation to attend the workshop.',
+    },
+    {
+      id: 'conflict-management',
+      title: 'Conflict Management & Resolution',
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.48 10.41c-.39.39-1.04.39-1.43 0l-4.47-4.46-7.05 7.04-.66-.63 3.9-3.9-1.42-1.43L9.28 3.1c.56-.56 1.45-.57 2.02-.01l4.47 4.46c.4.4.4 1.04.01 1.44l-.3.3 5.49 5.49-1.42 1.42-5.49-5.49-.08.08zM12 8l-2.38 2.38 2.38 2.38 2.38-2.38L12 8zM2.29 18.88l1.41 1.41 2.12-2.12-1.41-1.41-2.12 2.12zm3.54-3.54l1.41 1.41 5.66-5.66-1.41-1.41-5.66 5.66z"/></svg>',
+      iconColor: '#f59e0b',
+      description: 'Skills include discerning the perspectives of others, building empathy, practicing genuine curiosity, active listening, designing conversations, creating interventions, reconciling perspectives, and engineering off-ramps and exits. This workshop supports "The Dysfunctional Family Dinner" simulation, but one does not have to participate in the simulation to attend the workshop.',
+    },
+    {
+      id: 'braver-angels',
+      title: 'Braver Angels',
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.1 18.55L12 18.65l-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05zM16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg>',
+      iconColor: '#ec4899',
+      description: 'Skills include engaging across political and ideological differences, practicing intellectual humility, recognizing polarization dynamics, articulating values without demonization, and listening to understand rather than to win. This workshop supports Braver Angels-style depolarization dialogues and civic conversations, but participants do not need prior experience or affiliation with Braver Angels to attend the workshop.',
+    },
+  ],
+};
+
+// Partnership data for the PartnershipModal component
+const partnershipData = {
+  id: 'partnership-modal',
+  title: 'Government Partnership',
+  description: '<strong>The CGCS launched this mission area</strong> in the fall of 2024 <strong>by partnering with the City of Austin in the Open Government Partnership (OGP), a multilateral initiative aimed at securing commitments from local governments to promote open government, combat corruption, and improve governance</strong>. Participants are required to form a monitoring body to report on implementation through the U.S. government to the OGP. In partnership with the city, ACC students have formed the monitoring body and will report on the city\'s performance at the end of 2025.',
+  callout: 'The CGCS is working to form other projects with local governments that place students in leadership and substantive positions that build skills and relationships while contributing to improving local governance and communities.',
+  bentoImages: {
+    banner: {
+      src: '/images/partnership-ogp-banner.jpg',
+      alt: 'Austin, Texas Open Government Action Plan',
+      url: 'https://www.austintexas.gov/department/open-government-partnership',
+    },
+    topRight: {
+      src: '/images/partnership-group-2.jpg',
+      alt: 'Community youth program',
+    },
+    bottomLeft: {
+      src: '/images/partnership-group-1.jpg',
+      alt: 'Open Government Partnership participants',
+    },
+    bottomRight: {
+      src: '/images/partnership-document.jpg',
+      alt: 'Austin Homelessness Advisory Council document',
+    },
+  },
+  link: {
+    text: 'City of Austin Open Government Partnership',
+    url: 'https://www.austintexas.gov/department/open-government-partnership',
+  },
+};
 ---
 
 <BaseLayout title="Civic Leadership Initiative">
   <!-- Hero Section -->
   <section class="relative py-20 bg-white">
-    <!-- Navigation Arrows -->
+    <!-- Mobile Navigation Arrows (top) -->
+    <div class="flex justify-between items-center px-4 mb-8 md:hidden">
+      <a
+        href="/initiatives/public-service"
+        class="w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+        aria-label="Previous initiative"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+      <span class="text-sm text-gray-500 font-medium">Browse Initiatives</span>
+      <a
+        href="/initiatives/citizenship-tech"
+        class="w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+        aria-label="Next initiative"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Desktop Navigation Arrows (sides) -->
     <a
       href="/initiatives/public-service"
-      class="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-16 md:h-16 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+      class="hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-16 h-16 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
       aria-label="Previous initiative"
     >
-      <svg class="w-8 h-8 md:w-10 md:h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
     </a>
     <a
       href="/initiatives/citizenship-tech"
-      class="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-16 md:h-16 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+      class="hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-16 h-16 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
       aria-label="Next initiative"
     >
-      <svg class="w-8 h-8 md:w-10 md:h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </a>
@@ -91,16 +253,16 @@ const subInitiatives = [
         </div>
 
         <div class="order-1 lg:order-2">
-          <p class="text-accent-orange font-medium mb-4">Lead with purpose</p>
+          <p class="text-accent-orange font-medium mb-4">Serve Our Community While Learning</p>
           <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">
             Civic Leadership Initiative
           </h1>
           <div class="space-y-4 text-text-light text-lg">
             <p>
-              The Civic Leadership Initiative provides ACC students with transformative experiences designed to teach and enhance leadership skills in realistic environments.
+              The CGCS conceptualizes, designs and executes projects designed to serve the community. Participants serve alongside their peers to deliver a tangible real-world impact on pressing issues in their community. Further, participants develop professional skills that further their professional aspirations.
             </p>
             <p>
-              Through simulations, workshops, and government partnerships, students develop capabilities applicable to professional life and democratic citizenship.
+              The CGCS serves as an incubator and action arm working with students, faculty, staff, as well as public and private organizations. Emerging initiatives focus on the development of generative AI applications for public service and countering human trafficking. We are actively seeking partners for future initiatives.
             </p>
           </div>
         </div>
@@ -114,7 +276,7 @@ const subInitiatives = [
       <h2 class="text-3xl font-bold text-text-dark text-center mb-12">Our Programs</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {subInitiatives.map((item) => (
+        {cardItems.map((item) => (
           <button data-modal={item.id} class="group text-left w-full">
             <div class="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow h-full">
               <div class="aspect-[4/3]">
@@ -137,10 +299,55 @@ const subInitiatives = [
     </div>
   </section>
 
-  <!-- Collaboration CTA -->
+  <!-- Badges Section -->
   <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-text-dark mb-12">Badges</h2>
+
+      <!-- Technology & Civic Leadership Badge - Main Badge -->
+      <div class="main-badge-section">
+        <div class="main-badge-image">
+          <a href="https://app.suitable.co/institution/887/activities/470291" target="_blank" rel="noopener noreferrer">
+            <img
+              src="/images/technology-civic-leadership-badge.png"
+              alt="ACC Technology & Civic Leadership Badge"
+              width="280"
+              height="280"
+              class="w-full max-w-[280px] object-contain hover:scale-105 transition-transform"
+            />
+          </a>
+        </div>
+        <div class="main-badge-content">
+          <h3 class="main-badge-title">TECHNOLOGY & CIVIC LEADERSHIP BADGE</h3>
+          <p class="main-badge-text">
+            Earn a Technology & Civic Leadership badge by attending three qualifying events and completing a short reflection in <a href="https://app.suitable.co/login" target="_blank" rel="noopener noreferrer" class="text-link">Suitable</a>. Be sure to check in with the CGCS! We are working to create more badging opportunities.
+          </p>
+        </div>
+      </div>
+
+      <!-- Mini Milestone Badges -->
+      <div class="milestone-section">
+        <p class="milestone-label">Qualifying Event Badges</p>
+        <p class="milestone-hint">Attend any 3 events from the options below to earn the Technology & Civic Leadership Badge</p>
+        <div class="milestone-badges">
+          <a href="https://austin-ai.org/events/" target="_blank" rel="noopener noreferrer" class="milestone-card group">
+            <img src="/images/2025/12/aaiaBrandedBadge.png" alt="Austin AI Alliance" loading="lazy" decoding="async" width="180" height="180" class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+          </a>
+          <a href="https://www.austinforum.org/events" target="_blank" rel="noopener noreferrer" class="milestone-card group">
+            <img src="/images/2025/12/aftsBrandedBadge.png" alt="Austin on Technology & Society" loading="lazy" decoding="async" width="180" height="180" class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+          </a>
+          <a href="https://www.meetup.com/austin-langchain-ai-group/" target="_blank" rel="noopener noreferrer" class="milestone-card group">
+            <img src="/images/2025/12/langchainBrandedBadge.png" alt="Austin LangChain AIMUG" loading="lazy" decoding="async" width="180" height="180" class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collaboration CTA -->
+  <section class="py-20 bg-gray-50">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <a href="/contact" class="group block bg-gray-100 rounded-3xl p-12 hover:bg-gray-200 transition-colors">
+      <a href="/contact" class="group block bg-white rounded-3xl p-12 shadow-lg hover:bg-gray-100 transition-colors">
         <h2 class="text-3xl font-bold text-text-dark mb-4">Propose a Collaboration</h2>
         <p class="text-text-light mb-6">Contact us to explore partnership opportunities</p>
         <span class="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
@@ -153,19 +360,48 @@ const subInitiatives = [
     </div>
   </section>
 
-  <!-- Modals -->
-  {subInitiatives.map((item) => (
-    <Modal
-      id={item.id}
-      title={item.title}
-      image={item.image}
-      description={item.modalContent.description}
-      highlights={item.modalContent.highlights}
-      lookingAhead={item.modalContent.lookingAhead}
-    />
-  ))}
+  <!-- Simulations Modal (custom component) -->
+  <SimulationsModal
+    id={simulationsData.id}
+    title={simulationsData.title}
+    description={simulationsData.description}
+    bullets={simulationsData.bullets}
+    stats={simulationsData.stats}
+    simulations={simulationsData.simulations}
+  />
+
+  <!-- Workshop Modal (custom component) -->
+  <WorkshopModal
+    id={workshopData.id}
+    title={workshopData.title}
+    description={workshopData.description}
+    bullets={workshopData.bullets}
+    workshops={workshopData.workshops}
+  />
+
+  <!-- Partnership Modal (custom component) -->
+  <PartnershipModal
+    id={partnershipData.id}
+    title={partnershipData.title}
+    description={partnershipData.description}
+    callout={partnershipData.callout}
+    bentoImages={partnershipData.bentoImages}
+    link={partnershipData.link}
+  />
 
   <script>
+    // Animated close function for modals
+    function closeWithAnimation(modal: HTMLDialogElement) {
+      modal.classList.add('closing');
+      modal.addEventListener('animationend', () => {
+        modal.classList.remove('closing');
+        modal.close();
+      }, { once: true });
+    }
+
+    // Custom modals that handle their own close
+    const customModals = ['simulations-modal', 'workshop-modal', 'partnership-modal'];
+
     // Open modal on button click
     document.querySelectorAll('[data-modal]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -175,21 +411,123 @@ const subInitiatives = [
       });
     });
 
-    // Close modal on X button click
+    // Close modal on X button click (exclude custom modals which handle their own)
     document.querySelectorAll('.modal-close').forEach((btn) => {
+      const dialog = btn.closest('dialog') as HTMLDialogElement;
+      if (customModals.includes(dialog?.id)) return;
+
       btn.addEventListener('click', () => {
-        const dialog = btn.closest('dialog') as HTMLDialogElement;
-        dialog?.close();
+        closeWithAnimation(dialog);
       });
     });
 
-    // Close modal on backdrop click
+    // Close modal on backdrop click (exclude custom modals which handle their own)
     document.querySelectorAll('dialog').forEach((dialog) => {
+      if (customModals.includes(dialog.id)) return;
+
       dialog.addEventListener('click', (e) => {
         if (e.target === dialog) {
-          (dialog as HTMLDialogElement).close();
+          closeWithAnimation(dialog as HTMLDialogElement);
         }
       });
     });
   </script>
+
+  <style>
+    .main-badge-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .main-badge-section {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+
+    .main-badge-image {
+      flex-shrink: 0;
+    }
+
+    .main-badge-content {
+      max-width: 600px;
+    }
+
+    .main-badge-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .main-badge-text {
+      color: #1e3a5f;
+      font-size: 1.125rem;
+      line-height: 1.8;
+    }
+
+    .milestone-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 2.5rem;
+    }
+
+    .milestone-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone-hint {
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .milestone-badges {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 540px;
+    }
+
+    @media (max-width: 640px) {
+      .milestone-badges {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+    }
+
+    .milestone-card {
+      display: block;
+      border: 2px solid #1e3a5f;
+      border-radius: 0.75rem;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .milestone-card:hover {
+      box-shadow: 0 4px 16px rgba(30, 58, 95, 0.15);
+    }
+
+    .text-link {
+      color: #00A651;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .text-link:hover {
+      color: #1e3a5f;
+    }
+  </style>
 </BaseLayout>

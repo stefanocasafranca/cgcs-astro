@@ -10,15 +10,45 @@ const subInitiatives = [
     image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2025/12/Save-the-Date1-scaled.png?fit=2560%2C2560&ssl=1',
     imagePosition: 'object-top',
     modalContent: {
-      description: 'RiverHacks is a bi-annual, student-focused hackathon hosted by Austin Community College (ACC) that brings together tech talent to develop innovative, tech-driven solutions for real-world civic challenges in areas like public safety, housing, education, sustainability and the space industry, also yearly partnering with organizations like NASA for global challenges in the Fall Edition.',
-      highlights: [
-        '32-hour event where teams code, build prototypes, and present solutions',
-        'Focus on real-world civic challenges and community impact',
-        'Partnership with organizations like NASA for global challenges',
-        'Open to students and aspiring innovators in the Austin area',
-        'Fostering community, learning, and real-world impact',
+      description: 'RiverHacks is a biannual, student-focused hackathon hosted by Austin Community College that assembles tech talent to develop innovative solutions addressing real-world civic challenges. The event fosters community engagement while providing opportunities for emerging developers to tackle meaningful problems.',
+      stats: [
+        { label: 'Event Duration', value: '32 hrs' },
+        { label: 'Focus Areas', value: '5+' },
       ],
-      lookingAhead: 'RiverHacks continues to grow with each edition, expanding partnerships and tackling new civic and technological challenges facing our communities.',
+      accordionItems: [
+        {
+          title: 'Event Format & Structure',
+          description: 'A 32-hour intensive event where teams collaborate to build technology-driven solutions for civic challenges.',
+          details: [
+            'Teams code, build prototypes, and present solutions',
+            'Focus on real-world civic challenges and community impact',
+            'Mentorship from industry professionals',
+            'Prizes and recognition for innovative solutions',
+          ],
+        },
+        {
+          title: 'Focus Areas',
+          description: 'RiverHacks addresses pressing challenges across multiple civic domains.',
+          details: [
+            'Public Safety – Building tools to enhance community safety',
+            'Housing – Addressing housing accessibility and affordability',
+            'Education – Creating technology solutions for learning',
+            'Sustainability – Developing environmental solutions',
+            'Space Industry – Partnering with NASA for global challenges',
+          ],
+        },
+        {
+          title: 'Who Can Participate',
+          description: 'RiverHacks is open to students and aspiring innovators in the Austin region.',
+          details: [
+            'ACC students and students from partner institutions',
+            'Aspiring developers and technologists',
+            'No prior hackathon experience required',
+            'Teams formed on-site or register with existing team',
+          ],
+        },
+      ],
+      lookingAhead: 'RiverHacks continues to grow with each edition, expanding partnerships with organizations like NASA, SerpApi, and WebAI while tackling new civic and technological challenges facing our communities.',
     },
   },
   {
@@ -27,11 +57,38 @@ const subInitiatives = [
     description: 'Dive Into the Tech World',
     image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2025/12/Workshop-e1764893389549.jpeg?fit=900%2C900&ssl=1',
     modalContent: {
-      description: 'Skill Building Workshops in Citizenship & Tech are hands-on learning experiences that develop practical, human-centered technology skills ranging from applied AI literacy to ethical decision-making and strategic communication through workshops and other CGCS programs.',
-      highlights: [
-        'Applied AI Literacy & Productivity – Build practical understanding of how AI tools are used in real-world professional contexts—not theory, but hands-on application',
-        'Strategic Communication & Collaboration – AI-centered environments demand stronger human communication skills—especially when working across technical and non-technical roles',
-        'Ethical & Civic Decision-Making in Technology – Strengthen your ability to make responsible, values-driven decisions when technology impacts people, institutions, and communities',
+      description: 'Skill Building Workshops in Citizenship & Tech are hands-on learning experiences that develop practical, human-centered technology skills. Our workshops range from applied AI literacy to ethical decision-making and strategic communication—all designed to empower you in an increasingly digital world.',
+      accordionItems: [
+        {
+          title: 'Applied AI Literacy & Productivity',
+          description: 'Build practical understanding of how AI tools are used in real-world professional contexts—not theory, but hands-on application.',
+          details: [
+            'Learn to use AI tools effectively in professional settings',
+            'Understand AI capabilities and limitations',
+            'Hands-on practice with current AI platforms',
+            'Build workflows that leverage AI productivity',
+          ],
+        },
+        {
+          title: 'Strategic Communication & Collaboration',
+          description: 'AI-centered environments demand stronger human communication skills—especially when working across technical and non-technical roles.',
+          details: [
+            'Communicating technical concepts to non-technical audiences',
+            'Collaborating effectively in mixed-skill teams',
+            'Presenting ideas and solutions clearly',
+            'Building consensus and managing feedback',
+          ],
+        },
+        {
+          title: 'Ethical & Civic Decision-Making in Technology',
+          description: 'Strengthen your ability to make responsible, values-driven decisions when technology impacts people, institutions, and communities.',
+          details: [
+            'Understanding ethical frameworks in technology',
+            'Evaluating technology\'s impact on communities',
+            'Making responsible decisions in digital contexts',
+            'Balancing innovation with societal responsibility',
+          ],
+        },
       ],
       lookingAhead: 'Join us for the AI Summer Intensive, a 3-day event presented by the Austin AI Alliance (AAIA) with CGCS support, where Executives, Developers, and the general public can get trained on the latest trends of AI in the real world.',
     },
@@ -43,12 +100,57 @@ const subInitiatives = [
     image: 'https://i0.wp.com/cgcsacc.org/wp-content/uploads/2025/12/aaiaMonthlies-e1766090505407.jpeg?fit=1536%2C1536&ssl=1',
     modalContent: {
       description: 'CGCS hosts monthly tech-related events that connect technology, civic engagement, and community impact. Through workshops, talks, and collaborative meetups with local partners, participants explore how emerging technologies influence society—no technical experience required.',
-      highlights: [
-        'ATX Design Jams – Hands-on design sessions addressing local non-profit, civic, and environmental challenges through human-centered design and rapid problem-solving',
-        'Austin AI Alliance (AAIA) – Community events exploring artificial intelligence, its real-world applications, and its social, ethical, and civic implications',
-        'Austin Forum for Technology & Society – Public conversations examining how emerging technologies intersect with democracy, ethics, public policy, and society',
-        'Austin LangChain AIMUG – Practitioner-focused meetup for building AI applications using modern frameworks',
-        'ACM Austin Chapter Meetups – Gatherings on software best practices, cloud, and applied AI with technical talks and live demos',
+      accordionItems: [
+        {
+          title: 'ATX Design Jams',
+          description: 'Collaborative design sessions addressing local nonprofit and civic challenges through human-centered design and rapid problem-solving.',
+          details: [
+            'Hands-on design thinking workshops',
+            'Address real challenges from local nonprofits',
+            'Rapid prototyping and ideation sessions',
+            'Build portfolio-worthy project experience',
+          ],
+        },
+        {
+          title: 'Austin AI Alliance (AAIA)',
+          description: 'Community events and workshops exploring artificial intelligence applications and their social, ethical, and civic implications.',
+          details: [
+            'Learn about AI developments and applications',
+            'Explore ethical implications of AI technology',
+            'Network with AI practitioners and enthusiasts',
+            'Hands-on demos and interactive sessions',
+          ],
+        },
+        {
+          title: 'Austin Forum for Technology & Society',
+          description: 'Public conversations examining how emerging technologies intersect with democracy, ethics, public policy, and society.',
+          details: [
+            'Panel discussions with experts and thought leaders',
+            'Explore technology\'s role in democracy',
+            'Examine public policy implications',
+            'Engage in meaningful civic dialogue',
+          ],
+        },
+        {
+          title: 'Austin LangChain AIMUG',
+          description: 'Practitioner-focused meetup for developers and enthusiasts learning about building AI applications using modern frameworks.',
+          details: [
+            'Technical deep-dives into AI frameworks',
+            'Hands-on coding sessions',
+            'Learn from experienced practitioners',
+            'Build real AI applications',
+          ],
+        },
+        {
+          title: 'ACM Austin Chapter Meetups',
+          description: 'Gatherings featuring technical talks, live demos, and peer discussions on software practices, cloud computing, and applied AI.',
+          details: [
+            'Industry-standard software best practices',
+            'Cloud computing technologies',
+            'Applied AI implementations',
+            'Live demonstrations and Q&A sessions',
+          ],
+        },
       ],
       lookingAhead: 'Earn ACC-verified digital badges through Suitable by attending our monthly events. Badges can be shared on LinkedIn and stacked to show real growth beyond the classroom.',
     },
@@ -57,19 +159,19 @@ const subInitiatives = [
 
 const badges = [
   {
-    title: 'ATX Design Jam',
-    image: '/images/2025/12/atx_design_jam-1.webp',
-    href: 'https://app.suitable.co/institution/887/activities/470289',
+    title: 'Austin AI Alliance',
+    image: '/images/2025/12/aaiaBrandedBadge.png',
+    href: 'https://austin-ai.org/events/',
   },
   {
-    title: 'Austin AI Alliance',
-    image: '/images/2025/12/aaiaBrandedBadge.webp',
-    href: 'https://app.suitable.co/institution/887/activities/470290',
+    title: 'Austin on Technology & Society',
+    image: '/images/2025/12/aftsBrandedBadge.png',
+    href: 'https://www.austinforum.org/events',
   },
   {
     title: 'Austin LangChain AIMUG',
-    image: '/images/2025/12/langchainBrandedBadge.webp',
-    href: 'https://app.suitable.co/institution/887/activities/470288',
+    image: '/images/2025/12/langchainBrandedBadge.png',
+    href: 'https://www.meetup.com/austin-langchain-ai-group/',
   },
 ];
 ---
@@ -77,22 +179,45 @@ const badges = [
 <BaseLayout title="Citizenship & Tech Initiative">
   <!-- Hero Section -->
   <section class="relative py-20 bg-white">
-    <!-- Navigation Arrows -->
+    <!-- Mobile Navigation Arrows (top) -->
+    <div class="flex justify-between items-center px-4 mb-8 md:hidden">
+      <a
+        href="/initiatives/civic-leadership"
+        class="w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+        aria-label="Previous initiative"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+      <span class="text-sm text-gray-500 font-medium">Browse Initiatives</span>
+      <a
+        href="/initiatives/public-service"
+        class="w-12 h-12 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+        aria-label="Next initiative"
+      >
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Desktop Navigation Arrows (sides) -->
     <a
       href="/initiatives/civic-leadership"
-      class="absolute left-2 md:left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-16 md:h-16 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+      class="hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-10 w-16 h-16 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
       aria-label="Previous initiative"
     >
-      <svg class="w-8 h-8 md:w-10 md:h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
     </a>
     <a
       href="/initiatives/public-service"
-      class="absolute right-2 md:right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-14 h-14 md:w-16 md:h-16 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
+      class="hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-10 w-16 h-16 bg-white shadow-lg rounded-full items-center justify-center hover:bg-gray-50 hover:scale-110 transition-all"
       aria-label="Next initiative"
     >
-      <svg class="w-8 h-8 md:w-10 md:h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </a>
@@ -110,16 +235,16 @@ const badges = [
         </div>
 
         <div class="order-1 lg:order-2">
-          <p class="text-accent-orange font-medium mb-4">Learn about tech for community wellness</p>
+          <p class="text-accent-orange font-medium mb-4">Learn About Tech For Community Wellness</p>
           <h1 class="text-4xl md:text-5xl font-bold text-text-dark mb-6">
             Citizenship & Tech Initiative
           </h1>
           <div class="space-y-4 text-text-light text-lg">
             <p>
-              "The Citizenship & Tech Initiative addresses one of the defining challenges of our time: ensuring that rapid technological advancement strengthens rather than erodes our civic institutions. We operate on the philosophy that true 'digital citizenship' requires more than just technical literacy; it demands the ethical framework and critical agency to navigate an automated world."
+              The Citizenship & Tech Initiative addresses one of the defining challenges of our time: ensuring that rapid technological advancement strengthens rather than erodes our civic institutions. We operate on the philosophy that true 'digital citizenship' requires more than just technical literacy; it demands the ethical framework and critical agency to navigate an automated world.
             </p>
             <p>
-              The CGCS acts as a collaborative hub, bringing people together around technology to solve shared citizen and community challenges. We design programs that impart technology skills while developing stronger community bonds and enabling participants to make real-world contributions.
+              The CGCS acts as a collaborative hub, bringing people together around technology to solve shared citizen and community challenges. We design programs that impart technology skills while developing stronger community bonds and enabling participants to make real-world contributions. Our goal is to empower every member of our community, to build resilience and agency to master the digital tools that shape our lives, optimizing their ability to participate in our democracy.
             </p>
           </div>
         </div>
@@ -160,45 +285,49 @@ const badges = [
   <!-- Badges Section -->
   <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold text-text-dark mb-8">Badges</h2>
+      <h2 class="text-4xl font-bold text-text-dark mb-12">Badges</h2>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <div class="space-y-4 text-text-light">
-          <p>
-            Turn participation into proof. Get the{' '}
-            <span class="text-text-dark font-medium">
-              Micro-credential in{' '}
-              <a href="https://app.suitable.co/institution/887/activities/470291" class="text-primary hover:underline">
-                "Technology & Civic Leadership"
-              </a>
-            </span>{' '}
-            recognized by ACC.
-          </p>
-          <p>
-            Earn the three ACC-verified digital badges through Suitable to document your engagement, skills, and reflections. Badges can be shared on LinkedIn, saved long-term, and stacked to show real growth beyond the classroom—free with your ACC email in{' '}
-            <a href="https://app.suitable.co/login" class="text-primary hover:underline">Suitable</a>.
-          </p>
-          <p>
-            Our goal is to create badges for each of the three CGCS Initiatives: Civic Leadership, Public Service and Citizenship & Tech. More badges coming soon!
+      <!-- Technology & Civic Leadership Badge - Main Badge -->
+      <div class="main-badge-section">
+        <div class="main-badge-image">
+          <a href="https://app.suitable.co/institution/887/activities/470291" target="_blank" rel="noopener noreferrer">
+            <img
+              src="/images/technology-civic-leadership-badge.png"
+              alt="ACC Technology & Civic Leadership Badge"
+              width="280"
+              height="280"
+              class="w-full max-w-[280px] object-contain hover:scale-105 transition-transform"
+            />
+          </a>
+        </div>
+        <div class="main-badge-content">
+          <h3 class="main-badge-title">TECHNOLOGY & CIVIC LEADERSHIP BADGE</h3>
+          <p class="main-badge-text">
+            Earn a Technology & Civic Leadership badge by attending three qualifying events and completing a short reflection in <a href="https://app.suitable.co/login" target="_blank" rel="noopener noreferrer" class="text-link">Suitable</a>. Be sure to check in with the CGCS! We are working to create more badging opportunities.
           </p>
         </div>
+      </div>
 
-        <div class="grid grid-cols-3 gap-4">
+      <!-- Mini Milestone Badges -->
+      <div class="milestone-section">
+        <p class="milestone-label">Qualifying Event Badges</p>
+        <p class="milestone-hint">Attend any 3 events from the options below to earn the Technology & Civic Leadership Badge</p>
+        <div class="milestone-badges">
           {badges.map((badge) => (
             <a
               href={badge.href}
               target="_blank"
               rel="noopener noreferrer"
-              class="hover:scale-105 transition-transform"
+              class="milestone-card group"
             >
               <img
                 src={badge.image}
                 alt={badge.title}
                 loading="lazy"
                 decoding="async"
-                width="300"
-                height="300"
-                class="w-full aspect-square object-contain"
+                width="180"
+                height="180"
+                class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300"
               />
             </a>
           ))}
@@ -206,6 +335,104 @@ const badges = [
       </div>
     </div>
   </section>
+
+  <style>
+    .main-badge-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .main-badge-section {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
+
+    .main-badge-image {
+      flex-shrink: 0;
+    }
+
+    .main-badge-content {
+      max-width: 600px;
+    }
+
+    .main-badge-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .main-badge-text {
+      color: #1e3a5f;
+      font-size: 1.125rem;
+      line-height: 1.8;
+    }
+
+    .milestone-section {
+      border-top: 1px solid #e5e7eb;
+      padding-top: 2.5rem;
+    }
+
+    .milestone-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .milestone-hint {
+      color: #6b7280;
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .milestone-badges {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 540px;
+    }
+
+    @media (max-width: 640px) {
+      .milestone-badges {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+      }
+    }
+
+    .milestone-card {
+      display: block;
+      border: 2px solid #1e3a5f;
+      border-radius: 0.75rem;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .milestone-card:hover {
+      box-shadow: 0 4px 16px rgba(30, 58, 95, 0.15);
+    }
+
+    .text-link {
+      color: #00A651;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .text-link:hover {
+      color: #1e3a5f;
+    }
+  </style>
 
   <!-- Collaboration CTA -->
   <section class="py-20 bg-gray-50">
@@ -231,11 +458,22 @@ const badges = [
       image={item.image}
       description={item.modalContent.description}
       highlights={item.modalContent.highlights}
+      accordionItems={item.modalContent.accordionItems}
+      stats={item.modalContent.stats}
       lookingAhead={item.modalContent.lookingAhead}
     />
   ))}
 
   <script>
+    // Animated close function for modals
+    function closeWithAnimation(modal: HTMLDialogElement) {
+      modal.classList.add('closing');
+      modal.addEventListener('animationend', () => {
+        modal.classList.remove('closing');
+        modal.close();
+      }, { once: true });
+    }
+
     // Open modal on button click
     document.querySelectorAll('[data-modal]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -249,7 +487,7 @@ const badges = [
     document.querySelectorAll('.modal-close').forEach((btn) => {
       btn.addEventListener('click', () => {
         const dialog = btn.closest('dialog') as HTMLDialogElement;
-        dialog?.close();
+        closeWithAnimation(dialog);
       });
     });
 
@@ -257,7 +495,7 @@ const badges = [
     document.querySelectorAll('dialog').forEach((dialog) => {
       dialog.addEventListener('click', (e) => {
         if (e.target === dialog) {
-          (dialog as HTMLDialogElement).close();
+          closeWithAnimation(dialog as HTMLDialogElement);
         }
       });
     });

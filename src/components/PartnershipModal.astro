@@ -1,0 +1,376 @@
+---
+interface BentoImage {
+  src: string;
+  alt: string;
+  url?: string;
+}
+
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  callout: string;
+  bentoImages: {
+    banner: BentoImage;
+    topRight: BentoImage;
+    bottomLeft: BentoImage;
+    bottomRight: BentoImage;
+  };
+  link: {
+    text: string;
+    url: string;
+  };
+}
+
+const { id, title, description, callout, bentoImages, link } = Astro.props;
+---
+
+<dialog id={id} class="partnership-modal">
+  <div class="modal-content">
+    <button class="modal-close" aria-label="Close modal">&times;</button>
+
+    <div class="modal-body">
+      <h2 class="modal-title">{title}</h2>
+
+      <p class="modal-description" set:html={description} />
+
+      <div class="callout-box">
+        <p>{callout}</p>
+      </div>
+
+      <!-- Bento Grid Gallery -->
+      <div class="bento-grid">
+        <!-- Row 1: Banner (large) + Kids (small) -->
+        <div class="bento-row bento-row-1">
+          {bentoImages.banner.url ? (
+            <a href={bentoImages.banner.url} target="_blank" rel="noopener noreferrer" class="bento-item bento-banner">
+              <img src={bentoImages.banner.src} alt={bentoImages.banner.alt} loading="lazy" />
+            </a>
+          ) : (
+            <div class="bento-item bento-banner">
+              <img src={bentoImages.banner.src} alt={bentoImages.banner.alt} loading="lazy" />
+            </div>
+          )}
+          {bentoImages.topRight.url ? (
+            <a href={bentoImages.topRight.url} target="_blank" rel="noopener noreferrer" class="bento-item bento-top-right">
+              <img src={bentoImages.topRight.src} alt={bentoImages.topRight.alt} loading="lazy" />
+            </a>
+          ) : (
+            <div class="bento-item bento-top-right">
+              <img src={bentoImages.topRight.src} alt={bentoImages.topRight.alt} loading="lazy" />
+            </div>
+          )}
+        </div>
+
+        <!-- Row 2: People (small) + Document (large) -->
+        <div class="bento-row bento-row-2">
+          {bentoImages.bottomLeft.url ? (
+            <a href={bentoImages.bottomLeft.url} target="_blank" rel="noopener noreferrer" class="bento-item bento-bottom-left">
+              <img src={bentoImages.bottomLeft.src} alt={bentoImages.bottomLeft.alt} loading="lazy" />
+            </a>
+          ) : (
+            <div class="bento-item bento-bottom-left">
+              <img src={bentoImages.bottomLeft.src} alt={bentoImages.bottomLeft.alt} loading="lazy" />
+            </div>
+          )}
+          {bentoImages.bottomRight.url ? (
+            <a href={bentoImages.bottomRight.url} target="_blank" rel="noopener noreferrer" class="bento-item bento-bottom-right">
+              <img src={bentoImages.bottomRight.src} alt={bentoImages.bottomRight.alt} loading="lazy" />
+            </a>
+          ) : (
+            <div class="bento-item bento-bottom-right">
+              <img src={bentoImages.bottomRight.src} alt={bentoImages.bottomRight.alt} loading="lazy" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      <!-- External Link -->
+      <a href={link.url} target="_blank" rel="noopener noreferrer" class="external-link">
+        <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+        </svg>
+        <span>Explore</span>
+        <span class="link-text">{link.text}</span>
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .partnership-modal {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    box-shadow: none;
+    margin: 0;
+    background: white;
+  }
+
+  .partnership-modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    animation: backdropFadeIn 0.2s ease-out forwards;
+  }
+
+  .partnership-modal[open] {
+    animation: modalFadeIn 0.2s ease-out forwards;
+  }
+
+  .partnership-modal.closing {
+    animation: modalFadeOut 0.15s ease-in forwards;
+  }
+
+  .partnership-modal.closing::backdrop {
+    animation: backdropFadeOut 0.15s ease-in forwards;
+  }
+
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes modalFadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.95); }
+  }
+
+  @keyframes backdropFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes backdropFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .modal-content {
+    position: relative;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .modal-content::-webkit-scrollbar {
+    display: none;
+  }
+
+  .modal-close {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    font-size: 2rem;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-close:hover {
+    background: white;
+    transform: scale(1.1);
+  }
+
+  .modal-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  .modal-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  .modal-description {
+    color: #4b5563;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+
+  .modal-description :global(strong) {
+    color: #1f2937;
+    font-weight: 600;
+  }
+
+  /* Callout Box */
+  .callout-box {
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+  }
+
+  .callout-box p {
+    color: #92400e;
+    font-style: italic;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Bento Grid */
+  .bento-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .bento-row {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .bento-item {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    display: block;
+  }
+
+  .bento-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  a.bento-item:hover img {
+    transform: scale(1.03);
+  }
+
+  /* Row 1: Banner 70% + Kids 30% */
+  .bento-row-1 {
+    height: 220px;
+  }
+
+  .bento-banner {
+    flex: 7;
+  }
+
+  .bento-top-right {
+    flex: 3;
+  }
+
+  /* Row 2: People 40% + Document 60% */
+  .bento-row-2 {
+    height: 220px;
+  }
+
+  .bento-bottom-left {
+    flex: 4;
+  }
+
+  .bento-bottom-right {
+    flex: 6;
+  }
+
+  /* External Link */
+  .external-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f3f4f6;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .external-link:hover {
+    background: #e5e7eb;
+  }
+
+  .link-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #6b7280;
+  }
+
+  .external-link span {
+    color: #4b5563;
+  }
+
+  .link-text {
+    color: #00A651 !important;
+    font-weight: 500;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .modal-body {
+      padding: 1.5rem 1.5rem 3rem;
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
+    }
+
+    .bento-row {
+      flex-direction: column;
+      height: auto;
+    }
+
+    .bento-row-1,
+    .bento-row-2 {
+      height: auto;
+    }
+
+    .bento-item {
+      height: 180px;
+    }
+
+    .bento-banner,
+    .bento-top-right,
+    .bento-bottom-left,
+    .bento-bottom-right {
+      flex: 1;
+    }
+  }
+</style>
+
+<script define:vars={{ id }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+
+    const closeButton = modal.querySelector('.modal-close');
+
+    function closeWithAnimation() {
+      modal.classList.add('closing');
+      modal.addEventListener('animationend', () => {
+        modal.classList.remove('closing');
+        modal.close();
+      }, { once: true });
+    }
+
+    closeButton?.addEventListener('click', closeWithAnimation);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeWithAnimation();
+      }
+    });
+  });
+</script>

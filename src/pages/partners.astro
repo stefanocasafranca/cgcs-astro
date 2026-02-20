@@ -72,7 +72,7 @@ const guidelines = [
                   href={partner.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-accent-orange font-medium hover:underline"
+                  class="partner-link"
                 >
                   {partner.name}
                 </a>
@@ -107,4 +107,16 @@ const guidelines = [
       </div>
     </div>
   </section>
+<style>
+    .partner-link {
+      color: #00A651;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .partner-link:hover {
+      color: #1e3a5f;
+    }
+  </style>
 </BaseLayout>
