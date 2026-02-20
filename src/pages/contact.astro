@@ -67,19 +67,28 @@ const copyableInfo = [
   <!-- Contact Form Section -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Form Header -->
-      <h2 class="text-2xl font-bold text-text-dark mb-2">Send Us a Message</h2>
-      <p class="text-text-light mb-4">For general inquiries, collaboration proposals, or questions about our initiatives.</p>
-
-      <div class="flex flex-wrap items-center gap-3 mb-8">
-        <span class="text-sm text-text-light">Looking to book our space?</span>
-        <a href="/book-event-space" class="inline-flex items-center gap-2 bg-accent-teal text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-accent-teal/90 transition-colors">
+      <!-- Event Space Redirect Notice -->
+      <div class="bg-accent-teal/10 border border-accent-teal/30 rounded-xl p-4 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div class="flex-shrink-0">
+          <svg class="w-6 h-6 text-accent-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="text-text-dark font-medium">Looking to book our event space?</p>
+          <p class="text-text-light text-sm">Use our dedicated booking form for faster processing.</p>
+        </div>
+        <a href="/book-event-space" class="inline-flex items-center gap-2 bg-accent-teal text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-accent-teal/90 transition-colors whitespace-nowrap">
           Reserve Event Space
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </a>
       </div>
+
+      <!-- Form Header -->
+      <h2 class="text-2xl font-bold text-text-dark mb-2">Send Us a Message</h2>
+      <p class="text-text-light mb-8">For general inquiries, collaboration proposals, or questions about our initiatives.</p>
 
       <ContactForm />
     </div>
