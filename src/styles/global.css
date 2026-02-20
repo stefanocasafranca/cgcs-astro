@@ -47,6 +47,13 @@
   animation: scroll-left 20s linear infinite;
 }
 
+/* Faster marquee on mobile */
+@media (max-width: 768px) {
+  .animate-scroll-left {
+    animation: scroll-left 10s linear infinite;
+  }
+}
+
 /* Counter animation */
 @keyframes count-up {
   from {
