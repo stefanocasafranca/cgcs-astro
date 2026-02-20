@@ -32,7 +32,7 @@ const isEventSpacePage = currentPath === '/event-space' || currentPath === '/boo
         <img
           src="/images/logos/logo-color.png"
           alt="CGCS Logo"
-          class="h-12 w-auto"
+          class="h-20 md:h-24 w-auto"
         />
       </a>
 
@@ -77,6 +77,15 @@ const isEventSpacePage = currentPath === '/event-space' || currentPath === '/boo
 
 <!-- Fullscreen Mobile Menu Overlay -->
 <div id="mobile-menu-overlay" class="mobile-menu-overlay">
+  <!-- Logo at top left -->
+  <a href="/" class="mobile-menu-logo">
+    <img
+      src="/images/logos/logo-color.png"
+      alt="CGCS Logo"
+      class="h-20 w-auto"
+    />
+  </a>
+
   <button id="mobile-menu-close" class="mobile-menu-close" aria-label="Close menu">
     &times;
   </button>
@@ -158,6 +167,13 @@ const isEventSpacePage = currentPath === '/event-space' || currentPath === '/boo
   .mobile-menu-overlay.open {
     display: flex;
     opacity: 1;
+  }
+
+  .mobile-menu-logo {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 101;
   }
 
   .mobile-menu-close {
