@@ -69,10 +69,17 @@ const copyableInfo = [
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Form Header -->
       <h2 class="text-2xl font-bold text-text-dark mb-2">Send Us a Message</h2>
-      <p class="text-text-light mb-2">For general inquiries, collaboration proposals, or questions about our initiatives.</p>
-      <p class="text-sm text-text-light mb-8">
-        Not what you're looking for? <a href="/book-event-space" class="text-primary hover:underline font-medium">Reserve our event space →</a>
-      </p>
+      <p class="text-text-light mb-4">For general inquiries, collaboration proposals, or questions about our initiatives.</p>
+
+      <div class="flex flex-wrap items-center gap-3 mb-8">
+        <span class="text-sm text-text-light">Looking to book our space?</span>
+        <a href="/book-event-space" class="inline-flex items-center gap-2 bg-accent-teal text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-accent-teal/90 transition-colors">
+          Reserve Event Space
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
 
       <ContactForm />
     </div>
