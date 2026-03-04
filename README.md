@@ -1,43 +1,64 @@
-# Astro Starter Kit: Minimal
+# CGCS Astro Site
 
-```sh
-npm create astro@latest -- --template minimal
+Frontend for the **Center for Government & Civic Service (CGCS)** at Austin Community College. Built with Astro 5 + Tailwind CSS.
+
+## Pages
+
+| Route | Description |
+|---|---|
+| `/` | Homepage |
+| `/event-space` | Event space info |
+| `/book-event-space` | Booking form (POSTs to N8N) |
+| `/contact` | Contact page |
+| `/partners` | Partners page |
+| `/initiatives/*` | Initiative sub-pages |
+
+## Running Locally
+
+### Prerequisites
+
+- Node.js 18+
+- N8N running at `localhost:5678` (for form submissions to work)
+
+### Setup
+
+```bash
+npm install
+
+# Copy env and set your N8N webhook URL
+cp .env.example .env
+# .env default already points to localhost:5678 — no change needed for local dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### Dev server
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run dev
+# Site available at http://localhost:4321
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### Build
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+npm run build      # Output to ./dist/
+npm run preview    # Preview the build locally
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Environment Variables
 
-## 🧞 Commands
+| Variable | Description | Default |
+|---|---|---|
+| `PUBLIC_N8N_WEBHOOK_URL` | N8N endpoint that receives form submissions | `http://localhost:5678/webhook/intake/event-space` |
 
-All commands are run from the root of the project, from a terminal:
+> **Note:** `PUBLIC_` prefix is required — Astro only exposes env vars with this prefix to the browser.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## Can I Run This Without N8N?
 
-## 👀 Want to learn more?
+**Yes, but form submissions will fail.** The site builds and renders fine without N8N. If `PUBLIC_N8N_WEBHOOK_URL` points to an unreachable server, the form will show an error message after submit. Everything else on the site works independently.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deployment
+
+This is a static site (no server-side rendering). For production:
+
+1. Set `PUBLIC_N8N_WEBHOOK_URL` in your hosting platform's env vars to the production N8N URL (e.g. `https://n8n.yourdomain.com/webhook/intake/event-space`)
+2. Run `npm run build` — deploy the `./dist/` folder to any static host (Netlify, Vercel, Cloudflare Pages, etc.)
