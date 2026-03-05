@@ -263,7 +263,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </BaseLayout>
 
 <script>
-  const WEBHOOK_URL = import.meta.env.PUBLIC_N8N_WEBHOOK_URL;
+  const WEB3FORMS_KEY = import.meta.env.PUBLIC_WEB3FORMS_KEY;
 
   const form = document.getElementById('booking-form') as HTMLFormElement | null;
   const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
@@ -271,48 +271,56 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (!WEBHOOK_URL) {
-      console.error('PUBLIC_N8N_WEBHOOK_URL is not set');
+    if (!WEB3FORMS_KEY) {
+      console.error('PUBLIC_WEB3FORMS_KEY is not set');
+      alert('Form is not configured. Please contact us directly at admin@cgcsacc.org');
       return;
     }
 
     const data = new FormData(form);
 
-    // Map form fields to the N8N intake payload schema
     const avSupport = data.get('avSupport') as string;
     const catering = data.get('catering') as string;
     const setupParts: string[] = [];
     if (avSupport === 'yes') setupParts.push('A/V support required');
     if (catering === 'yes') setupParts.push('catering required');
 
+    const requesterName = (data.get('contactName') as string).trim();
+
     const payload = {
-      requester_name: (data.get('contactName') as string).trim(),
-      requester_email: (data.get('email') as string).trim().toLowerCase(),
-      requester_organization: (data.get('organizationName') as string).trim() || null,
-      event_name: (data.get('eventTitle') as string || '').trim() || null,
-      event_description: (data.get('additionalDetails') as string || '').trim() || null,
-      requested_date: data.get('eventDate') as string,
-      requested_start_time: data.get('startTime') as string,
-      requested_end_time: data.get('endTime') as string,
-      estimated_attendees: parseInt(data.get('attendees') as string) || null,
-      setup_requirements: setupParts.length > 0 ? setupParts.join(', ') : null,
-      phone: (data.get('phone') as string).trim(),
+      access_key: WEB3FORMS_KEY,
+      subject: `Event Space Request — ${(data.get('organizationName') as string).trim() || requesterName}`,
+      from_name: requesterName,
+      email: (data.get('email') as string).trim().toLowerCase(),
+      // Human-readable fields that appear in the email body
+      'Organization': (data.get('organizationName') as string).trim() || '—',
+      'Contact Name': requesterName,
+      'Phone': (data.get('phone') as string).trim(),
+      'Event Title': (data.get('eventTitle') as string || '').trim() || '—',
+      'Event Date': data.get('eventDate') as string,
+      'Start Time': data.get('startTime') as string,
+      'End Time': data.get('endTime') as string,
+      'Estimated Attendees': data.get('attendees') as string || '—',
+      'A/V Support': avSupport === 'yes' ? 'Yes' : 'No',
+      'Catering': catering === 'yes' ? 'Yes' : 'No',
+      'Setup Requirements': setupParts.length > 0 ? setupParts.join(', ') : 'None',
+      'Additional Details': (data.get('additionalDetails') as string || '').trim() || '—',
     };
 
-    // Disable button while submitting
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting…';
     }
 
     try {
-      const res = await fetch(WEBHOOK_URL, {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const result = await res.json();
+      if (!res.ok || !result.success) throw new Error(result.message || `HTTP ${res.status}`);
 
       // Replace form with confirmation message
       const section = form.closest('section');
@@ -325,7 +333,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               </svg>
               <h2 class="text-3xl font-bold text-text-dark mb-4">Request Received!</h2>
               <p class="text-text-light text-lg">
-                Thanks, <strong class="text-text-dark">${payload.requester_name}</strong>. We've received your request and will be in touch within 1–4 business days.
+                Thanks, <strong class="text-text-dark">${requesterName}</strong>. We've received your request and will be in touch within 1–4 business days.
               </p>
             </div>
           </div>`;
@@ -336,7 +344,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Get in Touch';
       }
-      alert('Something went wrong submitting your request. Please try again or email us directly.');
+      alert('Something went wrong submitting your request. Please try again or email us directly at admin@cgcsacc.org');
     }
   });
 </script>

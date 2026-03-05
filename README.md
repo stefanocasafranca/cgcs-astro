@@ -8,7 +8,7 @@ Frontend for the **Center for Government & Civic Service (CGCS)** at Austin Comm
 |---|---|
 | `/` | Homepage |
 | `/event-space` | Event space info |
-| `/book-event-space` | Booking form (POSTs to N8N) |
+| `/book-event-space` | Booking form (POSTs to Web3Forms → email) |
 | `/contact` | Contact page |
 | `/partners` | Partners page |
 | `/initiatives/*` | Initiative sub-pages |
@@ -18,16 +18,16 @@ Frontend for the **Center for Government & Civic Service (CGCS)** at Austin Comm
 ### Prerequisites
 
 - Node.js 18+
-- N8N running at `localhost:5678` (for form submissions to work)
 
 ### Setup
 
 ```bash
 npm install
 
-# Copy env and set your N8N webhook URL
+# Copy env and add your Web3Forms key
 cp .env.example .env
-# .env default already points to localhost:5678 — no change needed for local dev
+# Get a free key at https://web3forms.com — enter admin@cgcsacc.org
+# Then set: PUBLIC_WEB3FORMS_KEY=your-key-here
 ```
 
 ### Dev server
@@ -46,19 +46,21 @@ npm run preview    # Preview the build locally
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|---|---|---|
-| `PUBLIC_N8N_WEBHOOK_URL` | N8N endpoint that receives form submissions | `http://localhost:5678/webhook/intake/event-space` |
+| Variable | Description |
+|---|---|
+| `PUBLIC_WEB3FORMS_KEY` | Web3Forms access key — form submissions are emailed to the address you registered at web3forms.com |
 
-> **Note:** `PUBLIC_` prefix is required — Astro only exposes env vars with this prefix to the browser.
+> **Note:** `PUBLIC_` prefix is required — Astro bakes these into the static build at build time.
 
-## Can I Run This Without N8N?
+## Form Submission Flow
 
-**Yes, but form submissions will fail.** The site builds and renders fine without N8N. If `PUBLIC_N8N_WEBHOOK_URL` points to an unreachable server, the form will show an error message after submit. Everything else on the site works independently.
+Form → Web3Forms API → Email to `admin@cgcsacc.org`
+
+**Future:** When the n8n automation server is deployed, swap `PUBLIC_WEB3FORMS_KEY` for `PUBLIC_N8N_WEBHOOK_URL` pointing to `https://n8n.yourdomain.com/webhook/intake/event-space` and update the fetch in `book-event-space.astro`.
 
 ## Deployment
 
-This is a static site (no server-side rendering). For production:
+This is a static site (no server-side rendering).
 
-1. Set `PUBLIC_N8N_WEBHOOK_URL` in your hosting platform's env vars to the production N8N URL (e.g. `https://n8n.yourdomain.com/webhook/intake/event-space`)
+1. Set `PUBLIC_WEB3FORMS_KEY` in your hosting platform's env vars
 2. Run `npm run build` — deploy the `./dist/` folder to any static host (Netlify, Vercel, Cloudflare Pages, etc.)
