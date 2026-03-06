@@ -6,6 +6,7 @@ import TeamCarousel from '../components/TeamCarousel.astro';
 import InitiativeCard from '../components/InitiativeCard.astro';
 import EventCard from '../components/EventCard.astro';
 import ImpactCounter from '../components/ImpactCounter.astro';
+import SimulationsModal from '../components/SimulationsModal.astro';
 
 const initiatives = [
   {
@@ -28,45 +29,129 @@ const initiatives = [
   },
 ];
 
+const simulationsData = {
+  id: 'harmony-simulations-modal',
+  title: 'Simulations',
+  description: 'The CGCS develops simulations to train specific leadership skills and attributes and based on the specified skills and attributes develops learning and simulation objectives.',
+  bullets: [
+    'The CGCS is eager to work with Students, Staff, and Faculty to run existing simulations or to develop and run new simulations tailored to specific educational desires and needs. If interested, click the "Propose a Simulation" banner.',
+    'Each simulation is based on a scenario with roles developed for students to "play" in order to develop and practice leadership skills in a manner designed to provide specific, detailed feedback.',
+    'The CGCS offers Skill Building Workshops lasting two hours in length in advance of simulations to teach specific skill sets participants can apply during the simulation. Participation is optional and open regardless of whether scheduled to participate in a simulation or not.',
+    'The CGCS is in the process of developing a Civic Leadership Badge and eventually a micro-credential. Stay tuned for details.',
+  ],
+  stats: [
+    {
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>',
+      value: '86',
+      label: 'Participants who completed simulations',
+    },
+    {
+      icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>',
+      value: '344',
+      label: 'Total leadership training hours delivered',
+    },
+  ],
+  simulations: [
+    {
+      id: 'virescenia',
+      name: 'Virescenia',
+      focus: 'Strategic Communication',
+      iconColor: '#f59e0b',
+      catalogueDescription: 'An Austin based bio-technology company has inadvertently created a novel disease. The Mayor has called a public meeting to address concerns and solicit citizen cooperation. Assume a role on the Mayor\'s team to prevent panic and obtain support or assume the role of a member of the public trying to shape city policy, influence your fellow residents, or obtain specific information.',
+      scenarioDescription: 'Local biotech company GeneSys created Luxaflora – a genetically modified house plant. It appears that Luxaflora has led to a new disease. Take on the role of either a government official or a member of the public and attend a public meeting called by the mayor to discuss the crisis.',
+      meta: { age: '14+', players: '20+', duration: '4+ Hours' },
+      image: '/images/simulation-virescenia.jpg',
+      learningObjectives: {
+        image: '/images/virescenia-learning-objectives.jpg',
+        objectives: [
+          '"Read a room" crafting and delivering messages to obtain information you need',
+          'Shape the behavior of either the government or the public',
+          'Obtain critical information or influence decision-making in high-pressure settings',
+        ],
+      },
+    },
+    {
+      id: 'genesys',
+      name: 'GeneSys',
+      focus: 'Ethical Decision-Making in Crisis',
+      iconColor: '#00A651',
+      catalogueDescription: 'The Austin based bio-tech company has called a meeting of its board to set priorities in dealing with the crisis (Virescenia). Attend the meeting as a member of the board and employ ethical decision-making frameworks as you attempt to convince the board to adopt your specific priorities.',
+      scenarioDescription: 'The Austin based bio-tech company has called a meeting of its board to set priorities regarding the crisis. Attend as a board member (Chief Science Officer, Legal Counsel, etc.) and employ ethical decision-making frameworks.',
+      meta: { age: '14+', players: '5+', duration: '4+ Hours' },
+      image: '/images/simulation-genesys.jpg',
+      learningObjectives: {
+        image: '/images/genesys-learning-objectives.jpg',
+        objectives: [
+          'Apply ethical theories (utilitarian, deontological) to complex decisions',
+          'Negotiate competing interests and stakeholder priorities',
+          'Build consensus while balancing personal and institutional ethics',
+        ],
+      },
+    },
+    {
+      id: 'family-dinner',
+      name: 'The Dysfunctional Family Dinner',
+      focus: 'Conflict Management & Resolution',
+      iconColor: '#00A651',
+      catalogueDescription: 'Join "your" dysfunctional family for a holiday dinner and navigate political debates, emotional dynamics, and hidden agendas. Shape and steer the conversation, manage and resolve conflict.',
+      scenarioDescription: 'Navigate a family gathering with political debates and hidden agendas to manage conflict constructively during a holiday dinner.',
+      meta: { age: '14+', players: '8+', duration: '3+ Hours' },
+      image: '/images/simulation-family-dinner.jpg',
+      learningObjectives: {
+        image: '/images/family-dinner-learning-objectives.jpg',
+        objectives: [
+          'Strengthen conflict resolution and de-escalation skills',
+          'Adapt communication styles to different personalities',
+          'Engineer off-ramps from heated discussions while preserving relationships',
+        ],
+      },
+    },
+  ],
+};
+
 const cgcsEvents = [
   {
-    title: 'Austin LangChain AIMUG',
-    date: 'February 4',
+    title: 'Harmony Schools Simulation Workshop',
+    date: 'March 9',
+    time: '8:00 am - 4:00 pm',
+    image: '/images/logos/logo-color.png',
+    modalId: 'harmony-simulations-modal',
+  },
+  {
+    title: 'Community Conversation on Educating Character',
+    date: 'March 10',
+    time: '5:00 pm - 9:00 pm',
+    image: '/images/logos/logo-color.png',
+    href: 'https://infohub.austincc.edu/blog/2026/02/19/youre-invited-community-conversation-on-freedom-virtue-and-community/',
+    newTab: true,
+  },
+  {
+    title: 'CTXLF - From Idea to Action',
+    date: 'March 11',
+    time: '3:30 pm - 7:30 pm',
+    image: '/images/ctxlf-logo.webp',
+    href: 'https://ctxlearningfestival.com/festival-calendar/business-in-a-box-from-idea-to-action',
+    newTab: true,
+  },
+  {
+    title: 'CTXLF - Strategic Communication Workshop',
+    date: 'March 12',
+    time: '2:30 pm - 4:30 pm',
+    image: '/images/ctxlf-logo.webp',
+    href: 'https://ctxlearningfestival.com/festival-calendar/strategic-communication-workshop',
+    newTab: true,
+  },
+  {
+    title: 'CTXLF - Great Questions Community Seminar',
+    date: 'March 12',
     time: '6:00 pm - 9:00 pm',
-    image: '/images/2025/12/langchain-1.webp',
-    href: '#',
-  },
-  {
-    title: 'Austin AI Alliance',
-    date: 'February 18',
-    time: '5:30 pm - 8:00 pm',
-    image: '/images/2025/12/aaia.webp',
-    href: '#',
-  },
-  {
-    title: 'ATX Design Jam Monthly Meeting',
-    date: 'February 24',
-    time: '6:00 pm - 8:00 pm',
-    image: '/images/2025/12/atx_design_jam-1.webp',
-    href: '#',
-  },
-  {
-    title: 'Austin Forum for Technology & Society',
-    date: 'March 3',
-    time: '6:00 pm - 8:00 pm',
-    image: '/images/2025/12/afts.webp',
-    href: '#',
+    image: '/images/ctxlf-logo.webp',
+    href: 'https://ctxlearningfestival.com/festival-calendar/great-questions-community-seminar',
+    newTab: true,
   },
 ];
 
-const otherEvents = [
-  {
-    title: 'ACC State of the College',
-    date: 'February 19',
-    image: '/images/2025/12/accStateCollege.jpg',
-    href: '#',
-  },
-];
+const otherEvents = [];
 ---
 
 <BaseLayout title="CGCS HomePage">
@@ -126,12 +211,33 @@ const otherEvents = [
             time={event.time}
             image={event.image}
             href={event.href}
+            newTab={event.newTab}
+            modalId={event.modalId}
           />
         ))}
       </div>
 
     </div>
   </section>
+
+  <SimulationsModal
+    id={simulationsData.id}
+    title={simulationsData.title}
+    description={simulationsData.description}
+    bullets={simulationsData.bullets}
+    stats={simulationsData.stats}
+    simulations={simulationsData.simulations}
+  />
+
+  <script>
+    document.querySelectorAll('[data-modal]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const modalId = (btn as HTMLElement).dataset.modal;
+        const modal = document.getElementById(modalId!) as HTMLDialogElement;
+        modal?.showModal();
+      });
+    });
+  </script>
 
   <!-- Badges Section -->
   <section class="py-20 bg-white">
