@@ -162,20 +162,37 @@ const simulationsData = {
       <h2 class="section-heading text-center mb-12">Upcoming Events</h2>
 
       {upcomingEvents.length > 0 ? (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {upcomingEvents.map((event) => (
-            <EventCard
-              title={event.title}
-              date={event.date}
-              time={event.time}
-              image={event.image}
-              href={event.href}
-              newTab={event.newTab}
-              modalId={event.modalId}
-              objectFit={event.objectFit}
-            />
-          ))}
-        </div>
+        <>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {upcomingEvents.map((event, i) => (
+              <div class:list={['h-full', i >= 8 && 'events-extra hidden']}>
+                <EventCard
+                  title={event.title}
+                  date={event.date}
+                  time={event.time}
+                  image={event.image}
+                  href={event.href}
+                  newTab={event.newTab}
+                  modalId={event.modalId}
+                  objectFit={event.objectFit}
+                />
+              </div>
+            ))}
+          </div>
+          {upcomingEvents.length > 8 && (
+            <div class="text-center mt-10">
+              <button
+                id="show-more-events"
+                class="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-200"
+              >
+                Show More
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          )}
+        </>
       ) : (
         <div class="text-center py-16">
           <p class="text-text-light text-lg mb-4">No upcoming events at this time.</p>
@@ -196,6 +213,14 @@ const simulationsData = {
     stats={simulationsData.stats}
     simulations={simulationsData.simulations}
   />
+
+  <script>
+    const showMoreBtn = document.getElementById('show-more-events');
+    showMoreBtn?.addEventListener('click', () => {
+      document.querySelectorAll('.events-extra').forEach((el) => el.classList.remove('hidden'));
+      showMoreBtn.style.display = 'none';
+    });
+  </script>
 
   <script>
     document.querySelectorAll('[data-modal]').forEach((btn) => {
