@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EventCard from '../components/EventCard.astro';
+import { pastEvents } from '../data/events';
+---
+
+<BaseLayout
+  title="Past Events"
+  description="Browse past events hosted and supported by the Center for Government and Civic Service."
+>
+  <section class="py-20 bg-gray-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="section-heading mb-4">Past Events</h1>
+        <p class="text-text-light text-lg max-w-2xl mx-auto">
+          A look back at events hosted and supported by the CGCS community.
+        </p>
+        <a
+          href="/#events"
+          class="inline-flex items-center gap-2 mt-6 text-primary font-medium hover:underline"
+        >
+          <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+          View Upcoming Events
+        </a>
+      </div>
+
+      {pastEvents.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {pastEvents.map((event) => {
+            // modalId is homepage-only; omit it on this page since the modal isn't rendered here
+            const { modalId, isoDate, ...eventProps } = event;
+            return <EventCard {...eventProps} />;
+          })}
+        </div>
+      ) : (
+        <div class="text-center py-16">
+          <p class="text-text-light text-lg">No past events yet.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

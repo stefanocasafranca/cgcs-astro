@@ -3,7 +3,7 @@ const navItems = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/#aboutUs' },
   { label: 'Initiatives', href: '/#initiatives', hasSubmenu: 'initiatives' },
-  { label: 'Events', href: '/#events' },
+  { label: 'Events', href: '/#events', hasSubmenu: 'events' },
   { label: 'Partners', href: '/partners' },
   { label: 'Event Space', href: '/event-space', hasSubmenu: 'eventSpace' },
   { label: 'Contact Us', href: '/contact' },
@@ -15,6 +15,11 @@ const initiatives = [
   { label: 'Citizenship & Tech', href: '/initiatives/citizenship-tech' },
 ];
 
+const eventsOptions = [
+  { label: 'Upcoming Events', href: '/#events' },
+  { label: 'Past Events', href: '/past-events' },
+];
+
 const eventSpaceOptions = [
   { label: 'Explore Our Space', href: '/event-space' },
   { label: 'Reserve Event Space', href: '/book-event-space' },
@@ -24,6 +29,7 @@ const currentPath = Astro.url.pathname;
 const isInitiativePage = currentPath.startsWith('/initiatives/');
 const isEventSpacePage = currentPath === '/event-space' || currentPath === '/book-event-space';
 const isBookEventSpacePage = currentPath === '/book-event-space';
+const isEventsPage = currentPath === '/past-events';
 ---
 
 <header class="sticky top-0 z-50 bg-white shadow-sm">
@@ -40,27 +46,85 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
       <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center space-x-8">
         {navItems.map((item) => (
-          <a
-            href={item.href}
-            data-nav-item
-            data-section={item.href.includes('#') ? item.href.split('#')[1] : (item.href === '/' ? 'home' : '')}
-            class:list={[
-              'text-sm font-medium transition-colors hover:text-primary nav-link',
-              (currentPath === '/' && item.href === '/')
-                ? 'text-primary border-b-2 border-primary'
-                : (isInitiativePage && item.label === 'Initiatives')
-                  ? 'text-primary border-b-2 border-primary'
-                  : (isBookEventSpacePage && item.label === 'Event Space')
+          item.hasSubmenu ? (
+            <div class="relative group">
+              <a
+                href={item.href}
+                data-nav-item
+                data-section={item.href.includes('#') ? item.href.split('#')[1] : ''}
+                class:list={[
+                  'text-sm font-medium transition-colors hover:text-primary nav-link flex items-center gap-1',
+                  (isInitiativePage && item.label === 'Initiatives')
                     ? 'text-primary border-b-2 border-primary'
-                    : (currentPath === '/event-space' && item.label === 'Event Space')
-                      ? 'text-primary'
-                      : (currentPath === item.href)
+                    : (isBookEventSpacePage && item.label === 'Event Space')
+                      ? 'text-primary border-b-2 border-primary'
+                      : (currentPath === '/event-space' && item.label === 'Event Space')
                         ? 'text-primary'
-                        : 'text-text-dark'
-            ]}
-          >
-            {item.label}
-          </a>
+                        : (isEventsPage && item.label === 'Events')
+                          ? 'text-primary'
+                          : 'text-text-dark'
+                ]}
+              >
+                {item.label}
+                <svg class="w-3 h-3 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                </svg>
+              </a>
+              <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                <div class="bg-white rounded-xl shadow-lg border border-gray-100 py-2 min-w-[180px]">
+                  {item.hasSubmenu === 'initiatives' && initiatives.map((sub) => (
+                    <a
+                      href={sub.href}
+                      class:list={[
+                        'block px-4 py-2 text-sm font-medium transition-colors hover:text-primary hover:bg-gray-50',
+                        currentPath === sub.href ? 'text-primary' : 'text-gray-700'
+                      ]}
+                    >
+                      {sub.label}
+                    </a>
+                  ))}
+                  {item.hasSubmenu === 'events' && eventsOptions.map((sub) => (
+                    <a
+                      href={sub.href}
+                      class:list={[
+                        'block px-4 py-2 text-sm font-medium transition-colors hover:text-primary hover:bg-gray-50',
+                        currentPath === sub.href ? 'text-primary' : 'text-gray-700'
+                      ]}
+                    >
+                      {sub.label}
+                    </a>
+                  ))}
+                  {item.hasSubmenu === 'eventSpace' && eventSpaceOptions.map((sub) => (
+                    <a
+                      href={sub.href}
+                      class:list={[
+                        'block px-4 py-2 text-sm font-medium transition-colors hover:text-primary hover:bg-gray-50',
+                        currentPath === sub.href ? 'text-primary' : 'text-gray-700'
+                      ]}
+                    >
+                      {sub.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              data-nav-item
+              data-section={item.href.includes('#') ? item.href.split('#')[1] : (item.href === '/' ? 'home' : '')}
+              class:list={[
+                'text-sm font-medium transition-colors hover:text-primary nav-link',
+                (currentPath === '/' && item.href === '/')
+                  ? 'text-primary border-b-2 border-primary'
+                  : (currentPath === item.href)
+                    ? 'text-primary'
+                    : 'text-text-dark'
+              ]}
+            >
+              {item.label}
+            </a>
+          )
         ))}
       </nav>
 
@@ -121,6 +185,44 @@ const isBookEventSpacePage = currentPath === '/book-event-space';
           </div>
           <div class="accordion-content" id="initiatives-submenu">
             {initiatives.map((sub) => (
+              <a
+                href={sub.href}
+                class:list={[
+                  'mobile-submenu-item',
+                  currentPath === sub.href ? 'text-primary' : ''
+                ]}
+              >
+                {sub.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : item.hasSubmenu === 'events' ? (
+        <div class="mobile-menu-accordion">
+          <div class="accordion-header">
+            <a
+              href="/#events"
+              class:list={[
+                'mobile-menu-link',
+                isEventsPage ? 'text-primary' : ''
+              ]}
+              data-mobile-nav-item
+              data-section="events"
+            >
+              {item.label}
+            </a>
+            <button
+              class="accordion-toggle"
+              data-accordion="events"
+              aria-label="Toggle events submenu"
+            >
+              <svg class="accordion-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+          <div class="accordion-content" id="events-submenu">
+            {eventsOptions.map((sub) => (
               <a
                 href={sub.href}
                 class:list={[

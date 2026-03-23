@@ -7,9 +7,11 @@ interface Props {
   href?: string;
   newTab?: boolean;
   modalId?: string;
+  objectFit?: 'cover' | 'contain';
 }
 
-const { title, date, time, image, href = '#', newTab = false, modalId } = Astro.props;
+const { title, date, time, image, href = '#', newTab = false, modalId, objectFit = 'cover' } = Astro.props;
+const imgClass = `w-full h-full ${objectFit === 'contain' ? 'object-contain' : 'object-cover'} group-hover:scale-105 transition-transform duration-300`;
 ---
 
 {modalId ? (
@@ -23,7 +25,7 @@ const { title, date, time, image, href = '#', newTab = false, modalId } = Astro.
           decoding="async"
           width="400"
           height="225"
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          class={imgClass}
         />
       </div>
       <div class="p-6 flex-1 flex flex-col">
@@ -48,7 +50,7 @@ const { title, date, time, image, href = '#', newTab = false, modalId } = Astro.
           decoding="async"
           width="400"
           height="225"
-          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          class={imgClass}
         />
       </div>
       <div class="p-6 flex-1 flex flex-col">

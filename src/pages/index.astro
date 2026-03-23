@@ -7,6 +7,7 @@ import InitiativeCard from '../components/InitiativeCard.astro';
 import EventCard from '../components/EventCard.astro';
 import ImpactCounter from '../components/ImpactCounter.astro';
 import SimulationsModal from '../components/SimulationsModal.astro';
+import { upcomingEvents } from '../data/events';
 
 const initiatives = [
   {
@@ -109,49 +110,6 @@ const simulationsData = {
   ],
 };
 
-const cgcsEvents = [
-  {
-    title: 'Harmony Schools Simulation Workshop',
-    date: 'March 9',
-    time: '8:00 am - 4:00 pm',
-    image: '/images/logos/logo-color.png',
-    modalId: 'harmony-simulations-modal',
-  },
-  {
-    title: 'Community Conversation on Educating Character',
-    date: 'March 10',
-    time: '5:00 pm - 9:00 pm',
-    image: '/images/logos/logo-color.png',
-    href: 'https://infohub.austincc.edu/blog/2026/02/19/youre-invited-community-conversation-on-freedom-virtue-and-community/',
-    newTab: true,
-  },
-  {
-    title: 'CTXLF - From Idea to Action',
-    date: 'March 11',
-    time: '3:30 pm - 7:30 pm',
-    image: '/images/ctxlf-logo.webp',
-    href: 'https://ctxlearningfestival.com/festival-calendar/business-in-a-box-from-idea-to-action',
-    newTab: true,
-  },
-  {
-    title: 'CTXLF - Strategic Communication Workshop',
-    date: 'March 12',
-    time: '2:30 pm - 4:30 pm',
-    image: '/images/ctxlf-logo.webp',
-    href: 'https://ctxlearningfestival.com/festival-calendar/strategic-communication-workshop',
-    newTab: true,
-  },
-  {
-    title: 'CTXLF - Great Questions Community Seminar',
-    date: 'March 12',
-    time: '6:00 pm - 9:00 pm',
-    image: '/images/ctxlf-logo.webp',
-    href: 'https://ctxlearningfestival.com/festival-calendar/great-questions-community-seminar',
-    newTab: true,
-  },
-];
-
-const otherEvents = [];
 ---
 
 <BaseLayout title="CGCS HomePage">
@@ -201,21 +159,31 @@ const otherEvents = [];
   <!-- CGCS Events Section -->
   <section id="events" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="section-heading text-center mb-12">CGCS Events</h2>
+      <h2 class="section-heading text-center mb-12">Upcoming Events</h2>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {cgcsEvents.map((event) => (
-          <EventCard
-            title={event.title}
-            date={event.date}
-            time={event.time}
-            image={event.image}
-            href={event.href}
-            newTab={event.newTab}
-            modalId={event.modalId}
-          />
-        ))}
-      </div>
+      {upcomingEvents.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {upcomingEvents.map((event) => (
+            <EventCard
+              title={event.title}
+              date={event.date}
+              time={event.time}
+              image={event.image}
+              href={event.href}
+              newTab={event.newTab}
+              modalId={event.modalId}
+              objectFit={event.objectFit}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16">
+          <p class="text-text-light text-lg mb-4">No upcoming events at this time.</p>
+          <a href="/past-events" class="text-primary font-medium hover:underline">
+            Browse past events →
+          </a>
+        </div>
+      )}
 
     </div>
   </section>
@@ -280,24 +248,6 @@ const otherEvents = [];
             <img src="/images/2025/12/langchainBrandedBadge.png" alt="Austin LangChain AIMUG" loading="lazy" decoding="async" width="180" height="180" class="w-full aspect-square object-contain p-3 group-hover:scale-105 transition-transform duration-300" />
           </a>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Other Events Section -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="section-heading text-center mb-12">Other Events of Interest</h2>
-
-      <div class="max-w-md mx-auto">
-        {otherEvents.map((event) => (
-          <EventCard
-            title={event.title}
-            date={event.date}
-            image={event.image}
-            href={event.href}
-          />
-        ))}
       </div>
     </div>
   </section>
