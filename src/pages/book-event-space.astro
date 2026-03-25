@@ -48,14 +48,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <!-- Booking Form Section -->
   <section class="py-16 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <iframe
-        src="https://app.smartsheet.com/b/form/cd2f5559c5b6458fbfe61490f4a90f93"
-        width="100%"
-        height="900"
-        style="border: none;"
-        title="Reserve Event Space Form"
-      ></iframe>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 md:p-12">
+
+        <h2 class="text-2xl md:text-3xl font-bold text-text-dark mb-3">Austin Community College Event Request Form</h2>
+        <p class="text-text-light mb-8">
+          Reservations are managed through Austin Community College's official request system. The form covers all event details and typically takes <strong class="text-text-dark">up to 30 minutes</strong> to complete. Have the following ready before you begin:
+        </p>
+
+        <ul class="space-y-3 mb-10">
+          {[
+            'Your name, email, and phone number',
+            'Preferred event date(s) and times',
+            'Estimated number of attendees',
+            'A/V, catering, and room setup needs',
+            'Your organization or department name',
+          ].map(item => (
+            <li class="flex items-start gap-3 text-text-light">
+              <svg class="w-5 h-5 text-accent-teal flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href="https://app.smartsheet.com/b/form/cd2f5559c5b6458fbfe61490f4a90f93"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary inline-flex items-center gap-2 text-base"
+        >
+          Open Event Request Form
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </a>
+
+        <p class="text-sm text-text-light mt-6 italic">
+          Event requests are not guaranteed until full payment is received. Please allow 1–4 business days for a response.
+        </p>
+      </div>
     </div>
   </section>
 
