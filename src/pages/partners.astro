@@ -1,24 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const partners = [
-  { name: 'ACM at ACC', href: 'https://www.austincs.org/' },
-  { name: 'ACM Austin Chapter', href: 'https://www.meetup.com/acm-austin/' },
-  { name: 'Army Software Factory', href: 'https://soldiersolutions.swf.army.mil/' },
-  { name: 'ATX Design Jams', href: 'https://www.meetup.com/meetup-group-atxdesignjam/' },
-  { name: 'Austin AI Alliance', href: 'https://austin-ai.org/' },
-  { name: 'Austin Forum of Technology', href: 'https://www.austinforum.org/' },
-  { name: 'Braver Angels', href: 'https://braverangels.org/' },
-  { name: 'City of Austin', href: 'https://www.austintexas.gov/opengovernmentpartnership' },
-  { name: 'Cyversity', href: 'https://www.cyversity.org/' },
-  { name: 'LangChain', href: 'https://www.langchain.com/' },
-  { name: 'Open Austin', href: 'http://open-austin.org/' },
-  { name: 'Public Service Desk', href: 'https://thepublicservicedesk.org/' },
-  { name: 'SerpApi', href: 'https://serpapi.com/' },
-  { name: 'Service Learning ACC', href: 'https://servicelearning.austincc.edu/' },
-  { name: 'Skull Games', href: 'https://skullgames.org/' },
-  { name: 'United Way', href: 'https://unitedwayaustin.org/' },
-];
+import PartnerBubble from '../components/PartnerBubble.astro';
+import PartnerPanel from '../components/PartnerPanel.astro';
+import { partners } from '../data/partners';
 
 const guidelines = [
   {
@@ -40,6 +24,7 @@ const guidelines = [
 ---
 
 <BaseLayout title="Partners">
+
   <!-- Header -->
   <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,72 +37,250 @@ const guidelines = [
     </div>
   </section>
 
-  <!-- Partners List and Guidelines -->
+  <!-- Desktop: Bubble Canvas -->
+  <section
+    id="bubble-canvas"
+    class="hidden md:block relative w-full bg-[#1e3a5f] overflow-hidden"
+    style="min-height: 900px;"
+    aria-label="Partner organizations"
+  >
+    {partners.map((partner) => (
+      <PartnerBubble partner={partner} />
+    ))}
+  </section>
+
+  <!-- Mobile: Swiper Carousel -->
+  <section class="md:hidden bg-[#1e3a5f] py-12 px-4" aria-label="Partner organizations">
+    <div class="swiper partners-swiper">
+      <div class="swiper-wrapper pb-10">
+        {partners.map((partner) => {
+          let domain = '';
+          if (partner.logoDomain) {
+            domain = partner.logoDomain;
+          } else {
+            try { domain = new URL(partner.href).hostname.replace(/^www\./, ''); } catch {}
+          }
+          const clearbitUrl = `https://logo.clearbit.com/${domain}`;
+          const faviconUrl  = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+          const initial     = partner.name.charAt(0).toUpperCase();
+          return (
+            <div
+              class="swiper-slide flex justify-center"
+              data-name={partner.name}
+              data-href={partner.href}
+              data-description={partner.description ?? ''}
+              data-stats={JSON.stringify(partner.stats ?? [])}
+              data-clearbit={clearbitUrl}
+              data-favicon={faviconUrl}
+              data-initial={initial}
+            >
+              <div
+                class="partner-bubble-mobile w-36 h-36 rounded-full bg-white shadow-xl flex flex-col items-center justify-center cursor-pointer p-2"
+                role="button"
+                tabindex="0"
+                aria-label={`View ${partner.name} details`}
+              >
+                <img class="w-16 h-16 object-contain bubble-logo-mobile" src={clearbitUrl} alt={partner.name} draggable="false" />
+                <div class="bubble-initial-mobile hidden w-16 h-16 rounded-full bg-[#1e3a5f] items-center justify-center text-white font-bold text-2xl" aria-hidden="true">
+                  <span>{initial}</span>
+                </div>
+                <span class="text-[10px] font-semibold text-center text-gray-700 px-1 mt-1 leading-tight">{partner.name}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+
+  <!-- Partner Guidelines -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <!-- Partners List -->
-        <div>
-          <ul class="space-y-4">
-            {partners.map((partner, index) => (
-              <li class:list={[
-                'flex items-center gap-4 p-4 rounded-xl transition-colors',
-                index % 2 === 0 ? 'bg-white' : 'bg-primary/5'
-              ]}>
-                <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                  </svg>
+      <div class="max-w-2xl mx-auto">
+        <h3 class="text-2xl font-bold text-text-dark mb-4">Partner Guidelines</h3>
+        <p class="text-text-light mb-8">
+          Fill <span class="font-bold">One of the Three Criteria</span> to Become a Partner
+        </p>
+        <div class="space-y-6">
+          {guidelines.map((guideline) => (
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={guideline.icon} />
                 </div>
-                <a
-                  href={partner.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="partner-link"
-                >
-                  {partner.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Partner Guidelines -->
-        <div>
-          <h3 class="text-2xl font-bold text-text-dark mb-4">Partner Guidelines</h3>
-          <p class="text-text-light mb-8">
-            Fill <span class="font-bold">One of the Three Criteria</span> to Become a Partner
-          </p>
-
-          <div class="space-y-6">
-            {guidelines.map((guideline) => (
-              <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <div class="flex items-start gap-4">
-                  <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" set:html={guideline.icon} />
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-text-dark mb-2">{guideline.title}</h4>
-                    <p class="text-text-light">{guideline.description}</p>
-                  </div>
+                <div>
+                  <h4 class="font-bold text-text-dark mb-2">{guideline.title}</h4>
+                  <p class="text-text-light">{guideline.description}</p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   </section>
-<style>
-    .partner-link {
-      color: #00A651;
-      font-weight: 500;
-      text-decoration: none;
-      transition: color 0.2s ease;
+
+  <!-- Shared panel dialog (one instance, content swapped by JS) -->
+  <PartnerPanel />
+
+  <script>
+    import gsap from 'gsap';
+    import ScrollTrigger from 'gsap/ScrollTrigger';
+    import Swiper from 'swiper';
+    import { Pagination } from 'swiper/modules';
+    import 'swiper/css';
+    import 'swiper/css/pagination';
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── Logo fallback (Clearbit → favicon → initial letter) ──────────────
+    function attachFallback(img: HTMLImageElement, faviconUrl: string, initialEl: HTMLElement) {
+      let stage = 0;
+      img.addEventListener('error', () => {
+        stage++;
+        if (stage === 1) {
+          img.src = faviconUrl;
+        } else {
+          img.style.display = 'none';
+          initialEl.style.display = 'flex';
+        }
+      });
     }
 
-    .partner-link:hover {
-      color: #1e3a5f;
+    document.querySelectorAll<HTMLElement>('.partner-bubble').forEach((el) => {
+      const img       = el.querySelector<HTMLImageElement>('.bubble-logo')!;
+      const initialEl = el.querySelector<HTMLElement>('.bubble-initial')!;
+      if (img && initialEl) attachFallback(img, el.dataset.favicon!, initialEl);
+    });
+
+    document.querySelectorAll<HTMLElement>('.partner-bubble-mobile').forEach((el) => {
+      const slide     = el.closest<HTMLElement>('[data-name]')!;
+      const img       = el.querySelector<HTMLImageElement>('.bubble-logo-mobile')!;
+      const initialEl = el.querySelector<HTMLElement>('.bubble-initial-mobile')!;
+      if (img && initialEl && slide) attachFallback(img, slide.dataset.favicon!, initialEl);
+    });
+
+    // ── GSAP ScrollTrigger — desktop bubbles ─────────────────────────────
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const offsets = [
+        { x: -60, y: 0  },
+        { x:  60, y: 0  },
+        { x:   0, y: 60 },
+        { x: -40, y: 40 },
+        { x:  40, y:-40 },
+      ];
+      document.querySelectorAll<HTMLElement>('.partner-bubble').forEach((el, i) => {
+        const off = offsets[i % offsets.length];
+        gsap.fromTo(el,
+          { opacity: 0, x: off.x, y: off.y },
+          {
+            opacity: 1, x: 0, y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 90%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
     }
-  </style>
+
+    // ── Swiper — mobile carousel ─────────────────────────────────────────
+    const swiperEl = document.querySelector<HTMLElement>('.partners-swiper');
+    if (swiperEl) {
+      new Swiper(swiperEl, {
+        modules: [Pagination],
+        slidesPerView: 1.5,
+        centeredSlides: true,
+        spaceBetween: 20,
+        pagination: { el: '.swiper-pagination', clickable: true },
+      });
+    }
+
+    // ── Panel open / close ───────────────────────────────────────────────
+    const dialog      = document.getElementById('partner-panel')     as HTMLDialogElement;
+    const panelLogo   = document.getElementById('panel-logo')        as HTMLImageElement;
+    const panelInit   = document.getElementById('panel-initial')     as HTMLElement;
+    const panelName   = document.getElementById('panel-name')        as HTMLElement;
+    const panelDesc   = document.getElementById('panel-description') as HTMLElement;
+    const panelStats  = document.getElementById('panel-stats')       as HTMLElement;
+    const panelLink   = document.getElementById('panel-link')        as HTMLAnchorElement;
+    const closeBtn    = document.getElementById('panel-close')       as HTMLButtonElement;
+
+    interface BubbleData {
+      name: string; href: string; description: string;
+      stats: { label: string; value: string }[];
+      clearbit: string; favicon: string; initial: string;
+    }
+
+    function openPanel(d: BubbleData) {
+      // Reset logo state
+      panelLogo.style.display = 'block';
+      panelInit.style.display = 'none';
+      panelInit.textContent   = d.initial;
+      panelLogo.alt           = d.name;
+
+      let logoStage = 0;
+      panelLogo.onerror = () => {
+        logoStage++;
+        if (logoStage === 1) { panelLogo.src = d.favicon; }
+        else { panelLogo.style.display = 'none'; panelInit.style.display = 'flex'; }
+      };
+      panelLogo.src = d.clearbit;
+
+      panelName.textContent       = d.name;
+      panelDesc.textContent       = d.description;
+      panelDesc.style.display     = d.description ? 'block' : 'none';
+
+      panelStats.innerHTML = '';
+      if (d.stats.length) {
+        d.stats.forEach(({ label, value }) => {
+          panelStats.innerHTML += `
+            <div class="text-center">
+              <div class="text-2xl font-bold text-[#00A651]">${value}</div>
+              <div class="text-xs text-gray-500 uppercase tracking-wide">${label}</div>
+            </div>`;
+        });
+      }
+      panelStats.style.display = d.stats.length ? 'flex' : 'none';
+      panelLink.href = d.href;
+
+      dialog.showModal();
+    }
+
+    function closePanel() { dialog.close(); }
+
+    closeBtn.addEventListener('click', closePanel);
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) closePanel(); });
+
+    function bubbleDataFrom(el: HTMLElement): BubbleData {
+      return {
+        name:        el.dataset.name!,
+        href:        el.dataset.href!,
+        description: el.dataset.description ?? '',
+        stats:       JSON.parse(el.dataset.stats ?? '[]'),
+        clearbit:    el.dataset.clearbit!,
+        favicon:     el.dataset.favicon!,
+        initial:     el.dataset.initial!,
+      };
+    }
+
+    // Desktop bubbles
+    document.querySelectorAll<HTMLElement>('.partner-bubble').forEach((el) => {
+      el.addEventListener('click', () => openPanel(bubbleDataFrom(el)));
+      el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') el.click(); });
+    });
+
+    // Mobile bubbles (data-* lives on the slide parent)
+    document.querySelectorAll<HTMLElement>('.partner-bubble-mobile').forEach((el) => {
+      el.addEventListener('click', () => {
+        const slide = el.closest<HTMLElement>('[data-name]');
+        if (slide) openPanel(bubbleDataFrom(slide));
+      });
+    });
+  </script>
+
 </BaseLayout>
