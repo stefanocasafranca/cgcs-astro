@@ -112,7 +112,7 @@ Existing section kept below the bubble canvas, no changes to content or layout.
 
 ## Mobile Layout
 
-On viewports below 768px, the absolute-positioned bubble canvas switches to a CSS grid (3 columns) so bubbles don't overflow. Bubble coordinates (used for desktop) are percentage-based so they scale with the container. Size classes reduce proportionally on mobile (lg→md, md→sm equivalent).
+On viewports below 768px, the bubble canvas is hidden and replaced with a **horizontal swipeable carousel** (Swiper.js). Each slide is a partner bubble (circular, same visual identity as desktop). Swiping is touch-native with momentum. Tapping any bubble opens the same full-screen `<dialog>` panel as on desktop. The carousel has no visible navigation arrows — swipe gesture only, with subtle pagination dots below.
 
 ## Out of Scope
 
