@@ -213,6 +213,15 @@ export const allEvents: EventItem[] = [
     isoDate: '2026-04-25',
   },
   {
+    title: 'AIMUG Monthly Mixer & Showcase',
+    date: 'May 6, 2026',
+    time: '6:00 pm - 9:00 pm',
+    image: 'https://secure.meetupstatic.com/photos/event/6/5/5/highres_531601621.jpeg',
+    href: 'https://www.meetup.com/austin-langchain-ai-group/events/312283311/',
+    newTab: true,
+    isoDate: '2026-05-06',
+  },
+  {
     title: 'Austin Forum for Technology & Society',
     date: 'May 5, 2026',
     time: '5:00 pm - 9:00 pm',
