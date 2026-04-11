@@ -191,7 +191,9 @@ export const allEvents: EventItem[] = [
     title: 'Legacy of Leaders Awards',
     date: 'April 16, 2026',
     time: '5:30 pm - 8:30 pm',
-    image: '/images/logos/logo-color.png',
+    image: '/images/legacy-of-leaders-awards.webp',
+    href: 'https://infohub.austincc.edu/blog/2025/11/05/nominate-acc-student-leaders-for-a-2026-legacy-of-leaders-award/',
+    newTab: true,
     isoDate: '2026-04-16',
   },
   {
