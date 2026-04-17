@@ -206,9 +206,11 @@ export const allEvents: EventItem[] = [
     isoDate: '2026-04-22',
   },
   {
-    title: 'DAR Community Day Art Exhibit',
+    title: 'American Revolution Experience traveling exhibit',
     date: 'Through April 25, 2026',
-    image: '/images/logos/logo-color.png',
+    image: '/images/dar-community-day-exhibit.png',
+    href: 'https://www.dar.org/american-revolution-experience-traveling-exhibit-austin-community-college',
+    newTab: true,
     isoDate: '2026-04-25',
   },
   {
