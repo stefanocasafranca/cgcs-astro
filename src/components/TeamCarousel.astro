@@ -109,15 +109,17 @@ const teamMembers = [
   const totalSlides = 8;
   const AUTOPLAY_DURATION = 4000;
   let autoplayTimer: ReturnType<typeof setTimeout> | null = null;
-  let isPaused = true; // starts paused until visible
+  let isPaused = true;
   let isInView = false;
   let isHovered = false;
+
+  // Track elapsed time for pause/resume
+  let progressStartTime = 0;
+  let elapsedBeforePause = 0;
 
   // Drag state
   let isDragging = false;
   let startX = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
 
   function getVisibleSlides() {
     if (window.innerWidth >= 1024) return 4;
@@ -168,25 +170,32 @@ const teamMembers = [
     });
   }
 
-  function startProgress() {
+  function startProgress(remainingTime?: number) {
+    const duration = remainingTime ?? AUTOPLAY_DURATION;
+    const startPercent = remainingTime != null
+      ? ((AUTOPLAY_DURATION - remainingTime) / AUTOPLAY_DURATION) * 100
+      : 0;
+
     const dots = dotsContainer.querySelectorAll('.dot-wrapper');
     const activeDot = dots[currentIndex];
     if (!activeDot) return;
 
     const progress = activeDot.querySelector('.dot-progress') as HTMLElement;
-    // Reset
-    progress.style.width = '0%';
+    progress.style.width = `${startPercent}%`;
     progress.classList.remove('animating');
 
-    // Force reflow then animate
     void progress.offsetWidth;
     progress.classList.add('animating');
-    progress.style.transitionDuration = `${AUTOPLAY_DURATION}ms`;
+    progress.style.transitionDuration = `${duration}ms`;
     progress.style.width = '100%';
+
+    progressStartTime = Date.now();
+    elapsedBeforePause = AUTOPLAY_DURATION - duration;
   }
 
   function goToSlide(index: number) {
     currentIndex = index;
+    elapsedBeforePause = 0;
     updateCarousel();
     resetAutoplay();
   }
@@ -201,55 +210,76 @@ const teamMembers = [
   function advanceSlide() {
     const maxIndex = getMaxIndex();
     currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
+    elapsedBeforePause = 0;
     updateCarousel();
     startProgress();
     scheduleAutoplay();
   }
 
-  function scheduleAutoplay() {
+  function scheduleAutoplay(remainingTime?: number) {
     if (autoplayTimer) clearTimeout(autoplayTimer);
     if (!isPaused) {
-      autoplayTimer = setTimeout(advanceSlide, AUTOPLAY_DURATION);
+      const delay = remainingTime ?? AUTOPLAY_DURATION;
+      autoplayTimer = setTimeout(advanceSlide, delay);
     }
   }
 
   function resetAutoplay() {
     if (autoplayTimer) clearTimeout(autoplayTimer);
+    elapsedBeforePause = 0;
     updateDots();
     startProgress();
     scheduleAutoplay();
+  }
+
+  function pauseAutoplay() {
+    if (autoplayTimer) clearTimeout(autoplayTimer);
+    autoplayTimer = null;
+
+    // Freeze the progress bar at its current position
+    const activeDot = dotsContainer.querySelector('.dot-wrapper.active .dot-progress') as HTMLElement;
+    if (activeDot) {
+      const computed = getComputedStyle(activeDot);
+      activeDot.classList.remove('animating');
+      activeDot.style.width = computed.width;
+    }
+
+    // Track how much time has elapsed
+    elapsedBeforePause += Date.now() - progressStartTime;
+  }
+
+  function resumeAutoplay() {
+    const remaining = Math.max(0, AUTOPLAY_DURATION - elapsedBeforePause);
+    startProgress(remaining);
+    scheduleAutoplay(remaining);
   }
 
   function updatePauseState() {
     const shouldPause = !isInView || isHovered;
     if (shouldPause && !isPaused) {
       isPaused = true;
-      if (autoplayTimer) clearTimeout(autoplayTimer);
-      const activeDot = dotsContainer.querySelector('.dot-wrapper.active .dot-progress') as HTMLElement;
-      if (activeDot) {
-        const computed = getComputedStyle(activeDot);
-        activeDot.classList.remove('animating');
-        activeDot.style.width = computed.width;
-      }
+      pauseAutoplay();
     } else if (!shouldPause && isPaused) {
       isPaused = false;
-      resetAutoplay();
+      resumeAutoplay();
     }
   }
 
-  // Pause on hover
-  carousel.addEventListener('mouseenter', () => {
+  // Pause on hover — listen on the whole section so entering/leaving
+  // individual cards doesn't re-trigger
+  const section = carousel.closest('section') as HTMLElement;
+
+  section.addEventListener('mouseenter', () => {
     isHovered = true;
     updatePauseState();
   });
 
-  carousel.addEventListener('mouseleave', () => {
+  section.addEventListener('mouseleave', () => {
     isHovered = false;
     updatePauseState();
   });
 
   // Start/stop based on visibility
-  const section = carousel.closest('section') as HTMLElement;
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       isInView = entry.isIntersecting;
@@ -268,7 +298,7 @@ const teamMembers = [
     startX = getPositionX(e);
     track.style.transition = 'none';
     isPaused = true;
-    if (autoplayTimer) clearTimeout(autoplayTimer);
+    pauseAutoplay();
   }
 
   function dragMove(e: MouseEvent | TouchEvent) {
@@ -297,8 +327,10 @@ const teamMembers = [
       currentIndex--;
     }
 
+    elapsedBeforePause = 0;
     updateCarousel();
-    updatePauseState();
+    isPaused = false;
+    resetAutoplay();
   }
 
   // Touch events
@@ -323,6 +355,7 @@ const teamMembers = [
   prevBtn?.addEventListener('click', () => {
     const maxIndex = getMaxIndex();
     currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
+    elapsedBeforePause = 0;
     updateCarousel();
     resetAutoplay();
   });
@@ -330,6 +363,7 @@ const teamMembers = [
   nextBtn?.addEventListener('click', () => {
     const maxIndex = getMaxIndex();
     currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
+    elapsedBeforePause = 0;
     updateCarousel();
     resetAutoplay();
   });
@@ -337,6 +371,7 @@ const teamMembers = [
   window.addEventListener('resize', () => {
     const maxIndex = getMaxIndex();
     if (currentIndex > maxIndex) currentIndex = maxIndex;
+    elapsedBeforePause = 0;
     createDots();
     updateCarousel();
     resetAutoplay();
