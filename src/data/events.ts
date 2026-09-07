@@ -554,6 +554,33 @@ export const allEvents: EventItem[] = [
     newTab: true,
     isoDate: '2026-12-07',
   },
+  {
+    title: 'Reuters Momentum AI Austin 2026',
+    date: 'September 24, 2026',
+    time: '7:30 am - 5:40 pm',
+    image: 'https://austin-ai.org/wp-content/uploads/2026/09/reuters.png',
+    href: 'https://austin-ai.org/event/momentum-ai-austin-2026/',
+    newTab: true,
+    isoDate: '2026-09-24',
+  },
+  {
+    title: '12 Week MBA Fall session',
+    date: 'October 14, 2026',
+    time: '7:00 am - 5:00 pm',
+    image: 'https://austin-ai.org/wp-content/uploads/2026/09/12wk-mba2.png',
+    href: 'https://austin-ai.org/event/12-week-mba-fall-session/',
+    newTab: true,
+    isoDate: '2026-10-14',
+  },
+  {
+    title: 'Future of Communications Conference',
+    date: 'November 11, 2026',
+    time: '7:30 am - 6:00 pm',
+    image: 'https://austin-ai.org/wp-content/uploads/2026/09/future-of-communications.png',
+    href: 'https://austin-ai.org/event/future-of-communications-conference/',
+    newTab: true,
+    isoDate: '2026-11-11',
+  },
 ];
 
 const now = new Date();
