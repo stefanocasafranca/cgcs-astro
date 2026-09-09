@@ -7,7 +7,7 @@ import InitiativeCard from '../components/InitiativeCard.astro';
 import EventCard from '../components/EventCard.astro';
 import ImpactCounter from '../components/ImpactCounter.astro';
 import SimulationsModal from '../components/SimulationsModal.astro';
-import { upcomingEvents } from '../data/events';
+import { upcomingCgcsEvents, upcomingInterestEvents } from '../data/events';
 
 const seo = {
   title: 'CGCS — Center for Government and Civic Service | Austin Community College',
@@ -66,6 +66,31 @@ const initiatives = [
     description: 'Harness technology for the common good. Engage in collaborative problem-solving—no technical background required—to build the resilience and practical skills essential for active 21st-century citizenship.',
     href: '/initiatives/citizenship-tech',
     icon: 'citizenship-tech' as const,
+  },
+];
+
+const eventSections = [
+  {
+    id: 'events',
+    key: 'cgcs',
+    tone: 'muted' as const,
+    heading: 'CGCS Initiatives & Events',
+    blurb:
+      'Programs, workshops, dialogues, and service opportunities hosted by the Center for Government and Civic Service.',
+    events: upcomingCgcsEvents,
+    initialCount: 8,
+    emptyText: 'No upcoming CGCS events at this time.',
+  },
+  {
+    id: 'events-of-interest',
+    key: 'interest',
+    tone: 'plain' as const,
+    heading: 'Events of Interest',
+    blurb:
+      'Events hosted by our partners across Central Texas that we recommend to the CGCS community.',
+    events: upcomingInterestEvents,
+    initialCount: 4,
+    emptyText: 'No partner events at this time.',
   },
 ];
 
@@ -197,61 +222,63 @@ const simulationsData = {
     </div>
   </section>
 
-  <!-- CGCS Events Section -->
-  <section id="events" class="py-20 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="section-heading text-center mb-12">Upcoming Events</h2>
+  <!-- Events: CGCS-run first, partner events second -->
+  {eventSections.map((section) => (
+    <section id={section.id} class:list={['py-20', section.tone === 'muted' ? 'bg-gray-50' : 'bg-white']}>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="section-heading text-center mb-3">{section.heading}</h2>
+        <p class="text-text-light text-center max-w-2xl mx-auto mb-12">{section.blurb}</p>
 
-      {upcomingEvents.length > 0 ? (
-        <>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {upcomingEvents.map((event, i) => (
-              <div class:list={['h-full', i >= 8 && 'events-extra hidden']}>
-                <EventCard
-                  title={event.title}
-                  date={event.date}
-                  time={event.time}
-                  image={event.image}
-                  href={event.href}
-                  newTab={event.newTab}
-                  modalId={event.modalId}
-                  objectFit={event.objectFit}
-                  objectPosition={event.objectPosition}
-                />
-              </div>
-            ))}
-          </div>
-          {upcomingEvents.length > 8 && (
-            <div class="text-center mt-10">
-              <button
-                id="show-more-events"
-                class="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-200"
-              >
-                Show More
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+        {section.events.length > 0 ? (
+          <>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {section.events.map((event, i) => (
+                <div class:list={['h-full', i >= section.initialCount && `events-extra-${section.key} hidden`]}>
+                  <EventCard
+                    title={event.title}
+                    date={event.date}
+                    time={event.time}
+                    image={event.image}
+                    href={event.href}
+                    newTab={event.newTab}
+                    modalId={event.modalId}
+                    objectFit={event.objectFit}
+                    objectPosition={event.objectPosition}
+                  />
+                </div>
+              ))}
             </div>
-          )}
-        </>
-      ) : (
-        <div class="text-center py-16">
-          <p class="text-text-light text-lg mb-4">No upcoming events at this time.</p>
-          <a href="/past-events" class="text-primary font-medium hover:underline">
-            Browse past events →
-          </a>
-        </div>
-      )}
-
-    </div>
-  </section>
+            {section.events.length > section.initialCount && (
+              <div class="text-center mt-10">
+                <button
+                  data-show-more={section.key}
+                  class="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-200"
+                >
+                  Show More
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div class="text-center py-16">
+            <p class="text-text-light text-lg mb-4">{section.emptyText}</p>
+            <a href="/past-events" class="text-primary font-medium hover:underline">
+              Browse past events &rarr;
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+  ))}
 
   <!-- Spring 2027 Programs -->
   <section id="spring-2027" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p class="text-primary font-semibold tracking-wide uppercase text-center mb-3">Spring 2027</p>
-      <h2 class="section-heading text-center mb-4">Programs Coming This Spring</h2>
+      <h2 class="section-heading text-center mb-4">CGCS Programs Coming This Spring</h2>
       <p class="text-text-light text-center max-w-2xl mx-auto mb-12">
         Two hands-on programs where students build and research alongside real partners.
       </p>
@@ -314,10 +341,14 @@ const simulationsData = {
   />
 
   <script>
-    const showMoreBtn = document.getElementById('show-more-events');
-    showMoreBtn?.addEventListener('click', () => {
-      document.querySelectorAll('.events-extra').forEach((el) => el.classList.remove('hidden'));
-      showMoreBtn.style.display = 'none';
+    document.querySelectorAll('[data-show-more]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-show-more');
+        document
+          .querySelectorAll(`.events-extra-${key}`)
+          .forEach((el) => el.classList.remove('hidden'));
+        (btn as HTMLElement).style.display = 'none';
+      });
     });
   </script>
 

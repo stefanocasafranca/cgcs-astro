@@ -260,6 +260,9 @@ async function main() {
           `    href: ${q(ev.href)},`,
           '    newTab: true,',
           `    isoDate: ${q(ev.isoDate)},`,
+          // Every source in PARTNERS is an outside organization, so anything this
+          // script adds belongs in the "Events of Interest" section by definition.
+          "    category: 'interest',",
           '  },',
         ];
         return lines.join('\n');

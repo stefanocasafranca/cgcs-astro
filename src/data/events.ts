@@ -10,6 +10,13 @@ export interface EventItem {
   modalId?: string;
   /** ISO date (YYYY-MM-DD) used for past/upcoming comparison */
   isoDate: string;
+  /**
+   * Who owns the event. 'cgcs' = we host, co-host, or run it (includes ACC-wide
+   * events we participate in); 'interest' = a partner's event we point people to.
+   * Required on purpose: the daily partner sync appends to this file, and an
+   * untagged event must fail the build rather than silently land in our section.
+   */
+  category: 'cgcs' | 'interest';
   /** How the image fills the card — defaults to 'cover'; use 'contain' for banner-style images */
   objectFit?: 'cover' | 'contain';
   /** Which part of the image stays visible when cropped — defaults to 'center' */
@@ -24,6 +31,7 @@ export const allEvents: EventItem[] = [
     image: '/images/logos/logo-color.png',
     modalId: 'harmony-simulations-modal',
     isoDate: '2026-03-09',
+    category: 'cgcs',
   },
   {
     title: 'Community Conversation on Educating Character',
@@ -33,6 +41,7 @@ export const allEvents: EventItem[] = [
     href: 'https://infohub.austincc.edu/blog/2026/02/19/youre-invited-community-conversation-on-freedom-virtue-and-community/',
     newTab: true,
     isoDate: '2026-03-10',
+    category: 'cgcs',
   },
   {
     title: 'CTXLF - From Idea to Action',
@@ -42,6 +51,7 @@ export const allEvents: EventItem[] = [
     href: 'https://ctxlearningfestival.com/festival-calendar/business-in-a-box-from-idea-to-action',
     newTab: true,
     isoDate: '2026-03-11',
+    category: 'cgcs',
   },
   {
     title: 'CTXLF - Strategic Communication Workshop',
@@ -51,6 +61,7 @@ export const allEvents: EventItem[] = [
     href: 'https://ctxlearningfestival.com/festival-calendar/strategic-communication-workshop',
     newTab: true,
     isoDate: '2026-03-12',
+    category: 'cgcs',
   },
   {
     title: 'CTXLF - Great Questions Community Seminar',
@@ -60,6 +71,7 @@ export const allEvents: EventItem[] = [
     href: 'https://ctxlearningfestival.com/festival-calendar/great-questions-community-seminar',
     newTab: true,
     isoDate: '2026-03-12',
+    category: 'cgcs',
   },
   {
     title: 'ACM/IEEE Austin: March Tech Talks & Community Showcase',
@@ -69,6 +81,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/events/313448439/',
     newTab: true,
     isoDate: '2026-03-25',
+    category: 'interest',
   },
   {
     title: 'Strategic Communication Workshop – ACC Highland',
@@ -78,6 +91,7 @@ export const allEvents: EventItem[] = [
     href: 'https://forms.gle/FnAQByAaGNyjwvLx6',
     newTab: true,
     isoDate: '2026-03-24',
+    category: 'cgcs',
   },
   {
     title: '"Depolarizing Within" Workshop',
@@ -87,6 +101,7 @@ export const allEvents: EventItem[] = [
     href: 'https://forms.gle/hWj4z9utML1xGNm2A',
     newTab: true,
     isoDate: '2026-03-26',
+    category: 'cgcs',
   },
   {
     title: 'AIMUG Monthly Mixer & Showcase',
@@ -96,6 +111,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/events/312282692/',
     newTab: true,
     isoDate: '2026-04-01',
+    category: 'interest',
   },
   {
     title: 'Red/Blue Workshop',
@@ -105,6 +121,7 @@ export const allEvents: EventItem[] = [
     href: 'https://forms.gle/CEwYcWwUxd5CCp8H7',
     newTab: true,
     isoDate: '2026-04-09',
+    category: 'cgcs',
   },
   {
     title: 'Central Texas Law Summit',
@@ -115,6 +132,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.eventbrite.com/e/central-texas-law-summit-tickets-1981875039594',
     newTab: true,
     isoDate: '2026-03-27',
+    category: 'cgcs',
   },
   {
     title: 'The Great AI Debate',
@@ -124,6 +142,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/events/april-7-2026',
     newTab: true,
     isoDate: '2026-04-07',
+    category: 'interest',
   },
   {
     title: 'Austin AI Alliance Monthly Meeting',
@@ -134,6 +153,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/austin-ai-alliance-monthly-meeting-april/',
     newTab: true,
     isoDate: '2026-04-15',
+    category: 'interest',
   },
   {
     title: 'Strategic Communication Workshop – ACC Round Rock',
@@ -143,6 +163,7 @@ export const allEvents: EventItem[] = [
     href: 'https://forms.gle/FnAQByAaGNyjwvLx6',
     newTab: true,
     isoDate: '2026-04-14',
+    category: 'cgcs',
   },
   {
     title: 'Inaugural Quarterly Community Convening',
@@ -152,6 +173,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.eventbrite.com/e/inaugural-quarterly-community-convening-tickets-1982837362929?aff=oddtdtcreator',
     newTab: true,
     isoDate: '2026-04-21',
+    category: 'cgcs',
   },
   {
     title: 'Design Community of Practice (May)',
@@ -161,6 +183,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.eventbrite.com/e/design-community-of-practice-may-tickets-1981261501485?aff=oddtdtcreator',
     newTab: true,
     isoDate: '2026-05-07',
+    category: 'cgcs',
   },
   // {
   //   title: 'Design Community of Practice (June)',
@@ -179,6 +202,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.eventbrite.com/e/datadev-may-community-of-practice-national-police-data-index-demo-tickets-1981262761253?aff=oddtdtcreator',
     newTab: true,
     isoDate: '2026-05-12',
+    category: 'cgcs',
   },
   // {
   //   title: 'Data/Dev Community of Practice (June)',
@@ -197,6 +221,7 @@ export const allEvents: EventItem[] = [
     href: 'https://infohub.austincc.edu/blog/2025/11/05/nominate-acc-student-leaders-for-a-2026-legacy-of-leaders-award/',
     newTab: true,
     isoDate: '2026-04-16',
+    category: 'cgcs',
   },
   {
     title: 'ACM Monthly Meetup',
@@ -206,6 +231,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/',
     newTab: true,
     isoDate: '2026-04-22',
+    category: 'interest',
   },
   {
     title: 'American Revolution Experience traveling exhibit',
@@ -214,6 +240,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.dar.org/american-revolution-experience-traveling-exhibit-austin-community-college',
     newTab: true,
     isoDate: '2026-04-25',
+    category: 'cgcs',
   },
   {
     title: 'AIMUG Monthly Mixer & Showcase',
@@ -223,6 +250,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/events/312283311/',
     newTab: true,
     isoDate: '2026-05-06',
+    category: 'interest',
   },
   {
     title: 'Austin Forum for Technology & Society',
@@ -232,6 +260,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/',
     newTab: true,
     isoDate: '2026-05-05',
+    category: 'interest',
   },
   {
     title: 'Open Austin Meetup',
@@ -241,6 +270,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.open-austin.org/',
     newTab: true,
     isoDate: '2026-05-12',
+    category: 'interest',
   },
   {
     title: 'Austin AI Alliance: Monthly Meetup',
@@ -251,6 +281,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/',
     newTab: true,
     isoDate: '2026-05-20',
+    category: 'interest',
   },
   {
     title: 'ACM Monthly Meeting',
@@ -260,6 +291,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/',
     newTab: true,
     isoDate: '2026-05-27',
+    category: 'interest',
   },
   {
     title: 'Austin Forum for Technology & Society',
@@ -269,6 +301,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/',
     newTab: true,
     isoDate: '2026-06-02',
+    category: 'interest',
   },
   {
     title: 'Austin LangChain AI Meetup',
@@ -278,6 +311,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/',
     newTab: true,
     isoDate: '2026-06-03',
+    category: 'interest',
   },
   {
     title: 'Open Austin Meetup',
@@ -287,6 +321,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.open-austin.org/',
     newTab: true,
     isoDate: '2026-06-04',
+    category: 'interest',
   },
   {
     title: 'Summer AI Intensive 2026',
@@ -296,6 +331,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/summer-ai-intensive-2026/',
     newTab: true,
     isoDate: '2026-06-24',
+    category: 'interest',
   },
   {
     title: 'ACM Monthly Meetup',
@@ -305,6 +341,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/',
     newTab: true,
     isoDate: '2026-07-29',
+    category: 'interest',
   },
   {
     title: 'Austin Forum for Technology & Society',
@@ -314,6 +351,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/',
     newTab: true,
     isoDate: '2026-08-04',
+    category: 'interest',
   },
   {
     title: 'Austin LangChain AI Meetup',
@@ -323,6 +361,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/',
     newTab: true,
     isoDate: '2026-08-11',
+    category: 'interest',
   },
   {
     title: 'The Data Center Dialogue: A Community Town Hall on AI Infrastructure',
@@ -332,6 +371,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/events/august-19-2026',
     newTab: true,
     isoDate: '2026-08-19',
+    category: 'interest',
   },
   {
     title: 'ACM/IEEE Austin 1-Year Anniversary: August Tech Talks & Community Showcase',
@@ -341,6 +381,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/events/315775862/',
     newTab: true,
     isoDate: '2026-08-26',
+    category: 'interest',
   },
   {
     title: 'Student Success Ascender Event',
@@ -349,6 +390,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austincc.edu/ascender',
     newTab: true,
     isoDate: '2026-08-21',
+    category: 'cgcs',
   },
   {
     title: '2nd Annual Central Texas Climate & Sustainability Summit',
@@ -358,6 +400,7 @@ export const allEvents: EventItem[] = [
     objectPosition: 'top',
     href: '/climate-summit',
     isoDate: '2026-09-04',
+    category: 'cgcs',
   },
   {
     title: 'Austin Forum: The Future is Low-Tech',
@@ -367,6 +410,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/events/september-1-2026',
     newTab: true,
     isoDate: '2026-09-01',
+    category: 'interest',
   },
   {
     title: 'Beyond the Prototype II: Human Guidance and Self-Improving AIs',
@@ -376,6 +420,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/hota-beyond-the-prototype-2/',
     newTab: true,
     isoDate: '2026-09-16',
+    category: 'interest',
   },
   {
     title: 'Austin Forum: Silicon, Systems, and Supercomputers',
@@ -385,6 +430,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/events/october-6-2026',
     newTab: true,
     isoDate: '2026-10-06',
+    category: 'interest',
   },
   {
     title: 'Agentic Research Systems',
@@ -395,6 +441,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/agentic-research-system-hota/',
     newTab: true,
     isoDate: '2026-10-21',
+    category: 'interest',
   },
   {
     title: 'State of AI in Texas 2026',
@@ -405,6 +452,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/state-of-ai-in-texas-2026/',
     newTab: true,
     isoDate: '2026-11-17',
+    category: 'interest',
   },
   {
     title: 'Human Orchestration of Tools and Agents – A Studio of One',
@@ -415,6 +463,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/hota-november/',
     newTab: true,
     isoDate: '2026-11-18',
+    category: 'interest',
   },
   {
     title: 'Austin Forum: Discussion of "Project Maven" by Katrina Manson',
@@ -424,6 +473,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.austinforum.org/events/september-23-2026',
     newTab: true,
     isoDate: '2026-09-23',
+    category: 'interest',
   },
   {
     title: 'AIMUG Monthly Mixer & Showcase',
@@ -433,6 +483,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/events/314658997/',
     newTab: true,
     isoDate: '2026-09-02',
+    category: 'interest',
   },
   {
     title: 'AIMUG Monthly Mixer & Showcase',
@@ -442,6 +493,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/events/315197169/',
     newTab: true,
     isoDate: '2026-10-07',
+    category: 'interest',
   },
   {
     title: 'AIMUG Monthly Mixer & Showcase',
@@ -451,6 +503,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/events/315504034/',
     newTab: true,
     isoDate: '2026-11-04',
+    category: 'interest',
   },
   {
     title: 'ACM Austin Special Workshop: The A to Z of Building AI Agents with MongoDB',
@@ -460,6 +513,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/events/316000320/',
     newTab: true,
     isoDate: '2026-09-17',
+    category: 'interest',
   },
   {
     title: 'ACM/IEEE Austin: Oct Tech Talks & Community Showcase',
@@ -469,6 +523,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/events/316187537/',
     newTab: true,
     isoDate: '2026-10-28',
+    category: 'interest',
   },
   {
     title: 'ACM/IEEE Austin Novemeber Tech Talks & Community Showcase',
@@ -478,6 +533,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/acm-austin/events/316315179/',
     newTab: true,
     isoDate: '2026-11-09',
+    category: 'interest',
   },
   {
     title: "Documentary Screening: 'Foreverland' — ACC Elgin Campus",
@@ -488,6 +544,7 @@ export const allEvents: EventItem[] = [
     href: 'https://docs.google.com/forms/d/e/1FAIpQLSdRei3KYb4rLhoRZt2JVm_ncrGssZn4oM3sboN3hMCUPoMP6A/viewform',
     newTab: true,
     isoDate: '2026-09-14',
+    category: 'cgcs',
   },
   {
     title: "Documentary Screening: 'Foreverland' — ACC Highland Campus",
@@ -498,6 +555,7 @@ export const allEvents: EventItem[] = [
     href: 'https://docs.google.com/forms/d/e/1FAIpQLSdRei3KYb4rLhoRZt2JVm_ncrGssZn4oM3sboN3hMCUPoMP6A/viewform',
     newTab: true,
     isoDate: '2026-09-16',
+    category: 'cgcs',
   },
   {
     title: 'Structured Analytic Techniques Workshop',
@@ -507,6 +565,7 @@ export const allEvents: EventItem[] = [
     href: 'https://forms.gle/sCdr2uB5n8sqnvaC7',
     newTab: true,
     isoDate: '2026-09-24',
+    category: 'cgcs',
   },
   {
     title: 'Community Dialogue on the 2nd Amendment: Replace It or Embrace It?',
@@ -516,6 +575,7 @@ export const allEvents: EventItem[] = [
     href: 'https://forms.gle/Wnt912hLi4KqReySA',
     newTab: true,
     isoDate: '2026-10-06',
+    category: 'cgcs',
   },
   {
     title: 'Law Panel: AI, Ethics, and the Future of Legal Work',
@@ -525,6 +585,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.eventbrite.com/e/law-panel-tickets-1999711301333?aff=oddtdtcreator',
     newTab: true,
     isoDate: '2026-10-07',
+    category: 'cgcs',
   },
   {
     title: 'Anti-Human Trafficking Volunteer Opportunity: Skull Games Task Force',
@@ -534,6 +595,7 @@ export const allEvents: EventItem[] = [
     href: 'https://forms.gle/XGTDfZx4PGvSrtDq8',
     newTab: true,
     isoDate: '2026-11-08',
+    category: 'cgcs',
   },
   {
     title: 'RiverHacks × NASA Space Apps Challenge 2026',
@@ -544,6 +606,7 @@ export const allEvents: EventItem[] = [
     href: 'https://luma.com/n9rvutt0',
     newTab: true,
     isoDate: '2026-11-15',
+    category: 'cgcs',
   },
   {
     title: 'AIMUG Monthly Mixer & Showcase',
@@ -587,12 +650,24 @@ const now = new Date();
 
 const byDate = (a: EventItem, b: EventItem) => a.isoDate.localeCompare(b.isoDate);
 
+const isUpcoming = (e: EventItem) => new Date(e.isoDate + 'T23:59:59') >= now;
+
 /** Events where the event day has not yet ended, sorted soonest first */
-export const upcomingEvents = allEvents
-  .filter((e) => new Date(e.isoDate + 'T23:59:59') >= now)
-  .sort(byDate);
+export const upcomingEvents = allEvents.filter(isUpcoming).sort(byDate);
 
 /** Events where the event day has already passed, sorted most recent first */
 export const pastEvents = allEvents
-  .filter((e) => new Date(e.isoDate + 'T23:59:59') < now)
+  .filter((e) => !isUpcoming(e))
   .sort((a, b) => b.isoDate.localeCompare(a.isoDate));
+
+/** CGCS-run events, soonest first */
+export const upcomingCgcsEvents = upcomingEvents.filter((e) => e.category === 'cgcs');
+
+/** Partner events we point people to, soonest first */
+export const upcomingInterestEvents = upcomingEvents.filter((e) => e.category === 'interest');
+
+/** Past CGCS-run events, most recent first */
+export const pastCgcsEvents = pastEvents.filter((e) => e.category === 'cgcs');
+
+/** Past partner events, most recent first */
+export const pastInterestEvents = pastEvents.filter((e) => e.category === 'interest');

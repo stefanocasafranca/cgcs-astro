@@ -1,7 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EventCard from '../components/EventCard.astro';
-import { pastEvents } from '../data/events';
+import { pastCgcsEvents, pastInterestEvents } from '../data/events';
+
+const sections = [
+  {
+    heading: 'CGCS Initiatives & Events',
+    blurb: 'Programs, workshops, dialogues, and service opportunities we hosted.',
+    events: pastCgcsEvents,
+    emptyText: 'No past CGCS events yet.',
+  },
+  {
+    heading: 'Events of Interest',
+    blurb: 'Partner events across Central Texas that we shared with the CGCS community.',
+    events: pastInterestEvents,
+    emptyText: 'No past partner events yet.',
+  },
+];
 ---
 
 <BaseLayout
@@ -26,19 +41,26 @@ import { pastEvents } from '../data/events';
         </a>
       </div>
 
-      {pastEvents.length > 0 ? (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pastEvents.map((event) => {
-            // modalId is homepage-only; omit it on this page since the modal isn't rendered here
-            const { modalId, isoDate, ...eventProps } = event;
-            return <EventCard {...eventProps} />;
-          })}
+      {sections.map((section) => (
+        <div class="mb-16 last:mb-0">
+          <h2 class="section-heading text-center mb-3">{section.heading}</h2>
+          <p class="text-text-light text-center max-w-2xl mx-auto mb-10">{section.blurb}</p>
+
+          {section.events.length > 0 ? (
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {section.events.map((event) => {
+                // modalId is homepage-only; omit it on this page since the modal isn't rendered here
+                const { modalId, isoDate, category, ...eventProps } = event;
+                return <EventCard {...eventProps} />;
+              })}
+            </div>
+          ) : (
+            <div class="text-center py-10">
+              <p class="text-text-light text-lg">{section.emptyText}</p>
+            </div>
+          )}
         </div>
-      ) : (
-        <div class="text-center py-16">
-          <p class="text-text-light text-lg">No past events yet.</p>
-        </div>
-      )}
+      ))}
     </div>
   </section>
 </BaseLayout>
