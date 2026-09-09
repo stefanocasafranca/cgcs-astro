@@ -616,6 +616,7 @@ export const allEvents: EventItem[] = [
     href: 'https://www.meetup.com/austin-langchain-ai-group/events/316397087/',
     newTab: true,
     isoDate: '2026-12-07',
+    category: 'interest',
   },
   {
     title: 'Reuters Momentum AI Austin 2026',
@@ -625,6 +626,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/momentum-ai-austin-2026/',
     newTab: true,
     isoDate: '2026-09-24',
+    category: 'interest',
   },
   {
     title: '12 Week MBA Fall session',
@@ -634,6 +636,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/12-week-mba-fall-session/',
     newTab: true,
     isoDate: '2026-10-14',
+    category: 'interest',
   },
   {
     title: 'Future of Communications Conference',
@@ -643,6 +646,7 @@ export const allEvents: EventItem[] = [
     href: 'https://austin-ai.org/event/future-of-communications-conference/',
     newTab: true,
     isoDate: '2026-11-11',
+    category: 'interest',
   },
 ];
 
